@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<package version="2.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="PrimaryID">
+
+
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+		<dc:title>The Problems of Philosophy</dc:title>
+<dc:language>en</dc:language>
+<dc:language>pl</dc:language>
+<dc:identifier id="PrimaryID" opf:scheme="URI">http://theproblemofphilosophy.pressbooks.com</dc:identifier>
+<dc:description>The Problems of Philosophy (1912) is one of Bertrand Russell's attempts to create ...</dc:description>
+<dc:creator opf:role="aut" opf:file-as="Russel, Bertrand">Bertrand Russell</dc:creator>
+<dc:contributor>Contributor One</dc:contributor>
+<dc:contributor>Contributor Two</dc:contributor>
+<dc:rights>Copyright Public Domain  by Public Domain</dc:rights>
+<dc:publisher>PresssBooks.com</dc:publisher>
+<dc:creator opf:role="aut" opf:file-as="Russel, Bertrand">Second Creator</dc:creator>
+<dc:date opf:event="publication">2013-12-12</dc:date>
+<dc:subject>Subject 1</dc:subject>
+<dc:source>Source 1</dc:source>
+<dc:subject>Subject 2</dc:subject>
+<dc:source>Source 2</dc:source>
+<dc:source>Source 3</dc:source>
+<dc:relation>RelationID</dc:relation>
+<dc:coverage>United States</dc:coverage>
+<meta name="cover" content="cover-image" />
+	</metadata>
+
+</package>

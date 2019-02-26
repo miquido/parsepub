@@ -47,23 +47,27 @@ class ImplementationDependencies : HashMap<String, String>() {
     }
 
     companion object {
-        const val KOTLIN_STDLIB_VERSION = ""
-        const val XML_PARSER_VERSION = "2.7.1"
-        const val KOIN_VERSION = "1.0.2"
-        const val LOGGER_VERSION = "1.7.25"
+        private const val KOTLIN_STDLIB_VERSION = ""
+        private const val XML_PARSER_VERSION = "2.7.1"
+        private const val KOIN_VERSION = "1.0.2"
+        private const val LOGGER_VERSION = "1.7.25"
     }
 }
 
 class TestImplementationDependencies : HashMap<String, String>() {
+
     init {
         put("org.jetbrains.kotlin:kotlin-test", KOTLIN_TEST_VERSION)
         put("org.jetbrains.kotlin:kotlin-test-junit", KOTLIN_TEST_JUNIT_VERSION)
         put("org.koin:koin-test", KOIN_VERSION)
+        put("org.assertj:assertj-core", ASSERJ_VERSION)
     }
 
     companion object {
-        const val KOTLIN_TEST_VERSION = ""
-        const val KOTLIN_TEST_JUNIT_VERSION = ""
-        const val KOIN_VERSION = "1.0.2"
+        private const val KOTLIN_TEST_VERSION = ""
+        private const val KOTLIN_TEST_JUNIT_VERSION = ""
+        private const val KOIN_VERSION = "1.0.2"
+        private const val JUNIT_VERSION = "5.2.0"
+        private const val ASSERJ_VERSION = "3.11.1"
     }
 }
