@@ -16,6 +16,16 @@ internal fun Element.getFirstElementByTagNameNS(namespace: String, tag: String):
     return if (matchingElements.length > 0) matchingElements.item(0) as Element else null
 }
 
+internal fun Element.getFirstElementByTag(tag: String): Element? {
+    val element = this.getElementsByTagName(tag)
+    return if (element.length > 0) element.item(0) as Element else null
+}
+
+internal fun Document.getFirstElementByTag(tag: String): Element? {
+    val element = this.documentElement.getElementsByTagName(tag)
+    return if (element.length > 0) element.item(0) as Element else null
+}
+
 internal fun NodeList?.textContents() = this?.let { nodeList ->
     (0 until nodeList.length)
         .map { index -> nodeList.item(index) }
