@@ -1,6 +1,6 @@
-package com.miquido.parsepub.spine
+package com.miquido.parsepub.internal.spine
 
-import com.miquido.parsepub.diModules
+import com.miquido.parsepub.internal.diModules
 import com.miquido.parsepub.model.EpubSpineModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After

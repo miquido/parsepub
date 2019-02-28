@@ -1,4 +1,4 @@
-package com.miquido.parsepub.extensions
+package com.miquido.parsepub.internal.extensions
 
 import com.miquido.parsepub.constants.EpubConstants.DC_NAMESPACE
 import org.w3c.dom.Document
@@ -6,30 +6,30 @@ import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
-fun Document.getFirstElementByTagNameNS(namespace: String, tag: String): Element? {
+internal fun Document.getFirstElementByTagNameNS(namespace: String, tag: String): Element? {
     val matchingElements = documentElement.getElementsByTagNameNS(namespace, tag)
     return if (matchingElements.length > 0) matchingElements.item(0) as Element else null
 }
 
-fun Element.getFirstElementByTagNameNS(namespace: String, tag: String): Element? {
+internal fun Element.getFirstElementByTagNameNS(namespace: String, tag: String): Element? {
     val matchingElements = getElementsByTagNameNS(namespace, tag)
     return if (matchingElements.length > 0) matchingElements.item(0) as Element else null
 }
 
-fun NodeList?.textContents() = this?.let { nodeList ->
+internal fun NodeList?.textContents() = this?.let { nodeList ->
     (0 until nodeList.length)
         .map { index -> nodeList.item(index) }
         .map { creatorNode -> creatorNode.textContent }
         .toList()
 }
 
-fun Element?.getTagTextContentsFromDcElementsOrEmpty(tag: String) =
+internal fun Element?.getTagTextContentsFromDcElementsOrEmpty(tag: String) =
     this?.getElementsByTagNameNS(DC_NAMESPACE, tag).textContents()
 
-fun Element?.getTagTextContentsFromDcElementOrEmpty(tag: String) =
+internal fun Element?.getTagTextContentsFromDcElementOrEmpty(tag: String) =
     this?.getFirstElementByTagNameNS(DC_NAMESPACE, tag)?.textContent
 
-inline fun <R> NodeList.map(transform: (Node) -> R): List<R> {
+internal inline fun <R> NodeList.map(transform: (Node) -> R): List<R> {
     val result = mutableListOf<R>()
     return (0 until length).map { index -> item(index) }.mapTo(result, transform)
 }
