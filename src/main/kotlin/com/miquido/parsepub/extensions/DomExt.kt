@@ -3,6 +3,7 @@ package com.miquido.parsepub.extensions
 import com.miquido.parsepub.constants.EpubConstants.DC_NAMESPACE
 import org.w3c.dom.Document
 import org.w3c.dom.Element
+import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
 fun Document.getFirstElementByTagNameNS(namespace: String, tag: String): Element? {
@@ -27,3 +28,8 @@ fun Element?.getTagTextContentsFromDcElementsOrEmpty(tag: String) =
 
 fun Element?.getTagTextContentsFromDcElementOrEmpty(tag: String) =
     this?.getFirstElementByTagNameNS(DC_NAMESPACE, tag)?.textContent
+
+inline fun <R> NodeList.map(transform: (Node) -> R): List<R> {
+    val result = mutableListOf<R>()
+    return (0 until length).map { index -> item(index) }.mapTo(result, transform)
+}

@@ -25,4 +25,15 @@
 <meta name="cover" content="cover-image" />
 	</metadata>
 
+		<spine toc="ncx">
+    <itemref idref="front-cover" linear="no" />
+    <itemref idref="title-page" linear="yes" />
+    <itemref idref="copyright" linear="yes" />
+    <itemref idref="table-of-contents" linear="yes" />
+    <itemref idref="pressbooks-promo" linear="yes" />
+    <itemref idref="chapter-001" linear="yes" />
+    <itemref idref="chapter-002" linear="yes" />
+    <itemref idref="chapter-003" linear="yes" />
+    	</spine>
+
 </package>
