@@ -1,9 +1,9 @@
-package com.miquido.parsepub.di
+package com.miquido.parsepub.internal.di
 
 import org.koin.dsl.module.module
 import javax.xml.parsers.DocumentBuilderFactory
 
-val parserModule = module {
+internal val parserModule = module {
     single {
         DocumentBuilderFactory.newInstance().apply {
             isNamespaceAware = true

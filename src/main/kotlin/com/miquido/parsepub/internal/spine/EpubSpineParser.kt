@@ -1,15 +1,15 @@
-package com.miquido.parsepub.spine
+package com.miquido.parsepub.internal.spine
 
 import com.miquido.parsepub.constants.EpubConstants.OPF_NAMESPACE
-import com.miquido.parsepub.extensions.getFirstElementByTagNameNS
-import com.miquido.parsepub.extensions.map
+import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
+import com.miquido.parsepub.internal.extensions.map
 import com.miquido.parsepub.model.EbupSpineReferenceModel
 import com.miquido.parsepub.model.EpubSpineModel
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 
-class EpubSpineParser {
-    fun parse(opfDocument: Document): EpubSpineModel {
+internal class EpubSpineParser {
+    internal fun parse(opfDocument: Document): EpubSpineModel {
         val spineElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, SPINE_TAG)
         val spineModel = spineElement?.getElementsByTagNameNS(OPF_NAMESPACE, ITEM_REF_TAG)?.map {
             val element = it as Element
@@ -20,7 +20,7 @@ class EpubSpineParser {
         return EpubSpineModel(spineModel)
     }
 
-    companion object {
+    private companion object {
         private const val SPINE_TAG = "spine"
         private const val ITEM_REF_TAG = "itemref"
         private const val ID_REF_ATTR = "idref"

@@ -1,6 +1,6 @@
 package com.miquido.parsepub.epubparser
 
-import com.miquido.parsepub.internal.EpubDecompressor
+import com.miquido.parsepub.internal.decompressor.EpubDecompressor
 
 class EpubParser {
 

@@ -1,13 +1,13 @@
-package com.miquido.parsepub.metadata
+package com.miquido.parsepub.internal.metadata
 
 import com.miquido.parsepub.constants.EpubConstants.OPF_NAMESPACE
-import com.miquido.parsepub.extensions.getFirstElementByTagNameNS
-import com.miquido.parsepub.extensions.getTagTextContentsFromDcElementOrEmpty
-import com.miquido.parsepub.extensions.getTagTextContentsFromDcElementsOrEmpty
+import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
+import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElementOrEmpty
+import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElementsOrEmpty
 import com.miquido.parsepub.model.EpubMetadataModel
 import org.w3c.dom.Document
 
-class EpubMetadataParser {
+internal class EpubMetadataParser {
 
     fun parse(opfDocument: Document): EpubMetadataModel {
         val metadataElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG)
@@ -29,7 +29,7 @@ class EpubMetadataParser {
     }
 
 
-    companion object {
+    private companion object {
         private const val METADATA_TAG = "metadata"
         private const val CREATOR_TAG = "creator"
         private const val CONTRIBUTOR_TAG = "contributor"

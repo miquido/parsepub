@@ -1,6 +1,5 @@
-package com.miquido.parsepub.metadata
+package com.miquido.parsepub.internal.decompressor
 
-import com.miquido.parsepub.internal.EpubDecompressor
 import org.junit.Before
 import org.junit.Test
 import java.util.zip.ZipEntry
@@ -15,7 +14,10 @@ class EpubDecompressorTest {
     @Before
     fun setup() {
         decompressor = EpubDecompressor()
-        entities = decompressor?.decompress(EPUB_FILE_PATH, EPUB_DECOMPRESS_PATH) ?: listOf()
+        entities = decompressor?.decompress(
+            EPUB_FILE_PATH,
+            EPUB_DECOMPRESS_PATH
+        ) ?: listOf()
     }
 
     @Test

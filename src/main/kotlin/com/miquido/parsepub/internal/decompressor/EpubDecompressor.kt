@@ -1,4 +1,4 @@
-package com.miquido.parsepub.internal
+package com.miquido.parsepub.internal.decompressor
 
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -9,7 +9,7 @@ import java.util.zip.ZipFile
 
 internal class EpubDecompressor {
 
-    fun decompress(zipFilePath: String, outputPath: String): List<ZipEntry> {
+    internal fun decompress(zipFilePath: String, outputPath: String): List<ZipEntry> {
         val zipFile = ZipFile(File(zipFilePath))
         return unpackToPathAndReturnResult(zipFile, outputPath)
     }

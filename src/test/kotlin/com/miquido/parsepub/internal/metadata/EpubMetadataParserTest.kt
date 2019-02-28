@@ -1,6 +1,6 @@
-package com.miquido.parsepub.metadata
+package com.miquido.parsepub.internal.metadata
 
-import com.miquido.parsepub.diModules
+import com.miquido.parsepub.internal.diModules
 import com.miquido.parsepub.model.EpubMetadataModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
