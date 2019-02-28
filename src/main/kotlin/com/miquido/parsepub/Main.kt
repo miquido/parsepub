@@ -6,7 +6,7 @@ import org.koin.standalone.StandAloneContext.startKoin
 
 fun main() {
     startKoin(diModules)
-    EpubParser("epub_folder").parseEpubAndReturnEntites("test_ebook.epub")
+    EpubParser().parse("test_ebook.epub", "epub_folder")
     System.exit(0)
 }
 
