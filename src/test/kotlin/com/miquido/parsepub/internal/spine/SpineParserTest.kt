@@ -15,7 +15,7 @@ import javax.xml.parsers.DocumentBuilder
 
 class SpineParserTest : KoinTest {
 
-    private val parser = EpubSpineParser()
+    private val parser: EpubSpineParser by inject()
 
     private val documentBuilder: DocumentBuilder by inject()
     private lateinit var document: Document
