@@ -8,22 +8,28 @@ import org.w3c.dom.NodeList
 
 internal fun Document.getFirstElementByTagNameNS(namespace: String, tag: String): Element? {
     val matchingElements = documentElement.getElementsByTagNameNS(namespace, tag)
-    return if (matchingElements.length > 0) matchingElements.item(0) as Element else null
+    return matchingElements.isNotEmpty()
 }
 
 internal fun Element.getFirstElementByTagNameNS(namespace: String, tag: String): Element? {
     val matchingElements = getElementsByTagNameNS(namespace, tag)
-    return if (matchingElements.length > 0) matchingElements.item(0) as Element else null
+    return matchingElements.isNotEmpty()
 }
 
 internal fun Element.getFirstElementByTag(tag: String): Element? {
-    val element = this.getElementsByTagName(tag)
-    return if (element.length > 0) element.item(0) as Element else null
+    val matchingElements = this.getElementsByTagName(tag)
+    return matchingElements.isNotEmpty()
 }
 
 internal fun Document.getFirstElementByTag(tag: String): Element? {
-    val element = this.documentElement.getElementsByTagName(tag)
-    return if (element.length > 0) element.item(0) as Element else null
+    val matchingElements = this.documentElement.getElementsByTagName(tag)
+    return matchingElements.isNotEmpty()
+}
+
+internal fun NodeList.isNotEmpty(): Element? {
+    return this.let {
+        if (it.length > 0) it.item(0) as Element else null
+    }
 }
 
 internal fun NodeList?.textContents() = this?.let { nodeList ->
