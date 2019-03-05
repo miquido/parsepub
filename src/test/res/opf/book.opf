@@ -36,4 +36,40 @@
         <itemref idref="chapter-003" linear="yes"/>
     </spine>
 
+    <manifest>
+        <item id="front-cover" href="OEBPS/front-cover.html" media-type="application/xhtml+xml"/>
+        <item id="title-page" href="OEBPS/title-page.html" media-type="application/xhtml+xml"/>
+        <item id="copyright" href="OEBPS/copyright.html" media-type="application/xhtml+xml"/>
+        <item id="table-of-contents" href="OEBPS/table-of-contents.html" media-type="application/xhtml+xml"/>
+        <item id="front-matter-001" href="OEBPS/front-matter-001-preface.html" media-type="application/xhtml+xml"/>
+        <item id="chapter-001" href="OEBPS/chapter-001-appearance-and-reality.html" media-type="application/xhtml+xml"/>
+        <item id="chapter-002" href="OEBPS/chapter-002-the-existence-of-matter.html"
+              media-type="application/xhtml+xml"/>
+        <item id="chapter-003" href="OEBPS/chapter-003-the-nature-of-matter.html" media-type="application/xhtml+xml"/>
+        <item id="chapter-004" href="OEBPS/chapter-004-idealism.html" media-type="application/xhtml+xml"/>
+        <item id="chapter-005" href="OEBPS/chapter-005-knowledge-by-acquaintance-and-knowledge-by-description.html"
+              media-type="application/xhtml+xml"/>
+        <item id="chapter-014" href="OEBPS/chapter-014-the-limits-of-philosophical-knowledge.html"
+              media-type="application/xhtml+xml"/>
+        <item id="chapter-015" href="OEBPS/chapter-015-the-value-of-philosophy.html"
+              media-type="application/xhtml+xml"/>
+        <item id="back-matter-001" href="OEBPS/back-matter-001-bibliographical-note.html"
+              media-type="application/xhtml+xml"/>
+        <item id="media-Belleza-Regular" href="OEBPS/assets/Belleza-Regular.ttf" media-type="application/x-font-ttf"/>
+        <item id="cover-image" href="OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg" media-type="image/jpeg"/>
+        <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+        <item id="stylesheet" href="OEBPS/lewis.css" media-type="text/css"/>
+    </manifest>
+
+    <spine toc="ncx">
+        <itemref idref="front-cover" linear="no"/>
+        <itemref idref="title-page" linear="yes"/>
+        <itemref idref="copyright" linear="yes"/>
+        <itemref idref="table-of-contents" linear="yes"/>
+        <itemref idref="pressbooks-promo" linear="yes"/>
+        <itemref idref="chapter-001" linear="yes"/>
+        <itemref idref="chapter-002" linear="yes"/>
+        <itemref idref="chapter-003" linear="yes"/>
+    </spine>
+
 </package>
