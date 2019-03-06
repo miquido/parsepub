@@ -3,7 +3,7 @@ package com.miquido.parsepub.internal.manifest
 import com.miquido.parsepub.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.internal.extensions.map
-import com.miquido.parsepub.model.EpubItemModel
+import com.miquido.parsepub.model.EpubResourceModel
 import com.miquido.parsepub.model.EpubManifestModel
 import org.w3c.dom.Document
 import org.w3c.dom.Element
@@ -17,7 +17,7 @@ internal class EpubManifestParser {
             val id = element.getAttribute(ID_TAG)
             val href = element.getAttribute(HREF_TAG)
             val mediaType = element.getAttribute(MEDIA_TYPE_TAG)
-            EpubItemModel(id, href, mediaType)
+            EpubResourceModel(id, href, mediaType)
         }
         return EpubManifestModel(itemModel)
     }

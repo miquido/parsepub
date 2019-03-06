@@ -1,5 +1,5 @@
 package com.miquido.parsepub.model
 
-data class EpubManifestModel(val items: List<EpubItemModel>?)
+data class EpubManifestModel(val resources: List<EpubResourceModel>?)
 
-data class EpubItemModel(val id: String, val href: String, val mediaType: String)
+data class EpubResourceModel(val id: String, val href: String, val mediaType: String)
