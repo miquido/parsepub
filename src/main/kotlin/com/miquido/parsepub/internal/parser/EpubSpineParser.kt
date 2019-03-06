@@ -1,4 +1,4 @@
-package com.miquido.parsepub.internal.spine
+package com.miquido.parsepub.internal.parser
 
 import com.miquido.parsepub.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS

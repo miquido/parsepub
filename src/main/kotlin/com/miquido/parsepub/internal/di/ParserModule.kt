@@ -1,9 +1,9 @@
 package com.miquido.parsepub.internal.di
 
-import com.miquido.parsepub.internal.metadata.EpubMetadataParser
-import com.miquido.parsepub.internal.spine.EpubSpineParser
-import com.miquido.parsepub.internal.tableofcontents.EpubTableOfContentsParser
-import com.miquido.parsepub.internal.manifest.EpubManifestParser
+import com.miquido.parsepub.internal.parser.EpubMetadataParser
+import com.miquido.parsepub.internal.parser.EpubSpineParser
+import com.miquido.parsepub.internal.parser.EpubTableOfContentsParser
+import com.miquido.parsepub.internal.parser.EpubManifestParser
 import org.koin.dsl.module.module
 import javax.xml.parsers.DocumentBuilderFactory
 

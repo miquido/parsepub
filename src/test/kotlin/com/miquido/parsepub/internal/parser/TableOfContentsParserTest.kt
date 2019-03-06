@@ -1,4 +1,4 @@
-package com.miquido.parsepub.internal.tableofcontents
+package com.miquido.parsepub.internal.parser
 
 import com.miquido.parsepub.internal.diModules
 import com.miquido.parsepub.model.EpubTableOfContentsModel
