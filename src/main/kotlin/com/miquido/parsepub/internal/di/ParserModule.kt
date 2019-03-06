@@ -1,5 +1,8 @@
 package com.miquido.parsepub.internal.di
 
+import com.miquido.parsepub.internal.metadata.EpubMetadataParser
+import com.miquido.parsepub.internal.spine.EpubSpineParser
+import com.miquido.parsepub.internal.tableofcontents.EpubTableOfContentsParser
 import org.koin.dsl.module.module
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -9,4 +12,7 @@ internal val parserModule = module {
             isNamespaceAware = true
         }.newDocumentBuilder()
     }
+    single { EpubSpineParser() }
+    single { EpubMetadataParser() }
+    single { EpubTableOfContentsParser() }
 }

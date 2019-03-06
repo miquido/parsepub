@@ -15,7 +15,7 @@ import javax.xml.parsers.DocumentBuilder
 
 class EpubMetadataParserTest : KoinTest {
 
-    private val parser = EpubMetadataParser()
+    private val parser: EpubMetadataParser by inject()
 
     private val documentBuilder: DocumentBuilder by inject()
     private lateinit var document: Document
@@ -65,7 +65,7 @@ class EpubMetadataParserTest : KoinTest {
         private const val EXPECTED_RELATION_VALUE = "RelationID"
         private const val EXPECTED_PUBLISHER_VALUE = "PresssBooks.com"
         private const val EXPECTED_COVERAGE_VALUE = "United States"
-        private const val EXPECTED_RIGHTS_VALUE = "Copyright Public Domain  by Public Domain"
+        private const val EXPECTED_RIGHTS_VALUE = "Copyright Public Domain by Public Domain"
         private const val EXPECTED_DESCRIPTION_VALUE =
             "The Problems of Philosophy (1912) is one of Bertrand Russell's attempts to create ..."
         private const val EXPECTED_TITLE_VALUE = "The Problems of Philosophy"

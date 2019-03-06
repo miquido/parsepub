@@ -49,3 +49,11 @@ internal inline fun <R> NodeList.map(transform: (Node) -> R): List<R> {
     val result = mutableListOf<R>()
     return (0 until length).map { index -> item(index) }.mapTo(result, transform)
 }
+
+internal fun NodeList?.forEach(action: (Node) -> Unit) {
+    this?.let {
+        for (i in 0 until length) {
+            action(item(i))
+        }
+    }
+}

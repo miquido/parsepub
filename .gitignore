@@ -5,4 +5,5 @@ build
 out
 *.iml
 
-src/test/res/epub/epubdecompressed
+parsepub/src/test/res/epub/epubdecompressed/**
+src/test/res/epub/epubdecompressed/**
