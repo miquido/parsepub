@@ -1,10 +1,10 @@
-package com.miquido.parsepub.internal.manifest
+package com.miquido.parsepub.internal.parser
 
 import com.miquido.parsepub.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.internal.extensions.map
-import com.miquido.parsepub.model.EpubResourceModel
 import com.miquido.parsepub.model.EpubManifestModel
+import com.miquido.parsepub.model.EpubResourceModel
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 
