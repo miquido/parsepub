@@ -1,37 +1,26 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.internal.diModules
+import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.model.EpubMetadataModel
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.koin.standalone.StandAloneContext
-import org.koin.standalone.inject
-import org.koin.test.KoinTest
 import org.w3c.dom.Document
 import java.io.File
 import javax.xml.parsers.DocumentBuilder
 
-class EpubMetadataParserTest : KoinTest {
+class EpubMetadataParserTest {
 
-    private val parser: EpubMetadataParser by inject()
+    private val metadataParser: EpubMetadataParser by lazy { ParserModuleProvider.epubMetadataParser }
 
-    private val documentBuilder: DocumentBuilder by inject()
+    private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     private lateinit var document: Document
     private lateinit var metadataModel: EpubMetadataModel
 
-
     @Before
     fun setup() {
-        StandAloneContext.startKoin(diModules)
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
-        metadataModel = parser.parse(document)
-    }
-
-    @After
-    fun tearDown() {
-        StandAloneContext.stopKoin()
+        metadataModel = metadataParser.parse(document)
     }
 
     @Test

@@ -1,36 +1,26 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.internal.diModules
+import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.model.EpubManifestModel
 import com.miquido.parsepub.model.EpubResourceModel
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.koin.standalone.StandAloneContext
-import org.koin.standalone.inject
-import org.koin.test.KoinTest
 import org.w3c.dom.Document
 import java.io.File
 import javax.xml.parsers.DocumentBuilder
 
-class EpubManifestParserTest : KoinTest {
+class EpubManifestParserTest {
 
-    private val parser: EpubManifestParser by inject()
-    private val documentBuilder: DocumentBuilder by inject()
+    private val parser: EpubManifestParser by lazy { ParserModuleProvider.manifestParser }
+    private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     private lateinit var document: Document
     private lateinit var manifestModel: EpubManifestModel
 
     @Before
     fun setup() {
-        StandAloneContext.startKoin(diModules)
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
         manifestModel = parser.parse(document)
-    }
-
-    @After
-    fun tearDown() {
-        StandAloneContext.stopKoin()
     }
 
     @Test

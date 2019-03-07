@@ -1,5 +1,6 @@
 package com.miquido.parsepub.internal.decompressor
 
+import com.miquido.parsepub.internal.di.ParserModuleProvider
 import org.junit.Before
 import org.junit.Test
 import java.util.zip.ZipEntry
@@ -8,16 +9,15 @@ import kotlin.test.assertTrue
 
 class EpubDecompressorTest {
 
-    private var decompressor: EpubDecompressor? = null
+    private val decompressor: EpubDecompressor by lazy { ParserModuleProvider.epubDecompressor }
     private var entities: List<ZipEntry> = listOf()
 
     @Before
     fun setup() {
-        decompressor = EpubDecompressor()
-        entities = decompressor?.decompress(
+        entities = decompressor.decompress(
             EPUB_FILE_PATH,
             EPUB_DECOMPRESS_PATH
-        ) ?: listOf()
+        )
     }
 
     @Test
