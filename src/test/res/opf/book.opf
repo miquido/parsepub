@@ -40,6 +40,8 @@
         <item id="front-cover" href="OEBPS/front-cover.html" media-type="application/xhtml+xml"/>
         <item id="front-matter-001" href="OEBPS/front-matter-001-preface.html" media-type="application/xhtml+xml"/>
         <item id="chapter-001" href="OEBPS/chapter-001-appearance-and-reality.html" media-type="application/xhtml+xml"/>
+        <item id="cover-image2" href="OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg" media-type="image/jpeg"/>
+        <item id="cover-image" href="OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg" media-type="image/jpeg" properties="cover-image"/>
         <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
     </manifest>
 

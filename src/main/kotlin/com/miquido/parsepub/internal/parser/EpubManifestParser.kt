@@ -17,7 +17,8 @@ internal class EpubManifestParser {
             val id = element.getAttribute(ID_TAG)
             val href = element.getAttribute(HREF_TAG)
             val mediaType = element.getAttribute(MEDIA_TYPE_TAG)
-            EpubResourceModel(id, href, mediaType)
+            val properties = element.getAttribute(PROPERTIES_TAG)
+            EpubResourceModel(id, href, mediaType, properties)
         }
         return EpubManifestModel(itemModel)
     }
@@ -28,5 +29,6 @@ internal class EpubManifestParser {
         private const val ID_TAG = "id"
         private const val HREF_TAG = "href"
         private const val MEDIA_TYPE_TAG = "media-type"
+        private const val PROPERTIES_TAG = "properties"
     }
 }
