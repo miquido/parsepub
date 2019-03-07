@@ -1,37 +1,27 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.internal.diModules
+import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepub.model.NavigationItemModel
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.koin.standalone.StandAloneContext
-import org.koin.standalone.inject
-import org.koin.test.KoinTest
 import org.w3c.dom.Document
 import java.io.File
 import javax.xml.parsers.DocumentBuilder
 
-class TableOfContentsParserTest : KoinTest {
+class TableOfContentsParserTest {
 
-    private val parser: EpubTableOfContentsParser by inject()
+    private val parser: EpubTableOfContentsParser by lazy { ParserModuleProvider.epubTableOfContentsParser }
 
-    private val documentBuilder: DocumentBuilder by inject()
+    private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     private lateinit var ncxDocument: Document
     private lateinit var tocModel: EpubTableOfContentsModel
 
     @Before
     fun setup() {
-        StandAloneContext.startKoin(diModules)
         ncxDocument = documentBuilder.parse(File(NCX_TEST_FILE_PATH))
         tocModel = parser.parse(ncxDocument)
-    }
-
-    @After
-    fun tearDown() {
-        StandAloneContext.stopKoin()
     }
 
     @Test

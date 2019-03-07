@@ -1,16 +1,15 @@
 package com.miquido.parsepub.internal.document
 
+import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.extensions.getFirstElementByTag
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
 import org.w3c.dom.Document
 import java.io.File
 import java.util.zip.ZipEntry
 import javax.xml.parsers.DocumentBuilder
 
-internal class DocumentHandler : KoinComponent {
+internal class DocumentHandler {
 
-    private val documentBuilder: DocumentBuilder by inject()
+    private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
 
     internal fun createOpfDocument(fileDirPath: String, entries: List<ZipEntry>): Document {
         val containerDocument = parseFileAsDocument(fileDirPath, entries, CONTAINER_HREF)

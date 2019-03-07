@@ -1,37 +1,26 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.internal.diModules
+import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.model.EpubSpineModel
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.koin.standalone.StandAloneContext
-import org.koin.standalone.inject
-import org.koin.test.KoinTest
 import org.w3c.dom.Document
 import java.io.File
 import javax.xml.parsers.DocumentBuilder
 
-class SpineParserTest : KoinTest {
+class SpineParserTest {
 
-    private val parser: EpubSpineParser by inject()
+    private val parser: EpubSpineParser by lazy { ParserModuleProvider.epubSpineParser }
 
-    private val documentBuilder: DocumentBuilder by inject()
+    private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     private lateinit var document: Document
     private lateinit var spineModel: EpubSpineModel
 
-
     @Before
     fun setup() {
-        StandAloneContext.startKoin(diModules)
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
         spineModel = parser.parse(document)
-    }
-
-    @After
-    fun tearDown() {
-        StandAloneContext.stopKoin()
     }
 
     @Test
