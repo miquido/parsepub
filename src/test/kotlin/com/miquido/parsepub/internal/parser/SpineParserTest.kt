@@ -1,4 +1,4 @@
-package com.miquido.parsepub.internal.spine
+package com.miquido.parsepub.internal.parser
 
 import com.miquido.parsepub.internal.diModules
 import com.miquido.parsepub.model.EpubSpineModel

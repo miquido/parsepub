@@ -36,4 +36,22 @@
         <itemref idref="chapter-003" linear="yes"/>
     </spine>
 
+    <manifest>
+        <item id="front-cover" href="OEBPS/front-cover.html" media-type="application/xhtml+xml"/>
+        <item id="front-matter-001" href="OEBPS/front-matter-001-preface.html" media-type="application/xhtml+xml"/>
+        <item id="chapter-001" href="OEBPS/chapter-001-appearance-and-reality.html" media-type="application/xhtml+xml"/>
+        <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+    </manifest>
+
+    <spine toc="ncx">
+        <itemref idref="front-cover" linear="no"/>
+        <itemref idref="title-page" linear="yes"/>
+        <itemref idref="copyright" linear="yes"/>
+        <itemref idref="table-of-contents" linear="yes"/>
+        <itemref idref="pressbooks-promo" linear="yes"/>
+        <itemref idref="chapter-001" linear="yes"/>
+        <itemref idref="chapter-002" linear="yes"/>
+        <itemref idref="chapter-003" linear="yes"/>
+    </spine>
+
 </package>
