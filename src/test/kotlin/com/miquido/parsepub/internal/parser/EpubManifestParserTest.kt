@@ -12,7 +12,7 @@ import javax.xml.parsers.DocumentBuilder
 
 class EpubManifestParserTest {
 
-    private val parser: EpubManifestParser by lazy { ParserModuleProvider.manifestParser }
+    private val parser: EpubManifestParser by lazy { ParserModuleProvider.epubManifestParser }
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     private lateinit var document: Document
     private lateinit var manifestModel: EpubManifestModel
@@ -31,11 +31,13 @@ class EpubManifestParserTest {
 
     companion object {
         private const val OPF_TEST_FILE_PATH = "src/test/res/opf/book.opf"
-        private const val EXPECTED_MANIFEST_ITEMS_COUNT = 4
+        private const val EXPECTED_MANIFEST_ITEMS_COUNT = 6
         private val EXPECTED_MANIFEST_ELEMENTS = listOf(
             EpubResourceModel("front-cover", "OEBPS/front-cover.html", "application/xhtml+xml"),
             EpubResourceModel("front-matter-001", "OEBPS/front-matter-001-preface.html", "application/xhtml+xml"),
             EpubResourceModel("chapter-001", "OEBPS/chapter-001-appearance-and-reality.html", "application/xhtml+xml"),
+            EpubResourceModel("cover-image2", "OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg", "image/jpeg"),
+            EpubResourceModel("cover-image", "OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg", "image/jpeg", "cover-image"),
             EpubResourceModel("ncx", "toc.ncx", "application/x-dtbncx+xml")
         )
     }
