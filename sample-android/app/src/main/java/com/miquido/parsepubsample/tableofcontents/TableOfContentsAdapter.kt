@@ -19,6 +19,8 @@ class TableOfContentsAdapter(context: Context?) : RecyclerView.Adapter<TableOfCo
             notifyDataSetChanged()
         }
 
+    var onItemClickListener: ((NavigationItemModel) -> Unit)? = null
+
     private val inflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -29,13 +31,11 @@ class TableOfContentsAdapter(context: Context?) : RecyclerView.Adapter<TableOfCo
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.onBind(tocModel.tableOfContents[position])
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun onBind(model: NavigationItemModel) {
-            val mainTitle = model.label
-            val subItemsTitles = model.subItems?.map { it.label }?.joinToString(separator = "/n")
-            val itemText = "$mainTitle\n$subItemsTitles"
-            itemView.tocItemText.text = itemText
+            itemView.tocItemText.text = model.label
+            itemView.setOnClickListener { onItemClickListener?.invoke(model) }
         }
     }
 }
