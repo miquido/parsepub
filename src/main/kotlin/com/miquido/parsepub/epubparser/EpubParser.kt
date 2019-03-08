@@ -11,6 +11,9 @@ import com.miquido.parsepub.model.EpubBook
 import java.io.File
 import javax.xml.parsers.DocumentBuilder
 
+/**
+ * Main .epub parser class. Allows to input .epub book and return their model.
+ */
 class EpubParser {
 
     private val decompressor: EpubDecompressor by lazy { ParserModuleProvider.epubDecompressor }
@@ -20,19 +23,26 @@ class EpubParser {
     private val spineParser: EpubSpineParser by lazy { ParserModuleProvider.epubSpineParser }
     private val tableOfContentsParser: EpubTableOfContentsParser by lazy { ParserModuleProvider.epubTableOfContentsParser }
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
-
-    fun parse(inputPath: String, outputPath: String): EpubBook {
-        val entries = decompressor.decompress(inputPath, outputPath)
-        val mainOpfDocument = documentHandler.createOpfDocument(outputPath, entries)
+    /**
+     * Method allowing to parse .epub book into model
+     *
+     * @param inputPath Path of .epub book for parsing
+     * @param decompressPath Path to which .epub book will be decompressed
+     * @return Parsed .epub book model
+     */
+    fun parse(inputPath: String, decompressPath: String): EpubBook {
+        val entries = decompressor.decompress(inputPath, decompressPath)
+        val mainOpfDocument = documentHandler.createOpfDocument(decompressPath, entries)
 
         return EpubBook(
             metadataParser.parse(mainOpfDocument),
             manifestParser.parse(mainOpfDocument),
             spineParser.parse(mainOpfDocument),
             //TODO temporary - add code to find .ncx document with fallback
-            tableOfContentsParser.parse(documentBuilder.parse(File(outputPath).walkTopDown().first {
+            tableOfContentsParser.parse(documentBuilder.parse(File(decompressPath).walkTopDown().first {
                 it.path.endsWith(".ncx")
             }))
         )
     }
 }
+

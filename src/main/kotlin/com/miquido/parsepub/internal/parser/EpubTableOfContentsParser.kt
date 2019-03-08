@@ -1,6 +1,6 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.constants.EpubConstants.NCX_NAMESPACE
+import com.miquido.parsepub.internal.constants.EpubConstants.NCX_NAMESPACE
 import com.miquido.parsepub.internal.extensions.forEach
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.model.EpubTableOfContentsModel
