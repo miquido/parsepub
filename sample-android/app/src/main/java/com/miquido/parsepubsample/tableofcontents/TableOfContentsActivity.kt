@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         }
         tocModel?.let { tocAdapter.tocModel = it }
         tocAdapter.onItemClickListener = {
-            it.source?.let { path -> openFileInWebView("$decompressedEpubpath/$path") }
+            it.location?.let { path -> openFileInWebView("$decompressedEpubpath/$path") }
         }
     }
 
