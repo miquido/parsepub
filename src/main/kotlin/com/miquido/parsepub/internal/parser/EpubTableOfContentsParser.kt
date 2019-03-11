@@ -1,6 +1,6 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.constants.EpubConstants.NCX_NAMESPACE
+import com.miquido.parsepub.internal.constants.EpubConstants.NCX_NAMESPACE
 import com.miquido.parsepub.internal.extensions.forEach
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.model.EpubTableOfContentsModel
@@ -10,7 +10,7 @@ import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
-class EpubTableOfContentsParser {
+internal class EpubTableOfContentsParser {
 
     internal fun parse(ncxDocument: Document): EpubTableOfContentsModel {
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()

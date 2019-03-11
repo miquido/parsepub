@@ -1,6 +1,6 @@
 package com.miquido.parsepub.internal.extensions
 
-import com.miquido.parsepub.constants.EpubConstants.DC_NAMESPACE
+import com.miquido.parsepub.internal.constants.EpubConstants.DC_NAMESPACE
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.Node

@@ -1,6 +1,6 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.constants.EpubConstants.OPF_NAMESPACE
+import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElementOrEmpty
 import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElementsOrEmpty
@@ -16,7 +16,7 @@ internal class EpubMetadataParser {
             languages = metadataElement.getTagTextContentsFromDcElementsOrEmpty(LANGUAGE_TAG),
             contributors = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CONTRIBUTOR_TAG),
             title = metadataElement.getTagTextContentsFromDcElementOrEmpty(TITLE_TAG),
-            subject = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SUBJECT_TAG),
+            subjects = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SUBJECT_TAG),
             sources = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SOURCE_TAG),
             description = metadataElement.getTagTextContentsFromDcElementOrEmpty(DESCRIPTION_TAG),
             rights = metadataElement.getTagTextContentsFromDcElementOrEmpty(RIGHTS_TAG),

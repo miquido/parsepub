@@ -1,9 +1,21 @@
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:0.9.17")
+    }
+}
 
 plugins {
     application
     kotlin("jvm") version "1.3.20"
     maven
+    id("org.jetbrains.dokka") version "0.9.17"
 }
 
 group = "com.miquido"
@@ -15,16 +27,18 @@ repositories {
     mavenLocal()
 }
 
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-}
-
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
 application {
     mainClassName = "com.miquido.parsepub.MainKt"
+}
+val dokka by tasks.getting(DokkaTask::class) {
+    outputFormat = "html"
+    outputDirectory = "doc"
+    includeNonPublic = false
+    reportUndocumented = true
 }
 
 dependencies {

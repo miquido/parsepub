@@ -28,7 +28,7 @@ class EpubMetadataParserTest {
         assertThat(metadataModel.creators).containsExactlyElementsOf(EXPECTED_CREATORS_VALUES)
         assertThat(metadataModel.languages).containsExactlyElementsOf(EXPECTED_LANGUAGES_VALUES)
         assertThat(metadataModel.contributors).containsExactlyElementsOf(EXPECTED_CONTRIBUTORS_VALUES)
-        assertThat(metadataModel.subject).containsExactlyElementsOf(EXPECTED_SUBJECTS_VALUES)
+        assertThat(metadataModel.subjects).containsExactlyElementsOf(EXPECTED_SUBJECTS_VALUES)
         assertThat(metadataModel.sources).containsExactlyElementsOf(EXPECTED_SOURCES_VALUES)
         assertThat(metadataModel.title).isNotBlank().isEqualTo(EXPECTED_TITLE_VALUE)
         assertThat(metadataModel.description).isNotBlank().isEqualTo(EXPECTED_DESCRIPTION_VALUE)

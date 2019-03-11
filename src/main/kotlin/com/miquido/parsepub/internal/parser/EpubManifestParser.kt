@@ -1,6 +1,6 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.constants.EpubConstants.OPF_NAMESPACE
+import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.internal.extensions.map
 import com.miquido.parsepub.model.EpubManifestModel
