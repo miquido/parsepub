@@ -1,5 +1,6 @@
 package com.miquido.parsepub.epubparser
 
+import com.miquido.parsepub.epubvalidator.ValidationInterface
 import com.miquido.parsepub.internal.decompressor.EpubDecompressor
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.document.NcxDocumentHandler
@@ -30,16 +31,16 @@ class EpubParser {
      * @param decompressPath Path to which .epub publication will be decompressed
      * @return Parsed .epub publication model
      */
-    fun parse(inputPath: String, decompressPath: String): EpubBook {
+    fun parse(inputPath: String, decompressPath: String, validation: ValidationInterface?): EpubBook {
         val entries = decompressor.decompress(inputPath, decompressPath)
         val mainOpfDocument = opfDocumentHandler.createOpfDocument(decompressPath, entries)
-
-        val epubManifestModel = manifestParser.parse(mainOpfDocument)
+        val epubManifestModel = manifestParser.parse(mainOpfDocument, validation?.getManifestInterface())
         val ncxDocument = ncxDocumentHandler.createNcxDocument(mainOpfDocument, epubManifestModel, decompressPath)
+
         return EpubBook(
-            metadataParser.parse(mainOpfDocument),
+            metadataParser.parse(mainOpfDocument, validation?.getMetadataInterface()),
             epubManifestModel,
-            spineParser.parse(mainOpfDocument),
+            spineParser.parse(mainOpfDocument, validation?.getSpineInterface()),
             tableOfContentsParser.parse(ncxDocument)
         )
     }

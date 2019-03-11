@@ -1,5 +1,6 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epubvalidator.ValidationInterface
 import com.miquido.parsepub.internal.constants.EpubConstants.NCX_NAMESPACE
 import com.miquido.parsepub.internal.extensions.forEach
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS

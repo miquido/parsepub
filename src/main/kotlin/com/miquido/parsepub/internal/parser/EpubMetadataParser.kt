@@ -1,33 +1,36 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epubvalidator.ValidationInterface
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElementOrEmpty
 import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElementsOrEmpty
+import com.miquido.parsepub.internal.extensions.validateElementExt
 import com.miquido.parsepub.model.EpubMetadataModel
 import org.w3c.dom.Document
+import org.w3c.dom.Element
 
 internal class EpubMetadataParser {
 
-    fun parse(opfDocument: Document): EpubMetadataModel {
-        val metadataElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG)
+    fun parse(opfDocument: Document, validation: ValidationInterface.MetadataValidation?): EpubMetadataModel {
+        val metadataElement: Element? = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG).validateElementExt { validation?.onMetadataMissing() }
+
         return EpubMetadataModel(
-            creators = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CREATOR_TAG),
-            languages = metadataElement.getTagTextContentsFromDcElementsOrEmpty(LANGUAGE_TAG),
-            contributors = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CONTRIBUTOR_TAG),
-            title = metadataElement.getTagTextContentsFromDcElementOrEmpty(TITLE_TAG),
-            subjects = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SUBJECT_TAG),
-            sources = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SOURCE_TAG),
-            description = metadataElement.getTagTextContentsFromDcElementOrEmpty(DESCRIPTION_TAG),
-            rights = metadataElement.getTagTextContentsFromDcElementOrEmpty(RIGHTS_TAG),
-            coverage = metadataElement.getTagTextContentsFromDcElementOrEmpty(COVERAGE_TAG),
-            relation = metadataElement.getTagTextContentsFromDcElementOrEmpty(RELATION_TAG),
-            publisher = metadataElement.getTagTextContentsFromDcElementOrEmpty(PUBLISHER_TAG),
-            date = metadataElement.getTagTextContentsFromDcElementOrEmpty(DATE_TAG),
-            id = metadataElement.getTagTextContentsFromDcElementOrEmpty(ID_TAG)
+            creators = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CREATOR_TAG).validateElementExt { validation?.onCreatorsMissing() },
+            languages = metadataElement.getTagTextContentsFromDcElementsOrEmpty(LANGUAGE_TAG).validateElementExt { validation?.onLanguagesMissing() },
+            contributors = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CONTRIBUTOR_TAG).validateElementExt { validation?.onContributorsMissing() },
+            title = metadataElement.getTagTextContentsFromDcElementOrEmpty(TITLE_TAG).validateElementExt { validation?.onTitleMissing() },
+            subjects = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SUBJECT_TAG).validateElementExt { validation?.onSubjectMissing() },
+            sources = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SOURCE_TAG).validateElementExt { validation?.onSourcesMissing() },
+            description = metadataElement.getTagTextContentsFromDcElementOrEmpty(DESCRIPTION_TAG).validateElementExt { validation?.onDescriptionMissing() },
+            rights = metadataElement.getTagTextContentsFromDcElementOrEmpty(RIGHTS_TAG).validateElementExt { validation?.onRightsMissing() },
+            coverage = metadataElement.getTagTextContentsFromDcElementOrEmpty(COVERAGE_TAG).validateElementExt { validation?.onCoverageMissing() },
+            relation = metadataElement.getTagTextContentsFromDcElementOrEmpty(RELATION_TAG).validateElementExt { validation?.onRelationMissing() },
+            publisher = metadataElement.getTagTextContentsFromDcElementOrEmpty(PUBLISHER_TAG).validateElementExt { validation?.onPublisherMissing() },
+            date = metadataElement.getTagTextContentsFromDcElementOrEmpty(DATE_TAG).validateElementExt { validation?.onDateMissing() },
+            id = metadataElement.getTagTextContentsFromDcElementOrEmpty(ID_TAG).validateElementExt { validation?.onIdMissing() }
         )
     }
-
 
     private companion object {
         private const val METADATA_TAG = "metadata"
