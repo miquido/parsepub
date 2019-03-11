@@ -1,12 +1,13 @@
 package com.miquido.parsepub.epubvalidator
 
-interface ValidationInterface {
+interface ValidationListeners {
 
-    fun getMetadataInterface(): MetadataValidation
-    fun getManifestInterface(): ManifestValidation
-    fun getSpineInterface(): SpineValidation
+    fun getMetadataListeners(): MetadataListeners
+    fun getManifestListeners(): ManifestListeners
+    fun getSpineListeners(): SpineListeners
+    fun getTableOfContentsListeners(): TableOfContentsListeners
 
-    interface MetadataValidation {
+    interface MetadataListeners {
         fun onMetadataMissing()
         fun onCreatorsMissing()
         fun onLanguagesMissing()
@@ -23,17 +24,25 @@ interface ValidationInterface {
         fun onIdMissing()
     }
 
-    interface ManifestValidation {
+    interface ManifestListeners {
         fun onManifestMissing()
         fun onIdMissing()
         fun onHrefMissing()
         fun onMediaTypeMissing()
     }
 
-    interface SpineValidation {
+    interface SpineListeners {
         fun onSpineMissing()
         fun onItemRefMissing()
         fun onIdRefMissing()
+    }
+
+    interface TableOfContentsListeners {
+        fun onNavMapMissing()
+        fun onNavLabelMissing()
+        fun onTextTagMissing()
+        fun onContentTagMissing()
+        fun onSrcAttributeMissing()
     }
 }
 

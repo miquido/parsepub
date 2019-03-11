@@ -1,7 +1,8 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.epubvalidator.ValidationInterface
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.di.ParserModuleProvider
+import com.miquido.parsepub.internal.validator.EpubValidator
 import com.miquido.parsepub.model.EpubSpineModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -13,16 +14,16 @@ import javax.xml.parsers.DocumentBuilder
 class SpineParserTest {
 
     private val parser: EpubSpineParser by lazy { ParserModuleProvider.epubSpineParser }
-
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     private lateinit var document: Document
     private lateinit var spineModel: EpubSpineModel
-    private lateinit var validator: ValidationInterface
+    private lateinit var validator: ValidationListeners
 
     @Before
     fun setup() {
+        validator = EpubValidator()
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
-        spineModel = parser.parse(document, validator.getSpineInterface())
+        spineModel = parser.parse(document, validator.getSpineListeners())
     }
 
     @Test

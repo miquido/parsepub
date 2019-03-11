@@ -1,8 +1,8 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.epubvalidator.ValidationInterface
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.di.ParserModuleProvider
-import com.miquido.parsepub.internal.validator.ValidatorImpl
+import com.miquido.parsepub.internal.validator.EpubValidator
 import com.miquido.parsepub.model.EpubMetadataModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -14,17 +14,16 @@ import javax.xml.parsers.DocumentBuilder
 class EpubMetadataParserTest {
 
     private val metadataParser: EpubMetadataParser by lazy { ParserModuleProvider.epubMetadataParser }
-
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     private lateinit var document: Document
     private lateinit var metadataModel: EpubMetadataModel
-    private lateinit var validator: ValidationInterface
+    private lateinit var validator: ValidationListeners
 
     @Before
     fun setup() {
+        validator = EpubValidator()
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
-        validator = ValidatorImpl()
-        metadataModel = metadataParser.parse(document, validator.getMetadataInterface())
+        metadataModel = metadataParser.parse(document, validator.getMetadataListeners())
     }
 
     @Test
