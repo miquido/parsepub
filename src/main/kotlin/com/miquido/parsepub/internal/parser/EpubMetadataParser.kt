@@ -16,7 +16,7 @@ internal class EpubMetadataParser {
             languages = metadataElement.getTagTextContentsFromDcElementsOrEmpty(LANGUAGE_TAG),
             contributors = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CONTRIBUTOR_TAG),
             title = metadataElement.getTagTextContentsFromDcElementOrEmpty(TITLE_TAG),
-            subject = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SUBJECT_TAG),
+            subjects = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SUBJECT_TAG),
             sources = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SOURCE_TAG),
             description = metadataElement.getTagTextContentsFromDcElementOrEmpty(DESCRIPTION_TAG),
             rights = metadataElement.getTagTextContentsFromDcElementOrEmpty(RIGHTS_TAG),

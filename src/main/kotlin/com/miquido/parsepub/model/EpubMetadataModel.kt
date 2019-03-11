@@ -1,5 +1,22 @@
 package com.miquido.parsepub.model
 
+/**
+ * Epub book metadata model encapsulating all basic information about publication.
+ *
+ * @property id Element id.
+ * @property languages Languages used in book.
+ * @property creators Publication creators.
+ * @property contributors Publication contributors.
+ * @property title Publication title.
+ * @property date Date of publication.
+ * @property subjects Publication subjects.
+ * @property sources Information about a prior resource from which the publication was derived.
+ * @property description Publication description
+ * @property relation Identifier of an auxiliary resource and its relationship to the publication
+ * @property coverage Scope of publication content.
+ * @property rights Rights statement or a reference to one.
+ * @property publisher Publication publisher.
+ */
 data class EpubMetadataModel(
     val id: String? = null,
     val languages: List<String>? = null,
@@ -7,7 +24,7 @@ data class EpubMetadataModel(
     val contributors: List<String>? = null,
     val title: String? = null,
     val date: String? = null,
-    val subject: List<String>? = null,
+    val subjects: List<String>? = null,
     val sources: List<String>? = null,
     val description: String? = null,
     val relation: String? = null,

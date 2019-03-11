@@ -10,7 +10,7 @@ import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
-class EpubTableOfContentsParser {
+internal class EpubTableOfContentsParser {
 
     internal fun parse(ncxDocument: Document): EpubTableOfContentsModel {
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()

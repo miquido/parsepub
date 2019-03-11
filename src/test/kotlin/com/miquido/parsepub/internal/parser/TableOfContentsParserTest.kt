@@ -32,7 +32,7 @@ class TableOfContentsParserTest {
         assertThat(tocModel.tableOfContents).extracting(LABEL_FIELD_NAME)
             .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.label }.toTypedArray())
         assertThat(tocModel.tableOfContents).extracting(SOURCE_FIELD_NAME)
-            .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.source }.toTypedArray())
+            .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.location }.toTypedArray())
     }
 
     @Test

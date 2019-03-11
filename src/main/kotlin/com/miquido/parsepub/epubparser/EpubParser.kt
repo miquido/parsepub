@@ -12,7 +12,7 @@ import java.io.File
 import javax.xml.parsers.DocumentBuilder
 
 /**
- * Main .epub parser class. Allows to input .epub book and return their model.
+ * Main .epub parser class. Allows to input publication path and parse it into model.
  */
 class EpubParser {
 
@@ -24,11 +24,11 @@ class EpubParser {
     private val tableOfContentsParser: EpubTableOfContentsParser by lazy { ParserModuleProvider.epubTableOfContentsParser }
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     /**
-     * Method allowing to parse .epub book into model
+     * Function allowing to parse .epub publication into model
      *
-     * @param inputPath Path of .epub book for parsing
-     * @param decompressPath Path to which .epub book will be decompressed
-     * @return Parsed .epub book model
+     * @param inputPath Path of .epub publication for parsing
+     * @param decompressPath Path to which .epub publication will be decompressed
+     * @return Parsed .epub publication model
      */
     fun parse(inputPath: String, decompressPath: String): EpubBook {
         val entries = decompressor.decompress(inputPath, decompressPath)
