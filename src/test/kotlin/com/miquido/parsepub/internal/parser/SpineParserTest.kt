@@ -1,6 +1,6 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.epubvalidator.ValidationListeners
+import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.validator.EpubValidator
 import com.miquido.parsepub.model.EpubSpineModel
@@ -17,13 +17,13 @@ class SpineParserTest {
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     private lateinit var document: Document
     private lateinit var spineModel: EpubSpineModel
-    private lateinit var validator: ValidationListeners
+    private lateinit var validator: ValidationListener
 
     @Before
     fun setup() {
         validator = EpubValidator()
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
-        spineModel = parser.parse(document, validator.getSpineListeners())
+        spineModel = parser.parse(document, validator)
     }
 
     @Test

@@ -9,15 +9,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miquido.parsepub.epubparser.EpubParser
+import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.model.EpubBook
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepubsample.R
 import com.miquido.parsepubsample.copyFileFromAssets
+import com.miquido.parsepubsample.di.SampleAppModuleProvider
 import com.miquido.parsepubsample.openFileInWebView
 import kotlinx.android.synthetic.main.activity_toc.*
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
+
+    private val validationListener: ValidationListener by lazy { SampleAppModuleProvider().validationListener }
 
     private val epubParser = EpubParser()
     private var epubBook: EpubBook? = null
@@ -39,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         Thread {
             val epubFilePath = copyFileFromAssets(EPUB_BOOK_NAME, cacheDir.path)
             val pathToDecompress = "$filesDir${File.separator}$DIR_EPUB_DECOMPRESSED"
-            epubBook = epubParser.parse(epubFilePath, pathToDecompress)
+            epubBook = epubParser.parse(epubFilePath, pathToDecompress, validationListener)
             decompressedEpubpath = pathToDecompress
             invalidateOptionsMenu()
             onComplete(epubBook)

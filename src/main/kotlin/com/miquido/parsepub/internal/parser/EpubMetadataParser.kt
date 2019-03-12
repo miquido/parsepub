@@ -1,7 +1,7 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
-import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElementOrEmpty
 import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElementsOrEmpty
@@ -12,23 +12,24 @@ import org.w3c.dom.Element
 
 internal class EpubMetadataParser {
 
-    fun parse(opfDocument: Document, validation: ValidationListeners.MetadataListeners?): EpubMetadataModel {
-        val metadataElement: Element? = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG).orValidationError { validation?.onMetadataMissing() }
+    internal fun parse(opfDocument: Document, validation: ValidationListener?): EpubMetadataModel {
+        val metadataElement: Element? = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG)
+            .orValidationError { validation?.onMetadataMissing() }
 
         return EpubMetadataModel(
-            creators = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CREATOR_TAG).orValidationError { validation?.onCreatorsMissing() },
-            languages = metadataElement.getTagTextContentsFromDcElementsOrEmpty(LANGUAGE_TAG).orValidationError { validation?.onLanguagesMissing() },
-            contributors = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CONTRIBUTOR_TAG).orValidationError { validation?.onContributorsMissing() },
-            title = metadataElement.getTagTextContentsFromDcElementOrEmpty(TITLE_TAG).orValidationError { validation?.onTitleMissing() },
-            subjects = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SUBJECT_TAG).orValidationError { validation?.onSubjectMissing() },
-            sources = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SOURCE_TAG).orValidationError { validation?.onSourcesMissing() },
-            description = metadataElement.getTagTextContentsFromDcElementOrEmpty(DESCRIPTION_TAG).orValidationError { validation?.onDescriptionMissing() },
-            rights = metadataElement.getTagTextContentsFromDcElementOrEmpty(RIGHTS_TAG).orValidationError { validation?.onRightsMissing() },
-            coverage = metadataElement.getTagTextContentsFromDcElementOrEmpty(COVERAGE_TAG).orValidationError { validation?.onCoverageMissing() },
-            relation = metadataElement.getTagTextContentsFromDcElementOrEmpty(RELATION_TAG).orValidationError { validation?.onRelationMissing() },
-            publisher = metadataElement.getTagTextContentsFromDcElementOrEmpty(PUBLISHER_TAG).orValidationError { validation?.onPublisherMissing() },
-            date = metadataElement.getTagTextContentsFromDcElementOrEmpty(DATE_TAG).orValidationError { validation?.onDateMissing() },
-            id = metadataElement.getTagTextContentsFromDcElementOrEmpty(ID_TAG).orValidationError { validation?.onIdMissing() }
+            creators = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CREATOR_TAG),
+            languages = metadataElement.getTagTextContentsFromDcElementsOrEmpty(LANGUAGE_TAG),
+            contributors = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CONTRIBUTOR_TAG),
+            title = metadataElement.getTagTextContentsFromDcElementOrEmpty(TITLE_TAG),
+            subjects = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SUBJECT_TAG),
+            sources = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SOURCE_TAG),
+            description = metadataElement.getTagTextContentsFromDcElementOrEmpty(DESCRIPTION_TAG),
+            rights = metadataElement.getTagTextContentsFromDcElementOrEmpty(RIGHTS_TAG),
+            coverage = metadataElement.getTagTextContentsFromDcElementOrEmpty(COVERAGE_TAG),
+            relation = metadataElement.getTagTextContentsFromDcElementOrEmpty(RELATION_TAG),
+            publisher = metadataElement.getTagTextContentsFromDcElementOrEmpty(PUBLISHER_TAG),
+            date = metadataElement.getTagTextContentsFromDcElementOrEmpty(DATE_TAG),
+            id = metadataElement.getTagTextContentsFromDcElementOrEmpty(ID_TAG)
         )
     }
 

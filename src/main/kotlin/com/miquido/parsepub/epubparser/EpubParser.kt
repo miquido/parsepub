@@ -1,5 +1,6 @@
 package com.miquido.parsepub.epubparser
 
+import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.decompressor.EpubDecompressor
 import com.miquido.parsepub.internal.di.ParserModuleProvider
@@ -23,25 +24,39 @@ class EpubParser {
     private val manifestParser: EpubManifestParser by lazy { ParserModuleProvider.epubManifestParser }
     private val spineParser: EpubSpineParser by lazy { ParserModuleProvider.epubSpineParser }
     private val tableOfContentsParser: EpubTableOfContentsParser by lazy { ParserModuleProvider.epubTableOfContentsParser }
-
+    private var listener: ValidationListener? = null
     /**
-     * Function allowing to parse .epub publication into model
+     * Function allowing to parse .epub publication into model and handling errors
      *
      * @param inputPath Path of .epub publication for parsing
      * @param decompressPath Path to which .epub publication will be decompressed
+     * @param validation class object used to call methods responsible for handling individual validations
      * @return Parsed .epub publication model
      */
-    fun parse(inputPath: String, decompressPath: String, validation: ValidationListeners?): EpubBook {
+    fun parse(inputPath: String, decompressPath: String, validation: ValidationListener?): EpubBook {
         val entries = decompressor.decompress(inputPath, decompressPath)
         val mainOpfDocument = opfDocumentHandler.createOpfDocument(decompressPath, entries)
-        val epubManifestModel = manifestParser.parse(mainOpfDocument, validation?.getManifestListeners())
+        val epubManifestModel = manifestParser.parse(mainOpfDocument, validation)
         val ncxDocument = ncxDocumentHandler.createNcxDocument(mainOpfDocument, epubManifestModel, decompressPath)
 
+        setListeners {
+            setMetadataMissing { validation?.onMetadataMissing() }
+            setManifestMissing { validation?.onManifestMissing() }
+            setSpineMissing { validation?.onSpineMissing() }
+            setNavMapMissing { validation?.onNavMapMissing() }
+        }
+
         return EpubBook(
-            metadataParser.parse(mainOpfDocument, validation?.getMetadataListeners()),
+            metadataParser.parse(mainOpfDocument, validation),
             epubManifestModel,
-            spineParser.parse(mainOpfDocument, validation?.getSpineListeners()),
-            tableOfContentsParser.parse(ncxDocument, validation?.getTableOfContentsListeners())
+            spineParser.parse(mainOpfDocument, validation),
+            tableOfContentsParser.parse(ncxDocument, validation)
         )
+    }
+
+    private fun setListeners(init: ValidationListeners.() -> Unit) {
+        val listener = ValidationListeners()
+        listener.init()
+        this.listener = listener
     }
 }

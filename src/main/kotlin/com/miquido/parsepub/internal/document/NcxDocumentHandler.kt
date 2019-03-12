@@ -8,11 +8,11 @@ import org.w3c.dom.Document
 import java.io.File
 import javax.xml.parsers.DocumentBuilder
 
-class NcxDocumentHandler {
+internal class NcxDocumentHandler {
 
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
 
-    fun createNcxDocument(
+    internal fun createNcxDocument(
         mainOpfDocument: Document,
         epubManifestModel: EpubManifestModel,
         decompressPath: String
@@ -23,8 +23,8 @@ class NcxDocumentHandler {
 
         // fallback: if ncx location attribute not present, find ncx location by name
         if (ncxLocation.isEmpty()) {
-            ncxLocation = epubManifestModel.resources?.firstOrNull { NCX_LOCATION_REGEXP.toRegex().matches(it.href) }
-                ?.href.orEmpty()
+            ncxLocation = epubManifestModel.resources
+                ?.firstOrNull { NCX_LOCATION_REGEXP.toRegex().matches(it.href ?: "") }?.href.orEmpty()
         }
 
         //TODO handle error if ncxLocation still empty

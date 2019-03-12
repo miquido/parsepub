@@ -1,7 +1,7 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
-import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.internal.extensions.map
 import com.miquido.parsepub.internal.extensions.orValidationError
@@ -11,13 +11,12 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 internal class EpubSpineParser {
-    internal fun parse(opfDocument: Document, validation: ValidationListeners.SpineListeners?): EpubSpineModel {
-        val spineElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, SPINE_TAG).orValidationError { validation?.onSpineMissing() }
-        val spineModel = spineElement?.getElementsByTagNameNS(OPF_NAMESPACE, ITEM_REF_TAG)
-            .orValidationError { validation?.onItemRefMissing() }
-            ?.map {
+    internal fun parse(opfDocument: Document, validation: ValidationListener?): EpubSpineModel {
+        val spineElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, SPINE_TAG)
+            .orValidationError { validation?.onSpineMissing() }
+        val spineModel = spineElement?.getElementsByTagNameNS(OPF_NAMESPACE, ITEM_REF_TAG)?.map {
             val element = it as Element
-            val idReference = element.getAttribute(ID_REF_ATTR).orValidationError { validation?.onIdRefMissing() }
+            val idReference = element.getAttribute(ID_REF_ATTR)
             val isLinear = element.getAttribute(IS_LINEAR_ATTR) == IS_LINEAR_POSITIVE_VALUE
             EbupSpineReferenceModel(idReference, isLinear)
         }
