@@ -7,7 +7,7 @@ import java.io.File
 import java.util.zip.ZipEntry
 import javax.xml.parsers.DocumentBuilder
 
-internal class DocumentHandler {
+internal class OpfDocumentHandler {
 
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
 

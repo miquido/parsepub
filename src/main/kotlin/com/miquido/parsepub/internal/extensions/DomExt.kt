@@ -34,6 +34,7 @@ internal fun NodeList.isNotEmpty(): Element? {
 
 internal fun NodeList?.textContents() = this?.let { nodeList ->
     (0 until nodeList.length)
+        .asSequence()
         .map { index -> nodeList.item(index) }
         .map { creatorNode -> creatorNode.textContent }
         .toList()
