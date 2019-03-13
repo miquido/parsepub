@@ -37,7 +37,12 @@ class EpubManifestParserTest {
             EpubResourceModel("front-matter-001", "OEBPS/front-matter-001-preface.html", "application/xhtml+xml"),
             EpubResourceModel("chapter-001", "OEBPS/chapter-001-appearance-and-reality.html", "application/xhtml+xml"),
             EpubResourceModel("cover-image2", "OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg", "image/jpeg"),
-            EpubResourceModel("cover-image", "OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg", "image/jpeg", "cover-image"),
+            EpubResourceModel(
+                "cover-image",
+                "OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg",
+                "image/jpeg",
+                hashSetOf("cover-image")
+            ),
             EpubResourceModel("ncx", "toc.ncx", "application/x-dtbncx+xml")
         )
     }
