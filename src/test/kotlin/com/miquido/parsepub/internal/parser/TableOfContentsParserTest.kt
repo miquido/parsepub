@@ -48,7 +48,7 @@ class TableOfContentsParserTest {
 
         private const val ID_FIELD_NAME = "id"
         private const val LABEL_FIELD_NAME = "label"
-        private const val SOURCE_FIELD_NAME = "source"
+        private const val SOURCE_FIELD_NAME = "location"
 
         private val EXPECTED_TOC_FIRST_ITEM_NESTED_ELEMENT = listOf(
             NavigationItemModel("ch_1_1_1", "Chapter 1.1.1", "content.html#ch_1_1_1", emptyList()),

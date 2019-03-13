@@ -38,6 +38,8 @@ class EpubMetadataParserTest {
         assertThat(metadataModel.relation).isNotBlank().isEqualTo(EXPECTED_RELATION_VALUE)
         assertThat(metadataModel.date).isNotBlank().isEqualTo(EXPECTED_DATE_VALUE)
         assertThat(metadataModel.id).isNotBlank().isEqualTo(EXPECTED_ID_VALUE)
+        assertThat(metadataModel.epubSpecificationVersion).isNotBlank().isEqualTo(EXPECTED_EPUB_SPEC_VERSION_VALUE)
+        assertThat(metadataModel.getEpubSpecificationMajorVersion()).isEqualTo(EXPECTED_EPUB_SPEC_VERSION_BYTE_VALUE)
     }
 
     companion object {
@@ -58,5 +60,7 @@ class EpubMetadataParserTest {
         private const val EXPECTED_DESCRIPTION_VALUE =
             "The Problems of Philosophy (1912) is one of Bertrand Russell's attempts to create ..."
         private const val EXPECTED_TITLE_VALUE = "The Problems of Philosophy"
+        private const val EXPECTED_EPUB_SPEC_VERSION_VALUE = "2.0"
+        private const val EXPECTED_EPUB_SPEC_VERSION_BYTE_VALUE = 2
     }
 }

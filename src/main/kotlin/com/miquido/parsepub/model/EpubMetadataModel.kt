@@ -30,5 +30,9 @@ data class EpubMetadataModel(
     val relation: String? = null,
     val coverage: String? = null,
     val rights: String? = null,
-    val publisher: String? = null
-)
+    val publisher: String? = null,
+    val epubSpecificationVersion: String? = null
+) {
+
+    fun getEpubSpecificationMajorVersion() = epubSpecificationVersion?.let { Integer.parseInt(it[0].toString()) }
+}
