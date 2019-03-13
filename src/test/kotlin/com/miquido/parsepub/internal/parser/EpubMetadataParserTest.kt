@@ -43,7 +43,7 @@ class EpubMetadataParserTest {
     }
 
     companion object {
-        private const val OPF_TEST_FILE_PATH = "src/test/res/opf/book.opf"
+        private const val OPF_TEST_FILE_PATH = "src/test/res/opf/epub2/book.opf"
 
         private val EXPECTED_CREATORS_VALUES = listOf("Bertrand Russell", "Second Creator")
         private val EXPECTED_LANGUAGES_VALUES = listOf("en", "pl")

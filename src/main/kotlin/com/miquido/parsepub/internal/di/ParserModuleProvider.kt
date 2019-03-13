@@ -2,9 +2,12 @@ package com.miquido.parsepub.internal.di
 
 import com.miquido.parsepub.internal.cover.EpubCoverHandler
 import com.miquido.parsepub.internal.decompressor.EpubDecompressor
-import com.miquido.parsepub.internal.document.NcxDocumentHandler
 import com.miquido.parsepub.internal.document.OpfDocumentHandler
-import com.miquido.parsepub.internal.parser.*
+import com.miquido.parsepub.internal.document.toc.TocDocumentHandler
+import com.miquido.parsepub.internal.parser.EpubManifestParser
+import com.miquido.parsepub.internal.parser.EpubMetadataParser
+import com.miquido.parsepub.internal.parser.EpubSpineParser
+import com.miquido.parsepub.internal.parser.EpubTableOfContentsParser
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -17,7 +20,7 @@ internal interface ParserModule {
     val epubTableOfContentsParser: EpubTableOfContentsParser
     val opfDocumentHandler: OpfDocumentHandler
     val coverHandler: EpubCoverHandler
-    val ncxDocumentHandler: NcxDocumentHandler
+    val tocDocumentHandler: TocDocumentHandler
 }
 
 internal object ParserModuleProvider : ParserModule {
@@ -33,6 +36,5 @@ internal object ParserModuleProvider : ParserModule {
             isNamespaceAware = true
         }.newDocumentBuilder()
     }
-    override val ncxDocumentHandler: NcxDocumentHandler by lazy { NcxDocumentHandler() }
-
+    override val tocDocumentHandler: TocDocumentHandler by lazy { TocDocumentHandler() }
 }

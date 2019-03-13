@@ -2,8 +2,8 @@ package com.miquido.parsepub.epubparser
 
 import com.miquido.parsepub.internal.decompressor.EpubDecompressor
 import com.miquido.parsepub.internal.di.ParserModuleProvider
-import com.miquido.parsepub.internal.document.NcxDocumentHandler
 import com.miquido.parsepub.internal.document.OpfDocumentHandler
+import com.miquido.parsepub.internal.document.toc.TocDocumentHandler
 import com.miquido.parsepub.internal.parser.EpubManifestParser
 import com.miquido.parsepub.internal.parser.EpubMetadataParser
 import com.miquido.parsepub.internal.parser.EpubSpineParser
@@ -17,7 +17,7 @@ class EpubParser {
 
     private val decompressor: EpubDecompressor by lazy { ParserModuleProvider.epubDecompressor }
     private val opfDocumentHandler: OpfDocumentHandler by lazy { ParserModuleProvider.opfDocumentHandler }
-    private val ncxDocumentHandler: NcxDocumentHandler by lazy { ParserModuleProvider.ncxDocumentHandler }
+    private val tocDocumentHandler: TocDocumentHandler by lazy { ParserModuleProvider.tocDocumentHandler }
     private val metadataParser: EpubMetadataParser by lazy { ParserModuleProvider.epubMetadataParser }
     private val manifestParser: EpubManifestParser by lazy { ParserModuleProvider.epubManifestParser }
     private val spineParser: EpubSpineParser by lazy { ParserModuleProvider.epubSpineParser }
@@ -35,9 +35,13 @@ class EpubParser {
         val mainOpfDocument = opfDocumentHandler.createOpfDocument(decompressPath, entries)
 
         val epubManifestModel = manifestParser.parse(mainOpfDocument)
-        val ncxDocument = ncxDocumentHandler.createNcxDocument(mainOpfDocument, epubManifestModel, decompressPath)
+        val epubMetadataModel = metadataParser.parse(mainOpfDocument)
+        val ncxDocument = tocDocumentHandler.createTocDocument(
+            mainOpfDocument, epubManifestModel,
+            decompressPath, epubMetadataModel.getEpubSpecificationMajorVersion()
+        )
         return EpubBook(
-            metadataParser.parse(mainOpfDocument),
+            epubMetadataModel,
             epubManifestModel,
             spineParser.parse(mainOpfDocument),
             tableOfContentsParser.parse(ncxDocument)
