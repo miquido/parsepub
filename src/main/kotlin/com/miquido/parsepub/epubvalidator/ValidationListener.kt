@@ -1,7 +1,9 @@
 package com.miquido.parsepub.epubvalidator
 
+typealias OnValidationListener = () -> Unit
+
 /**
- * Interface for validation .epub file. Contains methods for handling the missing of important elements in the .epub file.
+ * Interface for validation .epub publication. Contains methods for handling the missing of important elements in the .epub publication.
  */
 interface ValidationListener {
     /** Method for handling Metadata element missing. */
@@ -17,26 +19,26 @@ interface ValidationListener {
     fun onNavMapMissing()
 }
 
-internal class ValidationListeners : ValidationListener {
+class ValidationListeners : ValidationListener {
 
-    private var metadataMissing: (() -> Unit)? = null
-    private var manifestMissing: (() -> Unit)? = null
-    private var spineMissing: (() -> Unit)? = null
-    private var navMapMissing: (() -> Unit)? = null
+    private var metadataMissing: (OnValidationListener)? = null
+    private var manifestMissing: (OnValidationListener)? = null
+    private var spineMissing: (OnValidationListener)? = null
+    private var navMapMissing: (OnValidationListener)? = null
 
-    fun setMetadataMissing(metadataMissing: (() -> Unit)) {
+    fun setMetadataMissing(metadataMissing: OnValidationListener) {
         this.metadataMissing = metadataMissing
     }
 
-    fun setManifestMissing(manifestMissing: (() -> Unit)) {
+    fun setManifestMissing(manifestMissing: OnValidationListener) {
         this.manifestMissing = manifestMissing
     }
 
-    fun setSpineMissing(spineMissing: (() -> Unit)) {
+    fun setSpineMissing(spineMissing: OnValidationListener) {
         this.spineMissing = spineMissing
     }
 
-    fun setNavMapMissing(navMapMissing: (() -> Unit)) {
+    fun setNavMapMissing(navMapMissing: OnValidationListener) {
         this.navMapMissing = navMapMissing
     }
 

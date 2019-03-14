@@ -1,6 +1,7 @@
 package com.miquido.parsepubsample.tableofcontents
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -9,19 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miquido.parsepub.epubparser.EpubParser
-import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.model.EpubBook
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepubsample.R
 import com.miquido.parsepubsample.copyFileFromAssets
-import com.miquido.parsepubsample.di.SampleAppModuleProvider
 import com.miquido.parsepubsample.openFileInWebView
 import kotlinx.android.synthetic.main.activity_toc.*
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
-
-    private val validationListener: ValidationListener by lazy { SampleAppModuleProvider().validationListener }
 
     private val epubParser = EpubParser()
     private var epubBook: EpubBook? = null
@@ -37,17 +34,27 @@ class MainActivity : AppCompatActivity() {
                 showTableOfContents(it?.epubTableOfContentsModel)
             }
         }
+        setListeners()
     }
 
     private fun parseEpubBook(onComplete: (result: EpubBook?) -> Unit) {
         Thread {
             val epubFilePath = copyFileFromAssets(EPUB_BOOK_NAME, cacheDir.path)
             val pathToDecompress = "$filesDir${File.separator}$DIR_EPUB_DECOMPRESSED"
-            epubBook = epubParser.parse(epubFilePath, pathToDecompress, validationListener)
+            epubBook = epubParser.parse(epubFilePath, pathToDecompress)
             decompressedEpubpath = pathToDecompress
             invalidateOptionsMenu()
             onComplete(epubBook)
         }.start()
+    }
+
+    private fun setListeners() {
+        epubParser.setValidationListeners {
+            setMetadataMissing { Log.e(ERROR_TAG, "Metadata Missing") }
+            setManifestMissing { Log.e(ERROR_TAG, "Manifest Missing") }
+            setSpineMissing { Log.e(ERROR_TAG, "Spine Missing") }
+            setNavMapMissing { Log.e(ERROR_TAG, "Navigation Map Missing") }
+        }
     }
 
     private fun showTableOfContents(tocModel: EpubTableOfContentsModel?) {
@@ -85,5 +92,6 @@ class MainActivity : AppCompatActivity() {
     private companion object {
         private const val DIR_EPUB_DECOMPRESSED = "epub-uncompressed"
         private const val EPUB_BOOK_NAME = "problems_of_philosophy.epub"
+        private const val ERROR_TAG = "EPUB VALIDATION"
     }
 }

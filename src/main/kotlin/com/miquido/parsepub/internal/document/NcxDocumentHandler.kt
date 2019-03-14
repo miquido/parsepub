@@ -24,7 +24,7 @@ internal class NcxDocumentHandler {
         // fallback: if ncx location attribute not present, find ncx location by name
         if (ncxLocation.isEmpty()) {
             ncxLocation = epubManifestModel.resources
-                ?.firstOrNull { NCX_LOCATION_REGEXP.toRegex().matches(it.href ?: "") }?.href.orEmpty()
+                ?.firstOrNull { NCX_LOCATION_REGEXP.toRegex().matches(it.href.orEmpty()) }?.href.orEmpty()
         }
 
         //TODO handle error if ncxLocation still empty

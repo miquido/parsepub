@@ -24,39 +24,31 @@ class EpubParser {
     private val manifestParser: EpubManifestParser by lazy { ParserModuleProvider.epubManifestParser }
     private val spineParser: EpubSpineParser by lazy { ParserModuleProvider.epubSpineParser }
     private val tableOfContentsParser: EpubTableOfContentsParser by lazy { ParserModuleProvider.epubTableOfContentsParser }
-    private var listener: ValidationListener? = null
+    private var validationListener: ValidationListener? = null
     /**
-     * Function allowing to parse .epub publication into model and handling errors
+     * Function allowing to parse .epub publication into model
      *
      * @param inputPath Path of .epub publication for parsing
      * @param decompressPath Path to which .epub publication will be decompressed
-     * @param validation class object used to call methods responsible for handling individual validations
      * @return Parsed .epub publication model
      */
-    fun parse(inputPath: String, decompressPath: String, validation: ValidationListener?): EpubBook {
+    fun parse(inputPath: String, decompressPath: String): EpubBook {
         val entries = decompressor.decompress(inputPath, decompressPath)
         val mainOpfDocument = opfDocumentHandler.createOpfDocument(decompressPath, entries)
-        val epubManifestModel = manifestParser.parse(mainOpfDocument, validation)
+        val epubManifestModel = manifestParser.parse(mainOpfDocument, validationListener)
         val ncxDocument = ncxDocumentHandler.createNcxDocument(mainOpfDocument, epubManifestModel, decompressPath)
 
-        setListeners {
-            setMetadataMissing { validation?.onMetadataMissing() }
-            setManifestMissing { validation?.onManifestMissing() }
-            setSpineMissing { validation?.onSpineMissing() }
-            setNavMapMissing { validation?.onNavMapMissing() }
-        }
-
         return EpubBook(
-            metadataParser.parse(mainOpfDocument, validation),
+            metadataParser.parse(mainOpfDocument, validationListener),
             epubManifestModel,
-            spineParser.parse(mainOpfDocument, validation),
-            tableOfContentsParser.parse(ncxDocument, validation)
+            spineParser.parse(mainOpfDocument, validationListener),
+            tableOfContentsParser.parse(ncxDocument, validationListener)
         )
     }
 
-    private fun setListeners(init: ValidationListeners.() -> Unit) {
-        val listener = ValidationListeners()
-        listener.init()
-        this.listener = listener
+    fun setValidationListeners(init: ValidationListeners.() -> Unit) {
+        val validationListener = ValidationListeners()
+        validationListener.init()
+        this.validationListener = validationListener
     }
 }

@@ -11,8 +11,10 @@ internal class EpubCoverHandler {
 
         if (coverImage == null) {
             coverImage = manifestModel.resources
-                ?.filter { it.id?.contains(COVER_RESOURCE_VALUE, ignoreCase = true) == true}
-                ?.first { it.mediaType?.contains(IMAGE_LABEL) == true }
+                ?.firstOrNull {
+                    it.id?.contains(COVER_RESOURCE_VALUE, ignoreCase = true)
+                    it.mediaType?.contains(IMAGE_LABEL) == true
+                }
         }
         return coverImage
     }
