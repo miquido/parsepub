@@ -1,8 +1,10 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.constants.EpubConstants.NCX_NAMESPACE
 import com.miquido.parsepub.internal.extensions.forEach
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
+import com.miquido.parsepub.internal.extensions.orValidationError
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepub.model.NavigationItemModel
 import org.w3c.dom.Document
@@ -12,9 +14,10 @@ import org.w3c.dom.NodeList
 
 internal class EpubTableOfContentsParser {
 
-    internal fun parse(ncxDocument: Document): EpubTableOfContentsModel {
+    internal fun parse(ncxDocument: Document, validation: ValidationListener?): EpubTableOfContentsModel {
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
-        ncxDocument.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_MAP_TAG)?.childNodes.forEach {
+        ncxDocument.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_MAP_TAG).orValidationError { validation?.onNavMapMissing() }
+            ?.childNodes.forEach {
             if (it.isNavPoint()) {
                 tableOfContentsReferences.add(createNavigationItemModel(it))
             }
@@ -27,7 +30,8 @@ internal class EpubTableOfContentsParser {
         val id = element.getAttribute(ID_ATTR)
         val label = element.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_LABEL_TAG)
             ?.getFirstElementByTagNameNS(NCX_NAMESPACE, TEXT_TAG)?.textContent
-        val source = element.getFirstElementByTagNameNS(NCX_NAMESPACE, CONTENT_TAG)?.getAttribute(SRC_ATTR)
+        val source = element.getFirstElementByTagNameNS(NCX_NAMESPACE, CONTENT_TAG)
+            ?.getAttribute(SRC_ATTR)
         val subItems = createNavigationSubItemModel(element.childNodes)
         return NavigationItemModel(id, label, source, subItems)
     }

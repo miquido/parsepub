@@ -1,5 +1,7 @@
 package com.miquido.parsepub.epubparser
 
+import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.decompressor.EpubDecompressor
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.document.NcxDocumentHandler
@@ -22,7 +24,7 @@ class EpubParser {
     private val manifestParser: EpubManifestParser by lazy { ParserModuleProvider.epubManifestParser }
     private val spineParser: EpubSpineParser by lazy { ParserModuleProvider.epubSpineParser }
     private val tableOfContentsParser: EpubTableOfContentsParser by lazy { ParserModuleProvider.epubTableOfContentsParser }
-
+    private var validationListener: ValidationListener? = null
     /**
      * Function allowing to parse .epub publication into model
      *
@@ -33,15 +35,20 @@ class EpubParser {
     fun parse(inputPath: String, decompressPath: String): EpubBook {
         val entries = decompressor.decompress(inputPath, decompressPath)
         val mainOpfDocument = opfDocumentHandler.createOpfDocument(decompressPath, entries)
-
-        val epubManifestModel = manifestParser.parse(mainOpfDocument)
+        val epubManifestModel = manifestParser.parse(mainOpfDocument, validationListener)
         val ncxDocument = ncxDocumentHandler.createNcxDocument(mainOpfDocument, epubManifestModel, decompressPath)
+
         return EpubBook(
-            metadataParser.parse(mainOpfDocument),
+            metadataParser.parse(mainOpfDocument, validationListener),
             epubManifestModel,
-            spineParser.parse(mainOpfDocument),
-            tableOfContentsParser.parse(ncxDocument)
+            spineParser.parse(mainOpfDocument, validationListener),
+            tableOfContentsParser.parse(ncxDocument, validationListener)
         )
     }
-}
 
+    fun setValidationListeners(init: ValidationListeners.() -> Unit) {
+        val validationListener = ValidationListeners()
+        validationListener.init()
+        this.validationListener = validationListener
+    }
+}

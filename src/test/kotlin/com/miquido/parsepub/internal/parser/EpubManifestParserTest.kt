@@ -1,6 +1,8 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.di.ParserModuleProvider
+import com.miquido.parsepub.internal.validator.EpubValidator
 import com.miquido.parsepub.model.EpubManifestModel
 import com.miquido.parsepub.model.EpubResourceModel
 import org.assertj.core.api.Assertions.assertThat
@@ -16,11 +18,13 @@ class EpubManifestParserTest {
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     private lateinit var document: Document
     private lateinit var manifestModel: EpubManifestModel
+    private lateinit var validator: ValidationListener
 
     @Before
     fun setup() {
+        validator = EpubValidator()
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
-        manifestModel = parser.parse(document)
+        manifestModel = parser.parse(document, validator)
     }
 
     @Test

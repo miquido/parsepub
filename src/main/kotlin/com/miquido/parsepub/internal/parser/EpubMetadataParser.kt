@@ -1,16 +1,21 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElementOrEmpty
 import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElementsOrEmpty
+import com.miquido.parsepub.internal.extensions.orValidationError
 import com.miquido.parsepub.model.EpubMetadataModel
 import org.w3c.dom.Document
+import org.w3c.dom.Element
 
 internal class EpubMetadataParser {
 
-    fun parse(opfDocument: Document): EpubMetadataModel {
-        val metadataElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG)
+    internal fun parse(opfDocument: Document, validation: ValidationListener?): EpubMetadataModel {
+        val metadataElement: Element? = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG)
+            .orValidationError { validation?.onMetadataMissing() }
+
         return EpubMetadataModel(
             creators = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CREATOR_TAG),
             languages = metadataElement.getTagTextContentsFromDcElementsOrEmpty(LANGUAGE_TAG),
@@ -27,7 +32,6 @@ internal class EpubMetadataParser {
             id = metadataElement.getTagTextContentsFromDcElementOrEmpty(ID_TAG)
         )
     }
-
 
     private companion object {
         private const val METADATA_TAG = "metadata"

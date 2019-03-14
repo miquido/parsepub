@@ -1,6 +1,7 @@
 package com.miquido.parsepubsample.tableofcontents
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
                 showTableOfContents(it?.epubTableOfContentsModel)
             }
         }
+        setListeners()
     }
 
     private fun parseEpubBook(onComplete: (result: EpubBook?) -> Unit) {
@@ -44,6 +46,15 @@ class MainActivity : AppCompatActivity() {
             invalidateOptionsMenu()
             onComplete(epubBook)
         }.start()
+    }
+
+    private fun setListeners() {
+        epubParser.setValidationListeners {
+            setMetadataMissing { Log.e(ERROR_TAG, "Metadata Missing") }
+            setManifestMissing { Log.e(ERROR_TAG, "Manifest Missing") }
+            setSpineMissing { Log.e(ERROR_TAG, "Spine Missing") }
+            setNavMapMissing { Log.e(ERROR_TAG, "Navigation Map Missing") }
+        }
     }
 
     private fun showTableOfContents(tocModel: EpubTableOfContentsModel?) {
@@ -81,5 +92,6 @@ class MainActivity : AppCompatActivity() {
     private companion object {
         private const val DIR_EPUB_DECOMPRESSED = "epub-uncompressed"
         private const val EPUB_BOOK_NAME = "problems_of_philosophy.epub"
+        private const val ERROR_TAG = "EPUB VALIDATION"
     }
 }
