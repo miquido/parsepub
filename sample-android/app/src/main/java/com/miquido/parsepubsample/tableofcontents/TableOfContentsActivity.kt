@@ -18,6 +18,7 @@ import com.miquido.parsepubsample.openFileInWebView
 import kotlinx.android.synthetic.main.activity_toc.*
 import java.io.File
 
+
 class MainActivity : AppCompatActivity() {
 
     private val epubParser = EpubParser()
@@ -81,7 +82,12 @@ class MainActivity : AppCompatActivity() {
         R.id.book_matadata -> {
             AlertDialog.Builder(this)
                 .setTitle(R.string.book_metadata)
-                .setMessage(epubBook?.epubMetadataModel.toString())
+                .setAdapter(
+                    MetadataAdapter(
+                        this,
+                        MetadataMapper().mapToViewModel(this, epubBook?.epubMetadataModel)
+                    ), null
+                )
                 .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
                 .show()
             true
