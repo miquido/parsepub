@@ -32,12 +32,15 @@ internal fun NodeList.isNotEmpty(): Element? {
     }
 }
 
-internal fun NodeList?.textContents() = this?.let { nodeList ->
-    (0 until nodeList.length)
-        .asSequence()
-        .map { index -> nodeList.item(index) }
-        .map { creatorNode -> creatorNode.textContent }
-        .toList()
+internal fun NodeList?.textContents(): List<String>? {
+    if (this?.length == 0) return null
+    return this?.let { nodeList ->
+        (0 until nodeList.length)
+            .asSequence()
+            .map { index -> nodeList.item(index) }
+            .map { creatorNode -> creatorNode.textContent }
+            .toList()
+    }
 }
 
 internal fun Element?.getTagTextContentsFromDcElementsOrEmpty(tag: String) =
