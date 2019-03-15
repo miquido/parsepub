@@ -7,7 +7,7 @@ import com.miquido.parsepub.internal.document.toc.TocDocumentHandler
 import com.miquido.parsepub.internal.parser.EpubManifestParser
 import com.miquido.parsepub.internal.parser.EpubMetadataParser
 import com.miquido.parsepub.internal.parser.EpubSpineParser
-import com.miquido.parsepub.internal.parser.EpubTableOfContentsParser
+import com.miquido.parsepub.internal.parser.toc.TableOfContentParserFactory
 import com.miquido.parsepub.model.EpubBook
 
 /**
@@ -21,7 +21,7 @@ class EpubParser {
     private val metadataParser: EpubMetadataParser by lazy { ParserModuleProvider.epubMetadataParser }
     private val manifestParser: EpubManifestParser by lazy { ParserModuleProvider.epubManifestParser }
     private val spineParser: EpubSpineParser by lazy { ParserModuleProvider.epubSpineParser }
-    private val tableOfContentsParser: EpubTableOfContentsParser by lazy { ParserModuleProvider.epubTableOfContentsParser }
+    private val tocParserFactory: TableOfContentParserFactory by lazy { ParserModuleProvider.epubTableOfContentsParserFactory }
 
     /**
      * Function allowing to parse .epub publication into model
@@ -36,7 +36,7 @@ class EpubParser {
 
         val epubManifestModel = manifestParser.parse(mainOpfDocument)
         val epubMetadataModel = metadataParser.parse(mainOpfDocument)
-        val ncxDocument = tocDocumentHandler.createTocDocument(
+        val tocDocument = tocDocumentHandler.createTocDocument(
             mainOpfDocument, epubManifestModel,
             decompressPath, epubMetadataModel.getEpubSpecificationMajorVersion()
         )
@@ -44,7 +44,7 @@ class EpubParser {
             epubMetadataModel,
             epubManifestModel,
             spineParser.parse(mainOpfDocument),
-            tableOfContentsParser.parse(ncxDocument)
+            tocParserFactory.getTableOfContentsParser(epubMetadataModel.getEpubSpecificationMajorVersion()).parse(tocDocument)
         )
     }
 }

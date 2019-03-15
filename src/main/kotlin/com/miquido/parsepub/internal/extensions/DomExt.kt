@@ -51,10 +51,20 @@ internal inline fun <R> NodeList.map(transform: (Node) -> R): List<R> {
     return (0 until length).map { index -> item(index) }.mapTo(result, transform)
 }
 
+internal inline fun NodeList.firstOrNull(predicate: (Node) -> Boolean): Node? {
+    return (0 until length).map { index -> item(index) }.firstOrNull { predicate.invoke(it) }
+}
+
+
 internal fun NodeList?.forEach(action: (Node) -> Unit) {
     this?.let {
         for (i in 0 until length) {
             action(item(i))
         }
     }
+}
+
+internal fun NodeList.firstWithAttributeNS(nameSpace: String, attrName: String, attrValue: String) = firstOrNull {
+    val element = it as Element
+    element.hasAttributeNS(nameSpace, attrName) && element.getAttributeNS(nameSpace, attrName) == attrValue
 }

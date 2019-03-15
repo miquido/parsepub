@@ -7,7 +7,7 @@ import com.miquido.parsepub.internal.document.toc.TocDocumentHandler
 import com.miquido.parsepub.internal.parser.EpubManifestParser
 import com.miquido.parsepub.internal.parser.EpubMetadataParser
 import com.miquido.parsepub.internal.parser.EpubSpineParser
-import com.miquido.parsepub.internal.parser.EpubTableOfContentsParser
+import com.miquido.parsepub.internal.parser.toc.TableOfContentParserFactory
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -17,7 +17,7 @@ internal interface ParserModule {
     val epubSpineParser: EpubSpineParser
     val epubMetadataParser: EpubMetadataParser
     val epubManifestParser: EpubManifestParser
-    val epubTableOfContentsParser: EpubTableOfContentsParser
+    val epubTableOfContentsParserFactory: TableOfContentParserFactory
     val opfDocumentHandler: OpfDocumentHandler
     val coverHandler: EpubCoverHandler
     val tocDocumentHandler: TocDocumentHandler
@@ -27,7 +27,7 @@ internal object ParserModuleProvider : ParserModule {
     override val epubSpineParser: EpubSpineParser by lazy { EpubSpineParser() }
     override val epubMetadataParser: EpubMetadataParser by lazy { EpubMetadataParser() }
     override val epubManifestParser: EpubManifestParser by lazy { EpubManifestParser() }
-    override val epubTableOfContentsParser: EpubTableOfContentsParser by lazy { EpubTableOfContentsParser() }
+    override val epubTableOfContentsParserFactory: TableOfContentParserFactory by lazy { TableOfContentParserFactory() }
     override val opfDocumentHandler: OpfDocumentHandler by lazy { OpfDocumentHandler() }
     override val epubDecompressor: EpubDecompressor by lazy { EpubDecompressor() }
     override val coverHandler: EpubCoverHandler by lazy { EpubCoverHandler() }

@@ -1,6 +1,6 @@
-package com.miquido.parsepub.internal.parser
+package com.miquido.parsepub.internal.parser.toc
 
-import com.miquido.parsepub.internal.constants.EpubConstants.NCX_NAMESPACE
+import com.miquido.parsepub.internal.constants.EpubConstants
 import com.miquido.parsepub.internal.extensions.forEach
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.model.EpubTableOfContentsModel
@@ -10,11 +10,11 @@ import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
-internal class EpubTableOfContentsParser {
+internal class Epub2TableOfContentsParser : TableOfContentsParser {
 
-    internal fun parse(ncxDocument: Document): EpubTableOfContentsModel {
+    override fun parse(tocDocument: Document): EpubTableOfContentsModel {
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
-        ncxDocument.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_MAP_TAG)?.childNodes.forEach {
+        tocDocument.getFirstElementByTagNameNS(EpubConstants.NCX_NAMESPACE, NAV_MAP_TAG)?.childNodes.forEach {
             if (it.isNavPoint()) {
                 tableOfContentsReferences.add(createNavigationItemModel(it))
             }
@@ -22,17 +22,17 @@ internal class EpubTableOfContentsParser {
         return EpubTableOfContentsModel(tableOfContentsReferences)
     }
 
-    private fun createNavigationItemModel(node: Node): NavigationItemModel {
+    override fun createNavigationItemModel(node: Node): NavigationItemModel {
         val element = node as Element
         val id = element.getAttribute(ID_ATTR)
-        val label = element.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_LABEL_TAG)
-            ?.getFirstElementByTagNameNS(NCX_NAMESPACE, TEXT_TAG)?.textContent
-        val source = element.getFirstElementByTagNameNS(NCX_NAMESPACE, CONTENT_TAG)?.getAttribute(SRC_ATTR)
+        val label = element.getFirstElementByTagNameNS(EpubConstants.NCX_NAMESPACE, NAV_LABEL_TAG)
+            ?.getFirstElementByTagNameNS(EpubConstants.NCX_NAMESPACE, TEXT_TAG)?.textContent
+        val source = element.getFirstElementByTagNameNS(EpubConstants.NCX_NAMESPACE, CONTENT_TAG)?.getAttribute(SRC_ATTR)
         val subItems = createNavigationSubItemModel(element.childNodes)
         return NavigationItemModel(id, label, source, subItems)
     }
 
-    private fun createNavigationSubItemModel(childrenNodes: NodeList?): List<NavigationItemModel> {
+    override fun createNavigationSubItemModel(childrenNodes: NodeList?): List<NavigationItemModel> {
         val navSubItems = mutableListOf<NavigationItemModel>()
         childrenNodes?.forEach {
             if (it.isNavPoint()) {
@@ -42,7 +42,7 @@ internal class EpubTableOfContentsParser {
         return navSubItems
     }
 
-    private fun Node.isNavPoint() = (this as? Element)?.tagName == NAV_POINT_TAG
+    override fun Node.isNavPoint() = (this as? Element)?.tagName == NAV_POINT_TAG
 
     private companion object {
         private const val NAV_MAP_TAG = "navMap"
