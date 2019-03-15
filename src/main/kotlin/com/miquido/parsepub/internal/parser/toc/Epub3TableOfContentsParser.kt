@@ -1,9 +1,11 @@
 package com.miquido.parsepub.internal.parser.toc
 
+import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.constants.EpubConstants
 import com.miquido.parsepub.internal.extensions.firstWithAttributeNS
 import com.miquido.parsepub.internal.extensions.forEach
 import com.miquido.parsepub.internal.extensions.getFirstElementByTag
+import com.miquido.parsepub.internal.extensions.orValidationError
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepub.model.NavigationItemModel
 import org.w3c.dom.Document
@@ -13,9 +15,10 @@ import org.w3c.dom.NodeList
 
 internal class Epub3TableOfContentsParser : TableOfContentsParser {
 
-    override fun parse(tocDocument: Document): EpubTableOfContentsModel {
+    override fun parse(tocDocument: Document, validation: ValidationListener?): EpubTableOfContentsModel {
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
         val tocNav = tocDocument.getElementsByTagName(NAV_TAG)
+            .orValidationError { validation?.onTableOfContentsMissing() }
             ?.firstWithAttributeNS(EpubConstants.ND_NAMESPACE, TYPE_ATTR, TOC_ATTR_VALUE) as Element
 
         tocNav.getFirstElementByTag(OL_TAG)

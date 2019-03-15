@@ -1,0 +1,67 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ValidationListener - parsepub</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">parsepub</a>&nbsp;/&nbsp;<a href="../index.html">com.miquido.parsepub.epubvalidator</a>&nbsp;/&nbsp;<a href="./index.html">ValidationListener</a><br/>
+<br/>
+<h1>ValidationListener</h1>
+<code><span class="keyword">interface </span><span class="identifier">ValidationListener</span></code>
+<p>Interface for validation .epub publication. Contains methods for handling the missing of important elements in the .epub publication.</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="on-manifest-missing.html">onManifestMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onManifestMissing</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Method for handling Manifest element missing.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-metadata-missing.html">onMetadataMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onMetadataMissing</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Method for handling Metadata element missing.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-spine-missing.html">onSpineMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onSpineMissing</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Method for handling Spine element missing.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-table-of-contents-missing.html">onTableOfContentsMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onTableOfContentsMissing</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Method for handling table of contents element missing.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-validation-listeners/index.html">ValidationListeners</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ValidationListeners</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">ValidationListener</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

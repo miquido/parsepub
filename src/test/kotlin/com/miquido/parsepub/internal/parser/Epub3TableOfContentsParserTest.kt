@@ -3,6 +3,7 @@ package com.miquido.parsepub.internal.parser
 import com.miquido.parsepub.internal.constants.EpubConstants.EPUB_MAJOR_VERSION_3
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.parser.toc.TableOfContentParserFactory
+import com.miquido.parsepub.internal.validator.TestEpubValidator
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepub.model.NavigationItemModel
 import org.assertj.core.api.Assertions.assertThat
@@ -23,7 +24,7 @@ class Epub3TableOfContentsParserTest {
     @Before
     fun setup() {
         tocDocument = documentBuilder.parse(File(NCX_TEST_FILE_PATH))
-        tocModel = parserFactory.getTableOfContentsParser(EPUB_MAJOR_VERSION_3).parse(tocDocument)
+        tocModel = parserFactory.getTableOfContentsParser(EPUB_MAJOR_VERSION_3).parse(tocDocument, TestEpubValidator())
     }
 
     @Test

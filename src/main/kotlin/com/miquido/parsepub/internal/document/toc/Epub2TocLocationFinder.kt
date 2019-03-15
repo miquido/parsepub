@@ -7,7 +7,7 @@ import org.w3c.dom.Document
 
 internal class Epub2TocLocationFinder {
     private fun fallbackFindNcxPath(epubManifestModel: EpubManifestModel): String {
-        return epubManifestModel.resources?.firstOrNull { NCX_LOCATION_REGEXP.toRegex().matches(it.href) }
+        return epubManifestModel.resources?.firstOrNull { NCX_LOCATION_REGEXP.toRegex().matches(it.href.orEmpty()) }
             ?.href.orEmpty()
     }
 

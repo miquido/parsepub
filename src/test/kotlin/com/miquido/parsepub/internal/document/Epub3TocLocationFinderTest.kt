@@ -3,6 +3,7 @@ package com.miquido.parsepub.internal.document
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.document.toc.Epub3TocLocationFinder
 import com.miquido.parsepub.internal.parser.EpubManifestParser
+import com.miquido.parsepub.internal.validator.TestEpubValidator
 import com.miquido.parsepub.model.EpubManifestModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -20,7 +21,8 @@ class Epub3TocLocationFinderTest {
 
     @Before
     fun setup() {
-        epub3ManifestModel = manifestParser.parse(documentBuilder.parse(File(OPF_EPUB3_TEST_FILE_PATH)))
+        epub3ManifestModel =
+            manifestParser.parse(documentBuilder.parse(File(OPF_EPUB3_TEST_FILE_PATH)), TestEpubValidator())
     }
 
     @Test

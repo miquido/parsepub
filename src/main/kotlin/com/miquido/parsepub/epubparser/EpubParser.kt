@@ -1,5 +1,7 @@
 package com.miquido.parsepub.epubparser
 
+import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.decompressor.EpubDecompressor
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.document.OpfDocumentHandler
@@ -22,6 +24,7 @@ class EpubParser {
     private val manifestParser: EpubManifestParser by lazy { ParserModuleProvider.epubManifestParser }
     private val spineParser: EpubSpineParser by lazy { ParserModuleProvider.epubSpineParser }
     private val tocParserFactory: TableOfContentParserFactory by lazy { ParserModuleProvider.epubTableOfContentsParserFactory }
+    private var validationListener: ValidationListener? = null
 
     /**
      * Function allowing to parse .epub publication into model
@@ -34,8 +37,8 @@ class EpubParser {
         val entries = decompressor.decompress(inputPath, decompressPath)
         val mainOpfDocument = opfDocumentHandler.createOpfDocument(decompressPath, entries)
 
-        val epubManifestModel = manifestParser.parse(mainOpfDocument)
-        val epubMetadataModel = metadataParser.parse(mainOpfDocument)
+        val epubManifestModel = manifestParser.parse(mainOpfDocument, validationListener)
+        val epubMetadataModel = metadataParser.parse(mainOpfDocument, validationListener)
         val tocDocument = tocDocumentHandler.createTocDocument(
             mainOpfDocument, epubManifestModel,
             decompressPath, epubMetadataModel.getEpubSpecificationMajorVersion()
@@ -43,9 +46,15 @@ class EpubParser {
         return EpubBook(
             epubMetadataModel,
             epubManifestModel,
-            spineParser.parse(mainOpfDocument),
-            tocParserFactory.getTableOfContentsParser(epubMetadataModel.getEpubSpecificationMajorVersion()).parse(tocDocument)
+            spineParser.parse(mainOpfDocument, validationListener),
+            tocParserFactory.getTableOfContentsParser(epubMetadataModel.getEpubSpecificationMajorVersion())
+                .parse(tocDocument, validationListener)
         )
     }
-}
 
+    fun setValidationListeners(init: ValidationListeners.() -> Unit) {
+        val validationListener = ValidationListeners()
+        validationListener.init()
+        this.validationListener = validationListener
+    }
+}

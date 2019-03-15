@@ -2,4 +2,17 @@
     <string name="app_name">Parsepub Sample</string>
     <string name="book_metadata">Metadata</string>
     <string name="ok">OK</string>
+    <string name="id">id</string>
+    <string name="languages">languages</string>
+    <string name="creators">creators</string>
+    <string name="contributors">contributors</string>
+    <string name="title">title</string>
+    <string name="date">date</string>
+    <string name="subjects">subjects</string>
+    <string name="sources">sources</string>
+    <string name="description">description</string>
+    <string name="relation">relation</string>
+    <string name="coverage">coverage</string>
+    <string name="rights">rights</string>
+    <string name="publisher">publisher</string>
 </resources>

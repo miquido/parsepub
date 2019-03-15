@@ -1,8 +1,9 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.di.ParserModuleProvider
-import com.miquido.parsepub.internal.parser.toc.Epub2TableOfContentsParser
 import com.miquido.parsepub.internal.parser.toc.TableOfContentParserFactory
+import com.miquido.parsepub.internal.validator.TestEpubValidator
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepub.model.NavigationItemModel
 import org.assertj.core.api.Assertions.assertThat
@@ -19,11 +20,13 @@ class Epub2TableOfContentsParserTest {
 
     private lateinit var ncxDocument: Document
     private lateinit var tocModel: EpubTableOfContentsModel
+    private lateinit var validator: ValidationListener
 
     @Before
     fun setup() {
+        validator = TestEpubValidator()
         ncxDocument = documentBuilder.parse(File(NCX_TEST_FILE_PATH))
-        tocModel = parserFactory.getTableOfContentsParser(null).parse(ncxDocument)
+        tocModel = parserFactory.getTableOfContentsParser(null).parse(ncxDocument, TestEpubValidator())
     }
 
     @Test
@@ -33,7 +36,7 @@ class Epub2TableOfContentsParserTest {
             .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.id }.toTypedArray())
         assertThat(tocModel.tableOfContents).extracting(LABEL_FIELD_NAME)
             .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.label }.toTypedArray())
-        assertThat(tocModel.tableOfContents).extracting(SOURCE_FIELD_NAME)
+        assertThat(tocModel.tableOfContents).extracting(LOCATION_FIELD_NAME)
             .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.location }.toTypedArray())
     }
 
@@ -50,7 +53,7 @@ class Epub2TableOfContentsParserTest {
 
         private const val ID_FIELD_NAME = "id"
         private const val LABEL_FIELD_NAME = "label"
-        private const val SOURCE_FIELD_NAME = "location"
+        private const val LOCATION_FIELD_NAME = "location"
 
         private val EXPECTED_TOC_FIRST_ITEM_NESTED_ELEMENT = listOf(
             NavigationItemModel("ch_1_1_1", "Chapter 1.1.1", "content.html#ch_1_1_1", emptyList()),
