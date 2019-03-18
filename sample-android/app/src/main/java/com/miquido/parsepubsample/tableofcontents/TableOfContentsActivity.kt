@@ -15,6 +15,7 @@ import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepubsample.R
 import com.miquido.parsepubsample.copyFileFromAssets
 import com.miquido.parsepubsample.openFileInWebView
+import com.miquido.parsepubsample.validation.MissingAttributeLogger
 import kotlinx.android.synthetic.main.activity_toc.*
 import java.io.File
 
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         Thread {
             val epubFilePath = copyFileFromAssets(EPUB_BOOK_NAME, cacheDir.path)
             val pathToDecompress = "$filesDir${File.separator}$DIR_EPUB_DECOMPRESSED"
-            epubBook = epubParser.parse(epubFilePath, pathToDecompress)
+            epubBook = epubParser.parse(epubFilePath, pathToDecompress, MissingAttributeLogger())
             decompressedEpubpath = pathToDecompress
             invalidateOptionsMenu()
             onComplete(epubBook)

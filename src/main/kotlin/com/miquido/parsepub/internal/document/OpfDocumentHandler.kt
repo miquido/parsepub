@@ -4,6 +4,7 @@ import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.extensions.getFirstElementByTag
 import org.w3c.dom.Document
 import java.io.File
+import java.nio.file.Paths
 import java.util.zip.ZipEntry
 import javax.xml.parsers.DocumentBuilder
 
@@ -27,10 +28,11 @@ internal class OpfDocumentHandler {
         }
     }
 
-    private fun parseFileAsDocument(fileDirPath: String, entries: List<ZipEntry>, href:String): Document {
+    private fun parseFileAsDocument(fileDirPath: String, entries: List<ZipEntry>, href: String): Document {
         return entries
             .filter { it.name.endsWith(href) }
-            .map { documentBuilder.parse(File(fileDirPath + "/${it.name}")) }.firstOrNull() ?: documentBuilder.newDocument()
+            .map { documentBuilder.parse(File(fileDirPath + "/${it.name}")) }.firstOrNull()
+            ?: documentBuilder.newDocument()
     }
 
     companion object {

@@ -1,5 +1,6 @@
 package com.miquido.parsepub.epubparser
 
+import com.miquido.parsepub.epubvalidator.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.decompressor.EpubDecompressor
@@ -33,12 +34,12 @@ class EpubParser {
      * @param decompressPath Path to which .epub publication will be decompressed
      * @return Parsed .epub publication model
      */
-    fun parse(inputPath: String, decompressPath: String): EpubBook {
+    fun parse(inputPath: String, decompressPath: String, attributeLogger: AttributeLogger? = null): EpubBook {
         val entries = decompressor.decompress(inputPath, decompressPath)
         val mainOpfDocument = opfDocumentHandler.createOpfDocument(decompressPath, entries)
 
-        val epubManifestModel = manifestParser.parse(mainOpfDocument, validationListener)
-        val epubMetadataModel = metadataParser.parse(mainOpfDocument, validationListener)
+        val epubManifestModel = manifestParser.parse(mainOpfDocument, validationListener, attributeLogger)
+        val epubMetadataModel = metadataParser.parse(mainOpfDocument, validationListener, attributeLogger)
         val tocDocument = tocDocumentHandler.createTocDocument(
             mainOpfDocument, epubManifestModel,
             decompressPath, epubMetadataModel.getEpubSpecificationMajorVersion()
@@ -46,7 +47,7 @@ class EpubParser {
         return EpubBook(
             epubMetadataModel,
             epubManifestModel,
-            spineParser.parse(mainOpfDocument, validationListener),
+            spineParser.parse(mainOpfDocument, validationListener, attributeLogger),
             tocParserFactory.getTableOfContentsParser(epubMetadataModel.getEpubSpecificationMajorVersion())
                 .parse(tocDocument, validationListener)
         )
