@@ -6,17 +6,17 @@ import com.miquido.parsepub.model.EpubManifestModel
 import org.w3c.dom.Document
 
 internal class Epub2TocLocationFinder {
-    private fun fallbackFindNcxPath(epubManifestModel: EpubManifestModel): String {
+    private fun fallbackFindNcxPath(epubManifestModel: EpubManifestModel): String? {
         return epubManifestModel.resources?.firstOrNull { NCX_LOCATION_REGEXP.toRegex().matches(it.href.orEmpty()) }
-            ?.href.orEmpty()
+            ?.href
     }
 
-    internal fun findNcxPath(mainOpfDocument: Document, epubManifestModel: EpubManifestModel): String {
+    internal fun findNcxPath(mainOpfDocument: Document, epubManifestModel: EpubManifestModel): String? {
         val ncxResourceId = mainOpfDocument.getFirstElementByTagNameNS(EpubConstants.OPF_NAMESPACE, SPINE_TAG)
             ?.getAttribute(TOC_ATTR)
-        var ncxLocation = epubManifestModel.resources?.firstOrNull { it.id == ncxResourceId }?.href.orEmpty()
+        var ncxLocation = epubManifestModel.resources?.firstOrNull { it.id == ncxResourceId }?.href
 
-        if (ncxLocation.isEmpty()) {
+        if (ncxLocation?.isEmpty() == true) {
             ncxLocation = Epub2TocLocationFinder().fallbackFindNcxPath(epubManifestModel)
         }
 

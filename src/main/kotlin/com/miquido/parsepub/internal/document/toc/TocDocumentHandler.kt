@@ -17,7 +17,7 @@ class TocDocumentHandler {
         decompressPath: String,
         epubSpecMajorVersion: Int?
     ): Document {
-        val ncxLocation = if (epubSpecMajorVersion == EPUB_MAJOR_VERSION_3) {
+        val tocLocation = if (epubSpecMajorVersion == EPUB_MAJOR_VERSION_3) {
             Epub3TocLocationFinder().findNcxPath(epubManifestModel)
         } else {
             Epub2TocLocationFinder().findNcxPath(mainOpfDocument, epubManifestModel)
@@ -25,7 +25,7 @@ class TocDocumentHandler {
 
         //TODO handle error if ncxLocation still empty
 
-        return documentBuilder.parse(File("$decompressPath/$ncxLocation"))
+        return documentBuilder.parse(File("$decompressPath/$tocLocation"))
     }
 }
 

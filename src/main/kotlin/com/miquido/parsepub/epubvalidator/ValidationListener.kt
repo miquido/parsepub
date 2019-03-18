@@ -24,7 +24,7 @@ class ValidationListeners : ValidationListener {
     private var metadataMissing: (OnValidationListener)? = null
     private var manifestMissing: (OnValidationListener)? = null
     private var spineMissing: (OnValidationListener)? = null
-    private var navMapMissing: (OnValidationListener)? = null
+    private var tableOfContentsMissingMissing: (OnValidationListener)? = null
 
     fun setMetadataMissing(metadataMissing: OnValidationListener) {
         this.metadataMissing = metadataMissing
@@ -39,7 +39,7 @@ class ValidationListeners : ValidationListener {
     }
 
     fun setNavMapMissing(navMapMissing: OnValidationListener) {
-        this.navMapMissing = navMapMissing
+        this.tableOfContentsMissingMissing = navMapMissing
     }
 
     override fun onMetadataMissing() {
@@ -55,7 +55,7 @@ class ValidationListeners : ValidationListener {
     }
 
     override fun onTableOfContentsMissing() {
-        navMapMissing?.invoke()
+        tableOfContentsMissingMissing?.invoke()
     }
 
 }

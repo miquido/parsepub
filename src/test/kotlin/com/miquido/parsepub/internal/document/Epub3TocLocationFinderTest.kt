@@ -31,7 +31,6 @@ class Epub3TocLocationFinderTest {
         assertThat(location).isEqualTo(EXPECTED_EPUB_3_TOC_LOCATION)
     }
 
-
     private companion object {
         private const val OPF_EPUB3_TEST_FILE_PATH = "src/test/res/opf/epub3/book.opf"
 
