@@ -2,7 +2,8 @@ package com.miquido.parsepub.internal.parser
 
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.di.ParserModuleProvider
-import com.miquido.parsepub.internal.validator.EpubValidator
+import com.miquido.parsepub.internal.parser.toc.TableOfContentParserFactory
+import com.miquido.parsepub.internal.validator.TestEpubValidator
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepub.model.NavigationItemModel
 import org.assertj.core.api.Assertions.assertThat
@@ -12,19 +13,20 @@ import org.w3c.dom.Document
 import java.io.File
 import javax.xml.parsers.DocumentBuilder
 
-class TableOfContentsParserTest {
+class Epub2TableOfContentsParserTest {
 
-    private val parser: EpubTableOfContentsParser by lazy { ParserModuleProvider.epubTableOfContentsParser }
+    private val parserFactory: TableOfContentParserFactory by lazy { ParserModuleProvider.epubTableOfContentsParserFactory }
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
+
     private lateinit var ncxDocument: Document
     private lateinit var tocModel: EpubTableOfContentsModel
     private lateinit var validator: ValidationListener
 
     @Before
     fun setup() {
-        validator = EpubValidator()
+        validator = TestEpubValidator()
         ncxDocument = documentBuilder.parse(File(NCX_TEST_FILE_PATH))
-        tocModel = parser.parse(ncxDocument, validator)
+        tocModel = parserFactory.getTableOfContentsParser(null).parse(ncxDocument, TestEpubValidator())
     }
 
     @Test
@@ -45,7 +47,7 @@ class TableOfContentsParserTest {
     }
 
     private companion object {
-        private const val NCX_TEST_FILE_PATH = "src/test/res/ncx/toc.ncx"
+        private const val NCX_TEST_FILE_PATH = "src/test/res/toc/toc.ncx"
         private const val EXPECTED_TOC_MAIN_SIZE = 2
         private const val EXPECTED_TOC_NESTED_SIZE = 2
 

@@ -3,12 +3,12 @@ package com.miquido.parsepub.internal.cover
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.parser.EpubManifestParser
-import com.miquido.parsepub.internal.validator.EpubValidator
+import com.miquido.parsepub.internal.validator.TestEpubValidator
 import com.miquido.parsepub.model.EpubManifestModel
 import com.miquido.parsepub.model.EpubResourceModel
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
-import org.assertj.core.api.Assertions.assertThat
 import org.w3c.dom.Document
 import java.io.File
 import javax.xml.parsers.DocumentBuilder
@@ -25,7 +25,7 @@ class EpubCoverHandlerTest {
 
     @Before
     fun setup() {
-        validator = EpubValidator()
+        validator = TestEpubValidator()
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
         manifestModel = parser.parse(document, validator)
     }
@@ -37,7 +37,12 @@ class EpubCoverHandlerTest {
     }
 
     companion object {
-        private const val OPF_TEST_FILE_PATH = "src/test/res/opf/book.opf"
-        private val RESOURCE_MODEL = EpubResourceModel("cover-image", "OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg", "image/jpeg", "cover-image")
+        private const val OPF_TEST_FILE_PATH = "src/test/res/opf/epub2/book.opf"
+        private val RESOURCE_MODEL = EpubResourceModel(
+            "cover-image",
+            "OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg",
+            "image/jpeg",
+            hashSetOf("cover-image")
+        )
     }
 }

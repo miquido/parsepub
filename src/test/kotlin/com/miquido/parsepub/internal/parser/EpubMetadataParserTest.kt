@@ -2,7 +2,7 @@ package com.miquido.parsepub.internal.parser
 
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.di.ParserModuleProvider
-import com.miquido.parsepub.internal.validator.EpubValidator
+import com.miquido.parsepub.internal.validator.TestEpubValidator
 import com.miquido.parsepub.model.EpubMetadataModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -21,7 +21,7 @@ class EpubMetadataParserTest {
 
     @Before
     fun setup() {
-        validator = EpubValidator()
+        validator = TestEpubValidator()
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
         metadataModel = metadataParser.parse(document, validator)
     }
@@ -41,10 +41,12 @@ class EpubMetadataParserTest {
         assertThat(metadataModel.relation).isNotBlank().isEqualTo(EXPECTED_RELATION_VALUE)
         assertThat(metadataModel.date).isNotBlank().isEqualTo(EXPECTED_DATE_VALUE)
         assertThat(metadataModel.id).isNotBlank().isEqualTo(EXPECTED_ID_VALUE)
+        assertThat(metadataModel.epubSpecificationVersion).isNotBlank().isEqualTo(EXPECTED_EPUB_SPEC_VERSION_VALUE)
+        assertThat(metadataModel.getEpubSpecificationMajorVersion()).isEqualTo(EXPECTED_EPUB_SPEC_VERSION_BYTE_VALUE)
     }
 
     companion object {
-        private const val OPF_TEST_FILE_PATH = "src/test/res/opf/book.opf"
+        private const val OPF_TEST_FILE_PATH = "src/test/res/opf/epub2/book.opf"
 
         private val EXPECTED_CREATORS_VALUES = listOf("Bertrand Russell", "Second Creator")
         private val EXPECTED_LANGUAGES_VALUES = listOf("en", "pl")
@@ -61,5 +63,7 @@ class EpubMetadataParserTest {
         private const val EXPECTED_DESCRIPTION_VALUE =
             "The Problems of Philosophy (1912) is one of Bertrand Russell's attempts to create ..."
         private const val EXPECTED_TITLE_VALUE = "The Problems of Philosophy"
+        private const val EXPECTED_EPUB_SPEC_VERSION_VALUE = "2.0"
+        private const val EXPECTED_EPUB_SPEC_VERSION_BYTE_VALUE = 2
     }
 }

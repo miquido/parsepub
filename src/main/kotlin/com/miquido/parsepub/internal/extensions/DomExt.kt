@@ -32,12 +32,16 @@ internal fun NodeList.isNotEmpty(): Element? {
     }
 }
 
-internal fun NodeList?.textContents() = this?.let { nodeList ->
-    (0 until nodeList.length)
-        .asSequence()
-        .map { index -> nodeList.item(index) }
-        .map { creatorNode -> creatorNode.textContent }
-        .toList()
+internal fun NodeList?.textContents(): List<String>? {
+    return if (this?.length == 0) null else {
+        this?.let { nodeList ->
+            (0 until nodeList.length)
+                .asSequence()
+                .map { index -> nodeList.item(index) }
+                .map { creatorNode -> creatorNode.textContent }
+                .toList()
+        }
+    }
 }
 
 internal fun Element?.getTagTextContentsFromDcElementsOrEmpty(tag: String) =
@@ -51,10 +55,20 @@ internal inline fun <R> NodeList.map(transform: (Node) -> R): List<R> {
     return (0 until length).map { index -> item(index) }.mapTo(result, transform)
 }
 
+internal inline fun NodeList.firstOrNull(predicate: (Node) -> Boolean): Node? {
+    return (0 until length).map { index -> item(index) }.firstOrNull { predicate.invoke(it) }
+}
+
+
 internal fun NodeList?.forEach(action: (Node) -> Unit) {
     this?.let {
         for (i in 0 until length) {
             action(item(i))
         }
     }
+}
+
+internal fun NodeList.firstWithAttributeNS(nameSpace: String, attrName: String, attrValue: String) = firstOrNull {
+    val element = it as Element
+    element.hasAttributeNS(nameSpace, attrName) && element.getAttributeNS(nameSpace, attrName) == attrValue
 }

@@ -15,8 +15,8 @@ interface ValidationListener {
     /** Method for handling Spine element missing. */
     fun onSpineMissing()
 
-    /** Method for handling NavMap element missing. */
-    fun onNavMapMissing()
+    /** Method for handling table of contents element missing. */
+    fun onTableOfContentsMissing()
 }
 
 class ValidationListeners : ValidationListener {
@@ -24,7 +24,7 @@ class ValidationListeners : ValidationListener {
     private var metadataMissing: (OnValidationListener)? = null
     private var manifestMissing: (OnValidationListener)? = null
     private var spineMissing: (OnValidationListener)? = null
-    private var navMapMissing: (OnValidationListener)? = null
+    private var tableOfContentsMissingMissing: (OnValidationListener)? = null
 
     fun setMetadataMissing(metadataMissing: OnValidationListener) {
         this.metadataMissing = metadataMissing
@@ -39,7 +39,7 @@ class ValidationListeners : ValidationListener {
     }
 
     fun setNavMapMissing(navMapMissing: OnValidationListener) {
-        this.navMapMissing = navMapMissing
+        this.tableOfContentsMissingMissing = navMapMissing
     }
 
     override fun onMetadataMissing() {
@@ -54,8 +54,8 @@ class ValidationListeners : ValidationListener {
         spineMissing?.invoke()
     }
 
-    override fun onNavMapMissing() {
-        navMapMissing?.invoke()
+    override fun onTableOfContentsMissing() {
+        tableOfContentsMissingMissing?.invoke()
     }
 
 }

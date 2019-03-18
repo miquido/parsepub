@@ -13,6 +13,7 @@ import org.w3c.dom.Element
 internal class EpubMetadataParser {
 
     internal fun parse(opfDocument: Document, validation: ValidationListener?): EpubMetadataModel {
+        val epubSpecVersion = opfDocument.documentElement.getAttribute(VERSION_ATTR)
         val metadataElement: Element? = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG)
             .orValidationError { validation?.onMetadataMissing() }
 
@@ -29,7 +30,8 @@ internal class EpubMetadataParser {
             relation = metadataElement.getTagTextContentsFromDcElementOrEmpty(RELATION_TAG),
             publisher = metadataElement.getTagTextContentsFromDcElementOrEmpty(PUBLISHER_TAG),
             date = metadataElement.getTagTextContentsFromDcElementOrEmpty(DATE_TAG),
-            id = metadataElement.getTagTextContentsFromDcElementOrEmpty(ID_TAG)
+            id = metadataElement.getTagTextContentsFromDcElementOrEmpty(ID_TAG),
+            epubSpecificationVersion = epubSpecVersion
         )
     }
 
@@ -48,5 +50,6 @@ internal class EpubMetadataParser {
         private const val PUBLISHER_TAG = "publisher"
         private const val DATE_TAG = "date"
         private const val ID_TAG = "identifier"
+        private const val VERSION_ATTR = "version"
     }
 }

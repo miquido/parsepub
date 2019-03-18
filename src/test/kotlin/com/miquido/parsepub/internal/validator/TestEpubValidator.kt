@@ -2,7 +2,7 @@ package com.miquido.parsepub.internal.validator
 
 import com.miquido.parsepub.epubvalidator.ValidationListener
 
-class EpubValidator : ValidationListener {
+class TestEpubValidator : ValidationListener {
 
     override fun onMetadataMissing() {
         println("onMetadataMissing")
@@ -16,8 +16,8 @@ class EpubValidator : ValidationListener {
         println("onSpineMissing")
     }
 
-    override fun onNavMapMissing() {
-        println("onNavMapMissing")
+    override fun onTableOfContentsMissing() {
+        println("onTableOfContentsMissing")
     }
 
 }
