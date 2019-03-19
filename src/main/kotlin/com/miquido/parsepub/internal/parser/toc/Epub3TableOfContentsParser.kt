@@ -19,13 +19,13 @@ internal class Epub3TableOfContentsParser : TableOfContentsParser {
     private var validationAttr: AttributeLogger? = null
 
     override fun parse(
-        tocDocument: Document,
+        tocDocument: Document?,
         validation: ValidationListener?,
         attributeLogger: AttributeLogger?
     ): EpubTableOfContentsModel {
         this.validationAttr = attributeLogger
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
-        val tocNav = tocDocument.getElementsByTagName(NAV_TAG)
+        val tocNav = tocDocument?.getElementsByTagName(NAV_TAG)
             .orValidationError { validation?.onTableOfContentsMissing() }
             ?.firstWithAttributeNS(EpubConstants.ND_NAMESPACE, TYPE_ATTR, TOC_ATTR_VALUE)
             .orValidationError {

@@ -17,12 +17,12 @@ internal class Epub2TableOfContentsParser : TableOfContentsParser {
 
     private var validationAttr: AttributeLogger? = null
 
-    override fun parse(tocDocument: Document,
+    override fun parse(tocDocument: Document?,
                        validation: ValidationListener?,
                        attributeLogger: AttributeLogger?): EpubTableOfContentsModel {
         this.validationAttr = attributeLogger
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
-        tocDocument.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_MAP_TAG)
+        tocDocument?.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_MAP_TAG)
             .orValidationError { validation?.onTableOfContentsMissing() }
             ?.childNodes.forEach {
             if (it.isNavPoint()) {

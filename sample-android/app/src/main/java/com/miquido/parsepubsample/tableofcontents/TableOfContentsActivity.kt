@@ -52,10 +52,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListeners() {
         epubParser.setValidationListeners {
-            setMetadataMissing { Log.e(ERROR_TAG, "Metadata Missing") }
-            setManifestMissing { Log.e(ERROR_TAG, "Manifest Missing") }
-            setSpineMissing { Log.e(ERROR_TAG, "Spine Missing") }
-            setNavMapMissing { Log.e(ERROR_TAG, "Navigation Map Missing") }
+            setOnMetadataMissing { Log.e(ERROR_TAG, "Metadata Missing") }
+            setOnManifestMissing { Log.e(ERROR_TAG, "Manifest Missing") }
+            setOnSpineMissing { Log.e(ERROR_TAG, "Spine Missing") }
+            setOnTableOfContentMissing { Log.e(ERROR_TAG, "Navigation Map Missing") }
         }
     }
 

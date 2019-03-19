@@ -1,11 +1,12 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.constants.EpubConstants.EPUB_MAJOR_VERSION_3
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.parser.toc.TableOfContentParserFactory
-import com.miquido.parsepub.internal.validator.TestEpubValidator
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepub.model.NavigationItemModel
+import com.nhaarman.mockitokotlin2.mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -20,11 +21,12 @@ class Epub3TableOfContentsParserTest {
 
     private lateinit var tocDocument: Document
     private lateinit var tocModel: EpubTableOfContentsModel
+    private val validator = mock<ValidationListener>()
 
     @Before
     fun setup() {
         tocDocument = documentBuilder.parse(File(NCX_TEST_FILE_PATH))
-        tocModel = parserFactory.getTableOfContentsParser(EPUB_MAJOR_VERSION_3).parse(tocDocument, TestEpubValidator())
+        tocModel = parserFactory.getTableOfContentsParser(EPUB_MAJOR_VERSION_3).parse(tocDocument, validator)
     }
 
     @Test

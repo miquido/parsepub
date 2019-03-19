@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList
 
 
 interface TableOfContentsParser {
-    fun parse(tocDocument: Document, validation: ValidationListener?, attributeLogger: AttributeLogger? = null): EpubTableOfContentsModel
+    fun parse(tocDocument: Document?, validation: ValidationListener?, attributeLogger: AttributeLogger? = null): EpubTableOfContentsModel
     fun createNavigationItemModel(it: Node): NavigationItemModel
     fun createNavigationSubItemModel(childrenNodes: NodeList?): List<NavigationItemModel>
     fun Node.isNavPoint(): Boolean

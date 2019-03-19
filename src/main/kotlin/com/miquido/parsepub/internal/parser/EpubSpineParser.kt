@@ -17,7 +17,8 @@ internal class EpubSpineParser {
         opfDocument: Document,
         validation: ValidationListener?,
         attributeLogger: AttributeLogger? = null
-    ): EpubSpineModel {
+    ) : EpubSpineModel {
+
         val spineElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, SPINE_TAG)
             .orValidationError { validation?.onSpineMissing() }
         val spineModel = spineElement?.getNodeListByTagNameNS(OPF_NAMESPACE, ITEM_REF_TAG)

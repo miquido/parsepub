@@ -26,19 +26,19 @@ class ValidationListeners : ValidationListener {
     private var spineMissing: (OnValidationListener)? = null
     private var tableOfContentsMissingMissing: (OnValidationListener)? = null
 
-    fun setMetadataMissing(metadataMissing: OnValidationListener) {
+    fun setOnMetadataMissing(metadataMissing: OnValidationListener) {
         this.metadataMissing = metadataMissing
     }
 
-    fun setManifestMissing(manifestMissing: OnValidationListener) {
+    fun setOnManifestMissing(manifestMissing: OnValidationListener) {
         this.manifestMissing = manifestMissing
     }
 
-    fun setSpineMissing(spineMissing: OnValidationListener) {
+    fun setOnSpineMissing(spineMissing: OnValidationListener) {
         this.spineMissing = spineMissing
     }
 
-    fun setNavMapMissing(navMapMissing: OnValidationListener) {
+    fun setOnTableOfContentMissing(navMapMissing: OnValidationListener) {
         this.tableOfContentsMissingMissing = navMapMissing
     }
 
