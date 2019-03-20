@@ -18,7 +18,6 @@ import com.miquido.parsepubsample.openFileInWebView
 import kotlinx.android.synthetic.main.activity_toc.*
 import java.io.File
 
-
 class MainActivity : AppCompatActivity() {
 
     private val epubParser = EpubParser()
@@ -36,6 +35,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setListeners()
+        setMissingAttributesLogger()
     }
 
     private fun parseEpubBook(onComplete: (result: EpubBook?) -> Unit) {
@@ -51,10 +51,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListeners() {
         epubParser.setValidationListeners {
-            setMetadataMissing { Log.e(ERROR_TAG, "Metadata Missing") }
-            setManifestMissing { Log.e(ERROR_TAG, "Manifest Missing") }
-            setSpineMissing { Log.e(ERROR_TAG, "Spine Missing") }
-            setNavMapMissing { Log.e(ERROR_TAG, "Navigation Map Missing") }
+            setOnMetadataMissing { Log.e(ERROR_TAG, "Metadata missing") }
+            setOnManifestMissing { Log.e(ERROR_TAG, "Manifest missing") }
+            setOnSpineMissing { Log.e(ERROR_TAG, "Spine missing") }
+            setOnTableOfContentMissing { Log.e(ERROR_TAG, "Table of contents missing") }
+        }
+    }
+
+    private fun setMissingAttributesLogger() {
+        epubParser.setMissingAttributeLogger {
+            setOnAttributeLogger { parentElement, attributeName ->
+                logMissingAttribute(parentElement, attributeName)
+            }
         }
     }
 

@@ -68,6 +68,7 @@ class TestImplementationDependencies : HashMap<String, String>() {
         put("org.jetbrains.kotlin:kotlin-test", KOTLIN_TEST_VERSION)
         put("org.jetbrains.kotlin:kotlin-test-junit", KOTLIN_TEST_JUNIT_VERSION)
         put("org.assertj:assertj-core", ASSERJ_VERSION)
+        put("com.nhaarman.mockitokotlin2:mockito-kotlin", MOCKITO_VERSION)
     }
 
     companion object {
@@ -75,5 +76,6 @@ class TestImplementationDependencies : HashMap<String, String>() {
         private const val KOTLIN_TEST_JUNIT_VERSION = ""
         private const val JUNIT_VERSION = "5.2.0"
         private const val ASSERJ_VERSION = "3.11.1"
+        private const val MOCKITO_VERSION = "2.1.0"
     }
 }

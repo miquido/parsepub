@@ -50,6 +50,11 @@ internal fun Element?.getTagTextContentsFromDcElementsOrEmpty(tag: String) =
 internal fun Element?.getTagTextContentsFromDcElementOrEmpty(tag: String) =
     this?.getFirstElementByTagNameNS(DC_NAMESPACE, tag)?.textContent
 
+internal fun Element?.getNodeListByTagNameNS(namespace: String, tag: String): NodeList? {
+    val matchingNodeList = this?.getElementsByTagNameNS(namespace, tag)
+    return if (matchingNodeList != null && matchingNodeList.length == 0) null else matchingNodeList
+}
+
 internal inline fun <R> NodeList.map(transform: (Node) -> R): List<R> {
     val result = mutableListOf<R>()
     return (0 until length).map { index -> item(index) }.mapTo(result, transform)

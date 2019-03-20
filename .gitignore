@@ -4,6 +4,3 @@ build
 .DS_Store
 out
 *.iml
-
-parsepub/src/test/res/epub/epubdecompressed/**
-src/test/res/epub/epubdecompressed/**

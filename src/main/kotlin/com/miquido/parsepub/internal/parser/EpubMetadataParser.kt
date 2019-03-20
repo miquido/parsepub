@@ -1,5 +1,6 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
@@ -12,16 +13,23 @@ import org.w3c.dom.Element
 
 internal class EpubMetadataParser {
 
-    internal fun parse(opfDocument: Document, validation: ValidationListener?): EpubMetadataModel {
+    internal fun parse(
+        opfDocument: Document,
+        validation: ValidationListener?,
+        attributeLogger: AttributeLogger?
+    ): EpubMetadataModel {
+
         val epubSpecVersion = opfDocument.documentElement.getAttribute(VERSION_ATTR)
         val metadataElement: Element? = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG)
             .orValidationError { validation?.onMetadataMissing() }
 
         return EpubMetadataModel(
             creators = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CREATOR_TAG),
-            languages = metadataElement.getTagTextContentsFromDcElementsOrEmpty(LANGUAGE_TAG),
+            languages = metadataElement.getTagTextContentsFromDcElementsOrEmpty(LANGUAGE_TAG)
+                .orValidationError { attributeLogger?.logMissingAttribute(METADATA_TAG, LANGUAGE_TAG) },
             contributors = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CONTRIBUTOR_TAG),
-            title = metadataElement.getTagTextContentsFromDcElementOrEmpty(TITLE_TAG),
+            title = metadataElement.getTagTextContentsFromDcElementOrEmpty(TITLE_TAG)
+                .orValidationError { attributeLogger?.logMissingAttribute(METADATA_TAG, TITLE_TAG) },
             subjects = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SUBJECT_TAG),
             sources = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SOURCE_TAG),
             description = metadataElement.getTagTextContentsFromDcElementOrEmpty(DESCRIPTION_TAG),
@@ -30,7 +38,8 @@ internal class EpubMetadataParser {
             relation = metadataElement.getTagTextContentsFromDcElementOrEmpty(RELATION_TAG),
             publisher = metadataElement.getTagTextContentsFromDcElementOrEmpty(PUBLISHER_TAG),
             date = metadataElement.getTagTextContentsFromDcElementOrEmpty(DATE_TAG),
-            id = metadataElement.getTagTextContentsFromDcElementOrEmpty(ID_TAG),
+            id = metadataElement.getTagTextContentsFromDcElementOrEmpty(ID_TAG)
+                .orValidationError { attributeLogger?.logMissingAttribute(METADATA_TAG, ID_TAG) },
             epubSpecificationVersion = epubSpecVersion
         )
     }

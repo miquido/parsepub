@@ -11,12 +11,12 @@ internal class Epub2TocLocationFinder {
             ?.href
     }
 
-    internal fun findNcxPath(mainOpfDocument: Document, epubManifestModel: EpubManifestModel): String? {
-        val ncxResourceId = mainOpfDocument.getFirstElementByTagNameNS(EpubConstants.OPF_NAMESPACE, SPINE_TAG)
+    internal fun findNcxPath(mainOpfDocument: Document?, epubManifestModel: EpubManifestModel): String? {
+        val ncxResourceId = mainOpfDocument?.getFirstElementByTagNameNS(EpubConstants.OPF_NAMESPACE, SPINE_TAG)
             ?.getAttribute(TOC_ATTR)
         var ncxLocation = epubManifestModel.resources?.firstOrNull { it.id == ncxResourceId }?.href
 
-        if (ncxLocation?.isEmpty() == true) {
+        if (ncxLocation == null) {
             ncxLocation = Epub2TocLocationFinder().fallbackFindNcxPath(epubManifestModel)
         }
 

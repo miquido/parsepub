@@ -1,8 +1,10 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
+import com.miquido.parsepub.internal.extensions.getNodeListByTagNameNS
 import com.miquido.parsepub.internal.extensions.map
 import com.miquido.parsepub.internal.extensions.orValidationError
 import com.miquido.parsepub.model.EbupSpineReferenceModel
@@ -11,10 +13,17 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 internal class EpubSpineParser {
-    internal fun parse(opfDocument: Document, validation: ValidationListener?): EpubSpineModel {
+    internal fun parse(
+        opfDocument: Document,
+        validation: ValidationListener?,
+        attributeLogger: AttributeLogger?
+    ) : EpubSpineModel {
+
         val spineElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, SPINE_TAG)
             .orValidationError { validation?.onSpineMissing() }
-        val spineModel = spineElement?.getElementsByTagNameNS(OPF_NAMESPACE, ITEM_REF_TAG)?.map {
+        val spineModel = spineElement?.getNodeListByTagNameNS(OPF_NAMESPACE, ITEM_REF_TAG)
+            .orValidationError { attributeLogger?.logMissingAttribute(SPINE_TAG, ITEM_REF_TAG) }
+            ?.map {
             val element = it as Element
             val idReference = element.getAttribute(ID_REF_ATTR)
             val isLinear = element.getAttribute(IS_LINEAR_ATTR) == IS_LINEAR_POSITIVE_VALUE

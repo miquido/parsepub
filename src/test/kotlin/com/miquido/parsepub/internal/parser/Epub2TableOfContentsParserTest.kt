@@ -3,9 +3,9 @@ package com.miquido.parsepub.internal.parser
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.parser.toc.TableOfContentParserFactory
-import com.miquido.parsepub.internal.validator.TestEpubValidator
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepub.model.NavigationItemModel
+import com.nhaarman.mockitokotlin2.mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -20,13 +20,12 @@ class Epub2TableOfContentsParserTest {
 
     private lateinit var ncxDocument: Document
     private lateinit var tocModel: EpubTableOfContentsModel
-    private lateinit var validator: ValidationListener
+    private val validator = mock<ValidationListener>()
 
     @Before
     fun setup() {
-        validator = TestEpubValidator()
         ncxDocument = documentBuilder.parse(File(NCX_TEST_FILE_PATH))
-        tocModel = parserFactory.getTableOfContentsParser(null).parse(ncxDocument, TestEpubValidator())
+        tocModel = parserFactory.getTableOfContentsParser(null).parse(ncxDocument, validator)
     }
 
     @Test

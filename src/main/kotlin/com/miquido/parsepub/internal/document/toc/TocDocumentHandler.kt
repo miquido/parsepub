@@ -12,20 +12,17 @@ class TocDocumentHandler {
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
 
     fun createTocDocument(
-        mainOpfDocument: Document,
+        mainOpfDocument: Document?,
         epubManifestModel: EpubManifestModel,
         decompressPath: String,
         epubSpecMajorVersion: Int?
-    ): Document {
+    ): Document? {
         val tocLocation = if (epubSpecMajorVersion == EPUB_MAJOR_VERSION_3) {
             Epub3TocLocationFinder().findNcxPath(epubManifestModel)
         } else {
             Epub2TocLocationFinder().findNcxPath(mainOpfDocument, epubManifestModel)
         }
-
-        //TODO handle error if ncxLocation still empty
-
-        return documentBuilder.parse(File("$decompressPath/$tocLocation"))
+        return tocLocation?.let { documentBuilder.parse(File("$decompressPath/$tocLocation"))}
     }
 }
 
