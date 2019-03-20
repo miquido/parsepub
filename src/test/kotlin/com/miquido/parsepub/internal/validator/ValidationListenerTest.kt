@@ -17,31 +17,20 @@ class ValidationListenerTest {
     fun setup() {
         setValidationListener()
         tmpDirPath = createTempDir(DIR_NAME_PREFIX, DIR_NAME_SUFFIX).absolutePath
+        epubParser.parse(EBOOK_FILE_PATH, tmpDirPath)
     }
 
     private fun setValidationListener() {
         epubParser.setValidationListeners {
-            setOnManifestMissing {
-                validationListener.onManifestMissing()
-            }
-            setOnMetadataMissing {
-                validationListener.onMetadataMissing()
-            }
-            setOnSpineMissing {
-                validationListener.onSpineMissing()
-            }
-            setOnTableOfContentMissing {
-                validationListener.onTableOfContentsMissing()
-            }
+            setOnManifestMissing { validationListener.onManifestMissing() }
+            setOnMetadataMissing { validationListener.onMetadataMissing() }
+            setOnSpineMissing { validationListener.onSpineMissing() }
+            setOnTableOfContentMissing { validationListener.onTableOfContentsMissing() }
         }
     }
 
     @Test
     fun `validation listener should be called when epub structure is incorrect`() {
-        epubParser.parse(
-            EBOOK_FILE_PATH,
-            tmpDirPath
-        )
         verify(validationListener).onSpineMissing()
         verify(validationListener).onManifestMissing()
         verify(validationListener).onMetadataMissing()

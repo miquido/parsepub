@@ -1,6 +1,7 @@
 package com.miquido.parsepub.epubparser
 
-import com.miquido.parsepub.epubvalidator.AttributeLogger
+import com.miquido.parsepub.epublogger.AttributeLogger
+import com.miquido.parsepub.epublogger.MissingAttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.decompressor.EpubDecompressor
@@ -26,6 +27,7 @@ class EpubParser {
     private val spineParser: EpubSpineParser by lazy { ParserModuleProvider.epubSpineParser }
     private val tocParserFactory: TableOfContentParserFactory by lazy { ParserModuleProvider.epubTableOfContentsParserFactory }
     private var validationListener: ValidationListener? = null
+    private var attributeLogger: AttributeLogger? = null
 
     /**
      * Function allowing to parse .epub publication into model
@@ -34,7 +36,7 @@ class EpubParser {
      * @param decompressPath Path to which .epub publication will be decompressed
      * @return Parsed .epub publication model
      */
-    fun parse(inputPath: String, decompressPath: String, attributeLogger: AttributeLogger? = null): EpubBook {
+    fun parse(inputPath: String, decompressPath: String): EpubBook {
         val entries = decompressor.decompress(inputPath, decompressPath)
         val mainOpfDocument = opfDocumentHandler.createOpfDocument(decompressPath, entries)
 
@@ -49,7 +51,7 @@ class EpubParser {
             epubManifestModel,
             spineParser.parse(mainOpfDocument, validationListener, attributeLogger),
             tocParserFactory.getTableOfContentsParser(epubMetadataModel.getEpubSpecificationMajorVersion())
-                .parse(tocDocument, validationListener)
+                .parse(tocDocument, validationListener, attributeLogger)
         )
     }
 
@@ -57,5 +59,11 @@ class EpubParser {
         val validationListener = ValidationListeners()
         validationListener.init()
         this.validationListener = validationListener
+    }
+
+    fun setMissingAttributeLogger(init: MissingAttributeLogger.() -> Unit) {
+        val attributeLogger = MissingAttributeLogger()
+        attributeLogger.init()
+        this.attributeLogger = attributeLogger
     }
 }

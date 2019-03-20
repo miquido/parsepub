@@ -22,10 +22,7 @@ class TocDocumentHandler {
         } else {
             Epub2TocLocationFinder().findNcxPath(mainOpfDocument, epubManifestModel)
         }
-
-        //TODO handle error if ncxLocation still empty
-
-        return if (tocLocation != null) documentBuilder.parse(File("$decompressPath/$tocLocation")) else null
+        return tocLocation?.let { documentBuilder.parse(File("$decompressPath/$tocLocation"))}
     }
 }
 

@@ -15,10 +15,8 @@ import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepubsample.R
 import com.miquido.parsepubsample.copyFileFromAssets
 import com.miquido.parsepubsample.openFileInWebView
-import com.miquido.parsepubsample.validation.MissingAttributeLogger
 import kotlinx.android.synthetic.main.activity_toc.*
 import java.io.File
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,13 +35,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setListeners()
+        setMissingAttributesLogger()
     }
 
     private fun parseEpubBook(onComplete: (result: EpubBook?) -> Unit) {
         Thread {
             val epubFilePath = copyFileFromAssets(EPUB_BOOK_NAME, cacheDir.path)
             val pathToDecompress = "$filesDir${File.separator}$DIR_EPUB_DECOMPRESSED"
-            epubBook = epubParser.parse(epubFilePath, pathToDecompress, MissingAttributeLogger())
+            epubBook = epubParser.parse(epubFilePath, pathToDecompress)
             decompressedEpubpath = pathToDecompress
             invalidateOptionsMenu()
             onComplete(epubBook)
@@ -52,10 +51,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListeners() {
         epubParser.setValidationListeners {
-            setOnMetadataMissing { Log.e(ERROR_TAG, "Metadata Missing") }
-            setOnManifestMissing { Log.e(ERROR_TAG, "Manifest Missing") }
-            setOnSpineMissing { Log.e(ERROR_TAG, "Spine Missing") }
-            setOnTableOfContentMissing { Log.e(ERROR_TAG, "Navigation Map Missing") }
+            setOnMetadataMissing { Log.e(ERROR_TAG, "Metadata missing") }
+            setOnManifestMissing { Log.e(ERROR_TAG, "Manifest missing") }
+            setOnSpineMissing { Log.e(ERROR_TAG, "Spine missing") }
+            setOnTableOfContentMissing { Log.e(ERROR_TAG, "Table of contents missing") }
+        }
+    }
+
+    private fun setMissingAttributesLogger() {
+        epubParser.setMissingAttributeLogger {
+            setOnAttributeLogger { parentElement, attributeName ->
+                logMissingAttribute(parentElement, attributeName)
+            }
         }
     }
 

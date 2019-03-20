@@ -1,6 +1,6 @@
 package com.miquido.parsepub.internal.parser.toc
 
-import com.miquido.parsepub.epubvalidator.AttributeLogger
+import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.constants.EpubConstants.NCX_NAMESPACE
 import com.miquido.parsepub.internal.extensions.forEach

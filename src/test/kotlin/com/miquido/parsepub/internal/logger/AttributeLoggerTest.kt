@@ -1,7 +1,7 @@
 package com.miquido.parsepub.internal.logger
 
 import com.miquido.parsepub.epubparser.EpubParser
-import com.miquido.parsepub.epubvalidator.AttributeLogger
+import com.miquido.parsepub.epublogger.AttributeLogger
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Before
 import org.junit.Test
@@ -15,11 +15,20 @@ class AttributeLoggerTest {
     @Before
     fun setup() {
         tmpDirPath = createTempDir(DIR_NAME_PREFIX, DIR_NAME_SUFFIX).absolutePath
-        epubParser.parse(EBOOK_FILE_PATH, tmpDirPath, attributeLogger)
+        setMissingAttributeLogger()
+    }
+
+    private fun setMissingAttributeLogger() {
+        epubParser.setMissingAttributeLogger {
+            setOnAttributeLogger { parentName: String, attributeName: String ->
+                attributeLogger.logMissingAttribute(parentName, attributeName)
+            }
+        }
     }
 
     @Test
     fun `logger should be called a specified number of times when epub attributes are missing`() {
+        epubParser.parse(EBOOK_FILE_PATH, tmpDirPath)
         verify(attributeLogger, times(EXPECTED_LOGS_COUNT)).logMissingAttribute(any(), any())
     }
 
