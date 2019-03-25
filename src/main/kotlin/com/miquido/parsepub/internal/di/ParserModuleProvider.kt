@@ -27,7 +27,9 @@ internal object ParserModuleProvider : ParserModule {
     override val epubSpineParser: EpubSpineParser by lazy { EpubSpineParser() }
     override val epubMetadataParser: EpubMetadataParser by lazy { EpubMetadataParser() }
     override val epubManifestParser: EpubManifestParser by lazy { EpubManifestParser() }
-    override val epubTableOfContentsParserFactory: TableOfContentParserFactory by lazy { TableOfContentParserFactory() }
+    override val epubTableOfContentsParserFactory: TableOfContentParserFactory by lazy {
+        TableOfContentParserFactory()
+    }
     override val opfDocumentHandler: OpfDocumentHandler by lazy { OpfDocumentHandler() }
     override val epubDecompressor: EpubDecompressor by lazy { EpubDecompressor() }
     override val coverHandler: EpubCoverHandler by lazy { EpubCoverHandler() }

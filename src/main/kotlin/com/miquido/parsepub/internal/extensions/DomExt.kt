@@ -36,19 +36,19 @@ internal fun NodeList?.textContents(): List<String>? {
     return if (this?.length == 0) null else {
         this?.let { nodeList ->
             (0 until nodeList.length)
-                .asSequence()
-                .map { index -> nodeList.item(index) }
-                .map { creatorNode -> creatorNode.textContent }
-                .toList()
+                    .asSequence()
+                    .map { index -> nodeList.item(index) }
+                    .map { creatorNode -> creatorNode.textContent }
+                    .toList()
         }
     }
 }
 
 internal fun Element?.getTagTextContentsFromDcElementsOrEmpty(tag: String) =
-    this?.getElementsByTagNameNS(DC_NAMESPACE, tag).textContents()
+        this?.getElementsByTagNameNS(DC_NAMESPACE, tag).textContents()
 
 internal fun Element?.getTagTextContentsFromDcElementOrEmpty(tag: String) =
-    this?.getFirstElementByTagNameNS(DC_NAMESPACE, tag)?.textContent
+        this?.getFirstElementByTagNameNS(DC_NAMESPACE, tag)?.textContent
 
 internal fun Element?.getNodeListByTagNameNS(namespace: String, tag: String): NodeList? {
     val matchingNodeList = this?.getElementsByTagNameNS(namespace, tag)
@@ -64,7 +64,6 @@ internal inline fun NodeList.firstOrNull(predicate: (Node) -> Boolean): Node? {
     return (0 until length).map { index -> item(index) }.firstOrNull { predicate.invoke(it) }
 }
 
-
 internal fun NodeList?.forEach(action: (Node) -> Unit) {
     this?.let {
         for (i in 0 until length) {
@@ -73,7 +72,15 @@ internal fun NodeList?.forEach(action: (Node) -> Unit) {
     }
 }
 
-internal fun NodeList.firstWithAttributeNS(nameSpace: String, attrName: String, attrValue: String) = firstOrNull {
-    val element = it as Element
-    element.hasAttributeNS(nameSpace, attrName) && element.getAttributeNS(nameSpace, attrName) == attrValue
+internal fun NodeList.firstWithAttributeNS(
+        nameSpace: String,
+        attrName: String,
+        attrValue: String
+): Node? {
+
+    return firstOrNull {
+        val element = it as Element
+        element.hasAttributeNS(nameSpace, attrName) &&
+                element.getAttributeNS(nameSpace, attrName) == attrValue
+    }
 }

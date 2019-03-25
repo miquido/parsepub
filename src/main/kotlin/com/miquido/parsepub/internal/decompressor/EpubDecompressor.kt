@@ -14,7 +14,10 @@ internal class EpubDecompressor {
         return unpackToPathAndReturnResult(zipFile, outputPath)
     }
 
-    private fun unpackToPathAndReturnResult(zipFile: ZipFile, destinationPath: String): List<ZipEntry> {
+    private fun unpackToPathAndReturnResult(zipFile: ZipFile,
+                                            destinationPath: String
+    ): List<ZipEntry> {
+
         val result = mutableListOf<ZipEntry>()
         File(destinationPath).mkdir()
 
@@ -24,7 +27,6 @@ internal class EpubDecompressor {
             destinationFile.parentFile.mkdirs()
 
             if (!entry.isDirectory) {
-
                 val inputStream = BufferedInputStream(zipFile.getInputStream(entry))
                 val outputStream = BufferedOutputStream(FileOutputStream(destinationFile))
 

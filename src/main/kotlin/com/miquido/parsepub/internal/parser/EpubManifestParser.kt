@@ -15,34 +15,42 @@ import org.w3c.dom.Element
 internal class EpubManifestParser {
 
     internal fun parse(
-        opfDocument: Document,
-        validation: ValidationListener?,
-        attributeLogger: AttributeLogger?
+            opfDocument: Document,
+            validation: ValidationListener?,
+            attributeLogger: AttributeLogger?
     ): EpubManifestModel {
 
         val manifestElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, MANIFEST_TAG)
-            .orValidationError { validation?.onManifestMissing() }
+                .orValidationError { validation?.onManifestMissing() }
         val itemModel = manifestElement?.getElementsByTagNameNS(OPF_NAMESPACE, ITEM_TAG)
-            ?.orValidationError { attributeLogger?.logMissingAttribute(MANIFEST_TAG, ITEM_TAG) }
-            ?.map {
-                val element = it as Element
-                val id = element.getAttribute(ID_TAG)
-                    .orNullIfEmpty()
-                    .orValidationError { attributeLogger?.logMissingAttribute(MANIFEST_TAG, ID_TAG) }
-                val href = element.getAttribute(HREF_TAG)
-                    .orNullIfEmpty()
-                    .orValidationError { attributeLogger?.logMissingAttribute(MANIFEST_TAG, HREF_TAG) }
-                val mediaType = element.getAttribute(MEDIA_TYPE_TAG)
-                    .orNullIfEmpty()
-                    .orValidationError { attributeLogger?.logMissingAttribute(MANIFEST_TAG, MEDIA_TYPE_TAG) }
-                var properties: HashSet<String>? = null
-                element.getAttribute(PROPERTIES_TAG)
-                    .orNullIfEmpty()
-                    .let { property ->
-                    if (property != null) properties = property.split(PROPERTY_SEPARATOR).toHashSet()
+                ?.orValidationError { attributeLogger?.logMissingAttribute(MANIFEST_TAG, ITEM_TAG) }
+                ?.map {
+                    val element = it as Element
+                    val id = element.getAttribute(ID_TAG)
+                            .orNullIfEmpty()
+                            .orValidationError {
+                                attributeLogger?.logMissingAttribute(MANIFEST_TAG, ID_TAG)
+                            }
+                    val href = element.getAttribute(HREF_TAG)
+                            .orNullIfEmpty()
+                            .orValidationError {
+                                attributeLogger?.logMissingAttribute(MANIFEST_TAG, HREF_TAG)
+                            }
+                    val mediaType = element.getAttribute(MEDIA_TYPE_TAG)
+                            .orNullIfEmpty()
+                            .orValidationError {
+                                attributeLogger?.logMissingAttribute(MANIFEST_TAG, MEDIA_TYPE_TAG)
+                            }
+                    var properties: HashSet<String>? = null
+                    element.getAttribute(PROPERTIES_TAG)
+                            .orNullIfEmpty()
+                            .let { property ->
+                                if (property != null) {
+                                    properties = property.split(PROPERTY_SEPARATOR).toHashSet()
+                                }
+                            }
+                    EpubResourceModel(id, href, mediaType, properties)
                 }
-                EpubResourceModel(id, href, mediaType, properties)
-            }
         return EpubManifestModel(itemModel)
     }
 

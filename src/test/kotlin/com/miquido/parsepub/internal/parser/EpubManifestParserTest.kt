@@ -1,5 +1,6 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.model.EpubManifestModel
@@ -19,11 +20,12 @@ class EpubManifestParserTest {
     private lateinit var document: Document
     private lateinit var manifestModel: EpubManifestModel
     private val validator = mock<ValidationListener>()
+    private val attributeLogger = mock<AttributeLogger>()
 
     @Before
     fun setup() {
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
-        manifestModel = parser.parse(document, validator)
+        manifestModel = parser.parse(document, validator, attributeLogger)
     }
 
     @Test
@@ -36,18 +38,37 @@ class EpubManifestParserTest {
         private const val OPF_TEST_FILE_PATH = "src/test/res/opf/epub2/book.opf"
         private const val EXPECTED_MANIFEST_ITEMS_COUNT = 6
         private val EXPECTED_MANIFEST_ELEMENTS = listOf(
-            EpubResourceModel("front-cover", "OEBPS/front-cover.html", "application/xhtml+xml"),
-            EpubResourceModel("front-matter-001", "OEBPS/front-matter-001-preface.html", "application/xhtml+xml"),
-            EpubResourceModel("chapter-001", "OEBPS/chapter-001-appearance-and-reality.html", "application/xhtml+xml"),
-            EpubResourceModel("cover-image2", "OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg", "image/jpeg"),
-            EpubResourceModel(
-                "cover-image",
-                "OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg",
-                "image/jpeg",
-                hashSetOf("cover-image")
-            ),
-            EpubResourceModel("ncx", "toc.ncx", "application/x-dtbncx+xml")
+                EpubResourceModel(
+                        "front-cover",
+                        "OEBPS/front-cover.html",
+                        "application/xhtml+xml"
+                ),
+                EpubResourceModel(
+                        "front-matter-001",
+                        "OEBPS/front-matter-001-preface.html",
+                        "application/xhtml+xml"
+                ),
+                EpubResourceModel(
+                        "chapter-001",
+                        "OEBPS/chapter-001-appearance-and-reality.html",
+                        "application/xhtml+xml"
+                ),
+                EpubResourceModel(
+                        "cover-image2",
+                        "OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg",
+                        "image/jpeg"
+                ),
+                EpubResourceModel(
+                        "cover-image",
+                        "OEBPS/assets/TheProblemsOfPhilosophy_1200x1600.jpg",
+                        "image/jpeg",
+                        hashSetOf("cover-image")
+                ),
+                EpubResourceModel(
+                        "ncx",
+                        "toc.ncx",
+                        "application/x-dtbncx+xml"
+                )
         )
     }
-
 }

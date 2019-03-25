@@ -19,13 +19,27 @@ import com.miquido.parsepub.model.EpubBook
  */
 class EpubParser {
 
-    private val decompressor: EpubDecompressor by lazy { ParserModuleProvider.epubDecompressor }
-    private val opfDocumentHandler: OpfDocumentHandler by lazy { ParserModuleProvider.opfDocumentHandler }
-    private val tocDocumentHandler: TocDocumentHandler by lazy { ParserModuleProvider.tocDocumentHandler }
-    private val metadataParser: EpubMetadataParser by lazy { ParserModuleProvider.epubMetadataParser }
-    private val manifestParser: EpubManifestParser by lazy { ParserModuleProvider.epubManifestParser }
-    private val spineParser: EpubSpineParser by lazy { ParserModuleProvider.epubSpineParser }
-    private val tocParserFactory: TableOfContentParserFactory by lazy { ParserModuleProvider.epubTableOfContentsParserFactory }
+    private val decompressor: EpubDecompressor by lazy {
+        ParserModuleProvider.epubDecompressor
+    }
+    private val opfDocumentHandler: OpfDocumentHandler by lazy {
+        ParserModuleProvider.opfDocumentHandler
+    }
+    private val tocDocumentHandler: TocDocumentHandler by lazy {
+        ParserModuleProvider.tocDocumentHandler
+    }
+    private val metadataParser: EpubMetadataParser by lazy {
+        ParserModuleProvider.epubMetadataParser
+    }
+    private val manifestParser: EpubManifestParser by lazy {
+        ParserModuleProvider.epubManifestParser
+    }
+    private val spineParser: EpubSpineParser by lazy {
+        ParserModuleProvider.epubSpineParser
+    }
+    private val tocParserFactory: TableOfContentParserFactory by lazy {
+        ParserModuleProvider.epubTableOfContentsParserFactory
+    }
     private var validationListener: ValidationListener? = null
     private var attributeLogger: AttributeLogger? = null
 
@@ -40,18 +54,30 @@ class EpubParser {
         val entries = decompressor.decompress(inputPath, decompressPath)
         val mainOpfDocument = opfDocumentHandler.createOpfDocument(decompressPath, entries)
 
-        val epubManifestModel = manifestParser.parse(mainOpfDocument, validationListener, attributeLogger)
-        val epubMetadataModel = metadataParser.parse(mainOpfDocument, validationListener, attributeLogger)
+        val epubManifestModel = manifestParser.parse(
+                mainOpfDocument,
+                validationListener,
+                attributeLogger
+        )
+        val epubMetadataModel = metadataParser.parse(
+                mainOpfDocument,
+                validationListener,
+                attributeLogger
+        )
         val tocDocument = tocDocumentHandler.createTocDocument(
-            mainOpfDocument, epubManifestModel,
-            decompressPath, epubMetadataModel.getEpubSpecificationMajorVersion()
+                mainOpfDocument,
+                epubManifestModel,
+                decompressPath,
+                epubMetadataModel.getEpubSpecificationMajorVersion()
         )
         return EpubBook(
-            epubMetadataModel,
-            epubManifestModel,
-            spineParser.parse(mainOpfDocument, validationListener, attributeLogger),
-            tocParserFactory.getTableOfContentsParser(epubMetadataModel.getEpubSpecificationMajorVersion())
-                .parse(tocDocument, validationListener, attributeLogger)
+                epubMetadataModel,
+                epubManifestModel,
+                spineParser.parse(mainOpfDocument, validationListener, attributeLogger),
+                tocParserFactory.getTableOfContentsParser(
+                        epubMetadataModel.getEpubSpecificationMajorVersion()
+                )
+                        .parse(tocDocument, validationListener, attributeLogger)
         )
     }
 

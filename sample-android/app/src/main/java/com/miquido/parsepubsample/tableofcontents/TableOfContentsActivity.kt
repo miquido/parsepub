@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     private fun setMissingAttributesLogger() {
         epubParser.setMissingAttributeLogger {
             setOnAttributeLogger { parentElement, attributeName ->
-                logMissingAttribute(parentElement, attributeName)
+                Log.w("$parentElement warn", "missing $attributeName attribute")
             }
         }
     }

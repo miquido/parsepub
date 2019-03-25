@@ -16,8 +16,12 @@ import javax.xml.parsers.DocumentBuilder
 
 class Epub3TableOfContentsParserTest {
 
-    private val parserFactory: TableOfContentParserFactory by lazy { ParserModuleProvider.epubTableOfContentsParserFactory }
-    private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
+    private val parserFactory: TableOfContentParserFactory by lazy {
+        ParserModuleProvider.epubTableOfContentsParserFactory
+    }
+    private val documentBuilder: DocumentBuilder by lazy {
+        ParserModuleProvider.documentBuilder
+    }
 
     private lateinit var tocDocument: Document
     private lateinit var tocModel: EpubTableOfContentsModel
@@ -26,22 +30,25 @@ class Epub3TableOfContentsParserTest {
     @Before
     fun setup() {
         tocDocument = documentBuilder.parse(File(NCX_TEST_FILE_PATH))
-        tocModel = parserFactory.getTableOfContentsParser(EPUB_MAJOR_VERSION_3).parse(tocDocument, validator)
+        tocModel = parserFactory
+                .getTableOfContentsParser(EPUB_MAJOR_VERSION_3)
+                .parse(tocDocument, validator)
     }
 
     @Test
     fun `table of contents parser should parse main entries`() {
         assertThat(tocModel.tableOfContents).hasSize(EXPECTED_TOC_MAIN_SIZE)
         assertThat(tocModel.tableOfContents).extracting(LABEL_FIELD_NAME)
-            .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.label }.toTypedArray())
+                .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.label }.toTypedArray())
         assertThat(tocModel.tableOfContents).extracting(SOURCE_FIELD_NAME)
-            .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.location }.toTypedArray())
+                .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.location }.toTypedArray())
     }
 
     @Test
     fun `table of contents parser should parse nested entries`() {
         assertThat(tocModel.tableOfContents.last().subItems)
-            .hasSize(EXPECTED_TOC_NESTED_SIZE).containsExactlyElementsOf(EXPECTED_TOC_LAST_ITEM_NESTED_ELEMENT)
+                .hasSize(EXPECTED_TOC_NESTED_SIZE)
+                .containsExactlyElementsOf(EXPECTED_TOC_LAST_ITEM_NESTED_ELEMENT)
     }
 
     private companion object {
@@ -53,12 +60,32 @@ class Epub3TableOfContentsParserTest {
         private const val SOURCE_FIELD_NAME = "location"
 
         private val EXPECTED_TOC_LAST_ITEM_NESTED_ELEMENT = listOf(
-            NavigationItemModel(null, "sub_AZARDI", "sub-s003.xhtml", emptyList())
+                NavigationItemModel(
+                        null,
+                        "sub_AZARDI",
+                        "sub-s003.xhtml",
+                        emptyList()
+                )
         )
         private val EXPECTED_TOC_MAIN_ELEMENTS = listOf(
-            NavigationItemModel(null, "Middle School Maths", "s001.xhtml", emptyList()),
-            NavigationItemModel(null, "Copyright", "s002.xhtml", emptyList()),
-            NavigationItemModel(null, "AZARDI", "s003.xhtml", emptyList())
+                NavigationItemModel(
+                        null,
+                        "Middle School Maths",
+                        "s001.xhtml",
+                        emptyList()
+                ),
+                NavigationItemModel(
+                        null,
+                        "Copyright",
+                        "s002.xhtml",
+                        emptyList()
+                ),
+                NavigationItemModel(
+                        null,
+                        "AZARDI",
+                        "s003.xhtml",
+                        emptyList()
+                )
         )
     }
 }

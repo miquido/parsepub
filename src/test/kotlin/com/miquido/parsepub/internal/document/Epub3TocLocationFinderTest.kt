@@ -1,5 +1,6 @@
 package com.miquido.parsepub.internal.document
 
+import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.document.toc.Epub3TocLocationFinder
@@ -16,15 +17,21 @@ class Epub3TocLocationFinderTest {
 
     private val epub3TocLocationFinder = Epub3TocLocationFinder()
 
-    private val manifestParser: EpubManifestParser by lazy { ParserModuleProvider.epubManifestParser }
+    private val manifestParser: EpubManifestParser by lazy {
+        ParserModuleProvider.epubManifestParser
+    }
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     private lateinit var epub3ManifestModel: EpubManifestModel
     private val validator = mock<ValidationListener>()
+    private val attributeLogger = mock<AttributeLogger>()
 
     @Before
     fun setup() {
-        epub3ManifestModel =
-            manifestParser.parse(documentBuilder.parse(File(OPF_EPUB3_TEST_FILE_PATH)), validator)
+        epub3ManifestModel = manifestParser.parse(
+                documentBuilder.parse(File(OPF_EPUB3_TEST_FILE_PATH)),
+                validator,
+                attributeLogger
+        )
     }
 
     @Test
@@ -35,7 +42,6 @@ class Epub3TocLocationFinderTest {
 
     private companion object {
         private const val OPF_EPUB3_TEST_FILE_PATH = "src/test/res/opf/epub3/book.opf"
-
         private const val EXPECTED_EPUB_3_TOC_LOCATION = "TOC.xhtml"
     }
 }

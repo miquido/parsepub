@@ -15,8 +15,10 @@ import javax.xml.parsers.DocumentBuilder
 
 class Epub2TableOfContentsParserTest {
 
-    private val parserFactory: TableOfContentParserFactory by lazy { ParserModuleProvider.epubTableOfContentsParserFactory }
-    private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
+    private val parserFactory: TableOfContentParserFactory
+            by lazy { ParserModuleProvider.epubTableOfContentsParserFactory }
+    private val documentBuilder: DocumentBuilder
+            by lazy { ParserModuleProvider.documentBuilder }
 
     private lateinit var ncxDocument: Document
     private lateinit var tocModel: EpubTableOfContentsModel
@@ -25,24 +27,27 @@ class Epub2TableOfContentsParserTest {
     @Before
     fun setup() {
         ncxDocument = documentBuilder.parse(File(NCX_TEST_FILE_PATH))
-        tocModel = parserFactory.getTableOfContentsParser(null).parse(ncxDocument, validator)
+        tocModel = parserFactory
+                .getTableOfContentsParser(null)
+                .parse(ncxDocument, validator)
     }
 
     @Test
     fun `table of contents parser should parse main entries`() {
         assertThat(tocModel.tableOfContents).hasSize(EXPECTED_TOC_MAIN_SIZE)
         assertThat(tocModel.tableOfContents).extracting(ID_FIELD_NAME)
-            .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.id }.toTypedArray())
+                .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.id }.toTypedArray())
         assertThat(tocModel.tableOfContents).extracting(LABEL_FIELD_NAME)
-            .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.label }.toTypedArray())
+                .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.label }.toTypedArray())
         assertThat(tocModel.tableOfContents).extracting(LOCATION_FIELD_NAME)
-            .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.location }.toTypedArray())
+                .contains(*EXPECTED_TOC_MAIN_ELEMENTS.map { it.location }.toTypedArray())
     }
 
     @Test
     fun `table of contents parser should parse nested entries`() {
         assertThat(tocModel.tableOfContents.first().subItems?.first()?.subItems?.first()?.subItems)
-            .hasSize(EXPECTED_TOC_NESTED_SIZE).containsExactlyElementsOf(EXPECTED_TOC_FIRST_ITEM_NESTED_ELEMENT)
+                .hasSize(EXPECTED_TOC_NESTED_SIZE)
+                .containsExactlyElementsOf(EXPECTED_TOC_FIRST_ITEM_NESTED_ELEMENT)
     }
 
     private companion object {
@@ -55,12 +60,32 @@ class Epub2TableOfContentsParserTest {
         private const val LOCATION_FIELD_NAME = "location"
 
         private val EXPECTED_TOC_FIRST_ITEM_NESTED_ELEMENT = listOf(
-            NavigationItemModel("ch_1_1_1", "Chapter 1.1.1", "content.html#ch_1_1_1", emptyList()),
-            NavigationItemModel("ch_1_1_2", "Chapter 1.1.2", "content.html#ch_1_1_2", emptyList())
+                NavigationItemModel(
+                        "ch_1_1_1",
+                        "Chapter 1.1.1",
+                        "content.html#ch_1_1_1",
+                        emptyList()
+                ),
+                NavigationItemModel(
+                        "ch_1_1_2",
+                        "Chapter 1.1.2",
+                        "content.html#ch_1_1_2",
+                        emptyList()
+                )
         )
         private val EXPECTED_TOC_MAIN_ELEMENTS = listOf(
-            NavigationItemModel("ch1", "Chapter 1", "content.html#ch_1", emptyList()),
-            NavigationItemModel("ncx-2", "Chapter 2", "content.html#ch_2", emptyList())
+                NavigationItemModel(
+                        "ch1",
+                        "Chapter 1",
+                        "content.html#ch_1",
+                        emptyList()
+                ),
+                NavigationItemModel(
+                        "ncx-2",
+                        "Chapter 2",
+                        "content.html#ch_2",
+                        emptyList()
+                )
         )
     }
 }

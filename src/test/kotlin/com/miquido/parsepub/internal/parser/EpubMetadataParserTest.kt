@@ -1,5 +1,6 @@
 package com.miquido.parsepub.internal.parser
 
+import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.model.EpubMetadataModel
@@ -13,16 +14,21 @@ import javax.xml.parsers.DocumentBuilder
 
 class EpubMetadataParserTest {
 
-    private val metadataParser: EpubMetadataParser by lazy { ParserModuleProvider.epubMetadataParser }
-    private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
+    private val metadataParser: EpubMetadataParser by lazy {
+        ParserModuleProvider.epubMetadataParser
+    }
+    private val documentBuilder: DocumentBuilder by lazy {
+        ParserModuleProvider.documentBuilder
+    }
     private lateinit var document: Document
     private lateinit var metadataModel: EpubMetadataModel
     private val validator = mock<ValidationListener>()
+    private val attributeLogger = mock<AttributeLogger>()
 
     @Before
     fun setup() {
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
-        metadataModel = metadataParser.parse(document, validator)
+        metadataModel = metadataParser.parse(document, validator, attributeLogger)
     }
 
     @Test
@@ -40,8 +46,10 @@ class EpubMetadataParserTest {
         assertThat(metadataModel.relation).isNotBlank().isEqualTo(EXPECTED_RELATION_VALUE)
         assertThat(metadataModel.date).isNotBlank().isEqualTo(EXPECTED_DATE_VALUE)
         assertThat(metadataModel.id).isNotBlank().isEqualTo(EXPECTED_ID_VALUE)
-        assertThat(metadataModel.epubSpecificationVersion).isNotBlank().isEqualTo(EXPECTED_EPUB_SPEC_VERSION_VALUE)
-        assertThat(metadataModel.getEpubSpecificationMajorVersion()).isEqualTo(EXPECTED_EPUB_SPEC_VERSION_BYTE_VALUE)
+        assertThat(metadataModel.epubSpecificationVersion)
+                .isNotBlank().isEqualTo(EXPECTED_EPUB_SPEC_VERSION_VALUE)
+        assertThat(metadataModel.getEpubSpecificationMajorVersion())
+                .isEqualTo(EXPECTED_EPUB_SPEC_VERSION_BYTE_VALUE)
     }
 
     companion object {
@@ -60,7 +68,7 @@ class EpubMetadataParserTest {
         private const val EXPECTED_COVERAGE_VALUE = "United States"
         private const val EXPECTED_RIGHTS_VALUE = "Copyright Public Domain by Public Domain"
         private const val EXPECTED_DESCRIPTION_VALUE =
-            "The Problems of Philosophy (1912) is one of Bertrand Russell's attempts to create ..."
+                "The Problems of Philosophy (1912) is one of Bertrand Russell's attempts to create ..."
         private const val EXPECTED_TITLE_VALUE = "The Problems of Philosophy"
         private const val EXPECTED_EPUB_SPEC_VERSION_VALUE = "2.0"
         private const val EXPECTED_EPUB_SPEC_VERSION_BYTE_VALUE = 2

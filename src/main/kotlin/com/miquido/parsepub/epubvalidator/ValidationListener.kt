@@ -3,7 +3,8 @@ package com.miquido.parsepub.epubvalidator
 typealias OnValidationListener = () -> Unit
 
 /**
- * Interface for validation .epub publication. Contains methods for handling the missing of important elements in the .epub publication.
+ * Interface for validation .epub publication. Contains methods for handling
+ * the missing of important elements in the .epub publication.
  */
 interface ValidationListener {
     /** Method for handling Metadata element missing. */
