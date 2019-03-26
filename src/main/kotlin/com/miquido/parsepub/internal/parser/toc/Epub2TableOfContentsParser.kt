@@ -5,6 +5,7 @@ import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.constants.EpubConstants.NCX_NAMESPACE
 import com.miquido.parsepub.internal.extensions.forEach
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
+import com.miquido.parsepub.internal.extensions.orNullIfEmpty
 import com.miquido.parsepub.internal.extensions.orValidationError
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepub.model.NavigationItemModel
@@ -17,25 +18,24 @@ internal class Epub2TableOfContentsParser : TableOfContentsParser {
 
     private var validationAttr: AttributeLogger? = null
 
-    override fun parse(tocDocument: Document?,
-                       validation: ValidationListener?,
-                       attributeLogger: AttributeLogger?
+    override fun parse(
+        tocDocument: Document?,
+        validation: ValidationListener?,
+        attributeLogger: AttributeLogger?
     ): EpubTableOfContentsModel {
 
         this.validationAttr = attributeLogger
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
         tocDocument?.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_MAP_TAG)
-                .orValidationError {
-                    validation
-                            ?.onTableOfContentsMissing()
-                }
-                ?.childNodes.forEach {
+            .orValidationError {
+                validation?.onTableOfContentsMissing()
+            }
+            ?.childNodes.forEach {
             if (it.isNavPoint()) {
                 tableOfContentsReferences.add(createNavigationItemModel(it))
             } else {
                 orValidationError {
-                    attributeLogger
-                            ?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, NAV_POINT_TAG)
+                    attributeLogger?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, NAV_POINT_TAG)
                 }
             }
         }
@@ -45,25 +45,28 @@ internal class Epub2TableOfContentsParser : TableOfContentsParser {
     override fun createNavigationItemModel(node: Node): NavigationItemModel {
         val element = node as Element
         val id = element.getAttribute(ID_ATTR)
-                .orValidationError {
-                    validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, ID_ATTR)
-                }
+            .orNullIfEmpty()
+            .orValidationError {
+                validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, ID_ATTR)
+            }
         val label = element.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_LABEL_TAG)
-                .orValidationError {
-                    validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, NAV_LABEL_TAG)
-                }
-                ?.getFirstElementByTagNameNS(NCX_NAMESPACE, TEXT_TAG)?.textContent
-                .orValidationError {
-                    validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, TEXT_TAG)
-                }
+            .orValidationError {
+                validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, NAV_LABEL_TAG)
+            }
+            ?.getFirstElementByTagNameNS(NCX_NAMESPACE, TEXT_TAG)?.textContent
+            ?.orNullIfEmpty()
+            .orValidationError {
+                validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, TEXT_TAG)
+            }
         val source = element.getFirstElementByTagNameNS(NCX_NAMESPACE, CONTENT_TAG)
-                .orValidationError {
-                    validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, CONTENT_TAG)
-                }
-                ?.getAttribute(SRC_ATTR)
-                .orValidationError {
-                    validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, SRC_ATTR)
-                }
+            .orValidationError {
+                validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, CONTENT_TAG)
+            }
+            ?.getAttribute(SRC_ATTR)
+            ?.orNullIfEmpty()
+            .orValidationError {
+                validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, SRC_ATTR)
+            }
         val subItems = createNavigationSubItemModel(element.childNodes)
         return NavigationItemModel(id, label, source, subItems)
     }

@@ -3,10 +3,7 @@ package com.miquido.parsepub.internal.parser.toc
 import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.internal.constants.EpubConstants
-import com.miquido.parsepub.internal.extensions.firstWithAttributeNS
-import com.miquido.parsepub.internal.extensions.forEach
-import com.miquido.parsepub.internal.extensions.getFirstElementByTag
-import com.miquido.parsepub.internal.extensions.orValidationError
+import com.miquido.parsepub.internal.extensions.*
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepub.model.NavigationItemModel
 import org.w3c.dom.Document
@@ -19,25 +16,25 @@ internal class Epub3TableOfContentsParser : TableOfContentsParser {
     private var validationAttr: AttributeLogger? = null
 
     override fun parse(
-            tocDocument: Document?,
-            validation: ValidationListener?,
-            attributeLogger: AttributeLogger?
+        tocDocument: Document?,
+        validation: ValidationListener?,
+        attributeLogger: AttributeLogger?
     ): EpubTableOfContentsModel {
 
         this.validationAttr = attributeLogger
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
         val tocNav = tocDocument?.getElementsByTagName(NAV_TAG)
-                .orValidationError { validation?.onTableOfContentsMissing() }
-                ?.firstWithAttributeNS(EpubConstants.ND_NAMESPACE, TYPE_ATTR, TOC_ATTR_VALUE)
-                .orValidationError {
-                    attributeLogger?.logMissingAttribute(TOC_ATTR_VALUE, TABLE_OF_CONTENTS_TAG)
-                } as Element
+            .orValidationError { validation?.onTableOfContentsMissing() }
+            ?.firstWithAttributeNS(EpubConstants.ND_NAMESPACE, TYPE_ATTR, TOC_ATTR_VALUE)
+            .orValidationError {
+                attributeLogger?.logMissingAttribute(TOC_ATTR_VALUE, TABLE_OF_CONTENTS_TAG)
+            } as Element
 
         tocNav.getFirstElementByTag(OL_TAG)
-                .orValidationError {
-                    attributeLogger?.logMissingAttribute(OL_TAG, TABLE_OF_CONTENTS_TAG)
-                }
-                ?.childNodes.forEach {
+            .orValidationError {
+                attributeLogger?.logMissingAttribute(OL_TAG, TABLE_OF_CONTENTS_TAG)
+            }
+            ?.childNodes.forEach {
             if (it.isNavPoint()) {
                 tableOfContentsReferences.add(createNavigationItemModel(it))
             } else {
@@ -53,13 +50,15 @@ internal class Epub3TableOfContentsParser : TableOfContentsParser {
     override fun createNavigationItemModel(it: Node): NavigationItemModel {
         val ref = (it as Element).getFirstElementByTag(A_TAG)
         val label = ref?.textContent
-                .orValidationError {
-                    validationAttr?.logMissingAttribute(LABEL_FIELD_NAME, TABLE_OF_CONTENTS_TAG)
-                }
+            ?.orNullIfEmpty()
+            .orValidationError {
+                validationAttr?.logMissingAttribute(LABEL_FIELD_NAME, TABLE_OF_CONTENTS_TAG)
+            }
         val source = ref?.getAttribute(HREF_ATTR)
-                .orValidationError {
-                    validationAttr?.logMissingAttribute(HREF_ATTR, TABLE_OF_CONTENTS_TAG)
-                }
+            ?.orNullIfEmpty()
+            .orValidationError {
+                validationAttr?.logMissingAttribute(HREF_ATTR, TABLE_OF_CONTENTS_TAG)
+            }
         val subItems = createNavigationSubItemModel(it.getFirstElementByTag(OL_TAG)?.childNodes)
         return NavigationItemModel(null, label, source, subItems)
     }
@@ -77,7 +76,7 @@ internal class Epub3TableOfContentsParser : TableOfContentsParser {
     }
 
     override fun Node.isNavPoint() =
-            (this as? Element)?.tagName == NAV_POINT_TAG
+        (this as? Element)?.tagName == NAV_POINT_TAG
 
     private companion object {
         private const val NAV_POINT_TAG = "li"
