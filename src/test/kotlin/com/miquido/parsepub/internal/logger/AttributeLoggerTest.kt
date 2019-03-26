@@ -36,6 +36,6 @@ class AttributeLoggerTest {
         private const val EBOOK_FILE_PATH = "src/test/res/epub/test_ebook_attr.zip"
         private const val DIR_NAME_PREFIX = "tmp"
         private const val DIR_NAME_SUFFIX = "decompress"
-        private const val EXPECTED_LOGS_COUNT = 11
+        private const val EXPECTED_LOGS_COUNT = 12
     }
 }
