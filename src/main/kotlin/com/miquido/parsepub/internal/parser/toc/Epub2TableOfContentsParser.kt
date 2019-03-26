@@ -72,7 +72,9 @@ internal class Epub2TableOfContentsParser : TableOfContentsParser {
         val navSubItems = mutableListOf<NavigationItemModel>()
         childrenNodes?.forEach {
             if (it.isNavPoint()) {
-                createNavigationItemModel(it).let { navSubItems.add(it) }
+                createNavigationItemModel(it).let { navigationItem ->
+                    navSubItems.add(navigationItem)
+                }
             }
         }
         return navSubItems

@@ -11,31 +11,34 @@ class EpubDecompressorTest {
 
     private val decompressor: EpubDecompressor by lazy { ParserModuleProvider.epubDecompressor }
     private var entities: List<ZipEntry> = listOf()
+    private lateinit var tmpDirPath: String
 
     @Before
     fun setup() {
+        tmpDirPath = createTempDir(DIR_NAME_PREFIX, DIR_NAME_SUFFIX).absolutePath
         entities = decompressor.decompress(
             EPUB_FILE_PATH,
-            EPUB_DECOMPRESS_PATH
+            tmpDirPath
         )
     }
 
     @Test
     fun `decompressor should return correct files count without any directories`() {
         assertEquals(
-                EXPECTED_FILES_COUNT,
-                entities.size,
-                "Files count differs then expected"
+            EXPECTED_FILES_COUNT,
+            entities.size,
+            "Files count differs then expected"
         )
         assertTrue(
-                entities.none { it.isDirectory },
-                "Decompressor returns a list of files with directories"
+            entities.none { it.isDirectory },
+            "Decompressor returns a list of files with directories"
         )
     }
 
     companion object {
+        private const val DIR_NAME_PREFIX = "tmp"
+        private const val DIR_NAME_SUFFIX = "decompress"
         private const val EPUB_FILE_PATH = "src/test/res/epub/test_ebook.epub"
-        private const val EPUB_DECOMPRESS_PATH = "src/test/res/epub/epubdecompressed"
         private const val EXPECTED_FILES_COUNT = 29
     }
 }
