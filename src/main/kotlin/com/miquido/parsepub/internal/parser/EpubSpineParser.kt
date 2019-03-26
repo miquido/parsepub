@@ -14,21 +14,21 @@ import org.w3c.dom.Element
 
 internal class EpubSpineParser {
     internal fun parse(
-        opfDocument: Document,
-        validation: ValidationListener?,
-        attributeLogger: AttributeLogger?
-    ) : EpubSpineModel {
+            opfDocument: Document,
+            validation: ValidationListener?,
+            attributeLogger: AttributeLogger?
+    ): EpubSpineModel {
 
         val spineElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, SPINE_TAG)
-            .orValidationError { validation?.onSpineMissing() }
+                .orValidationError { validation?.onSpineMissing() }
         val spineModel = spineElement?.getNodeListByTagNameNS(OPF_NAMESPACE, ITEM_REF_TAG)
-            .orValidationError { attributeLogger?.logMissingAttribute(SPINE_TAG, ITEM_REF_TAG) }
-            ?.map {
-            val element = it as Element
-            val idReference = element.getAttribute(ID_REF_ATTR)
-            val isLinear = element.getAttribute(IS_LINEAR_ATTR) == IS_LINEAR_POSITIVE_VALUE
-            EbupSpineReferenceModel(idReference, isLinear)
-        }
+                .orValidationError { attributeLogger?.logMissingAttribute(SPINE_TAG, ITEM_REF_TAG) }
+                ?.map {
+                    val element = it as Element
+                    val idReference = element.getAttribute(ID_REF_ATTR)
+                    val isLinear = element.getAttribute(IS_LINEAR_ATTR) == IS_LINEAR_POSITIVE_VALUE
+                    EbupSpineReferenceModel(idReference, isLinear)
+                }
         return EpubSpineModel(spineModel)
     }
 

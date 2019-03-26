@@ -8,7 +8,8 @@ class MissingAttributeLogger : AttributeLogger {
 
     private var attributeLogger: ((parentElement: String, attributeName: String) -> Unit)? = null
 
-    fun setOnAttributeLogger(attributeLogger: ((parentElement: String, attributeName: String)-> Unit)) {
+    fun setOnAttributeLogger(attributeLogger:
+                             ((parentElement: String, attributeName: String) -> Unit)) {
         this.attributeLogger = attributeLogger
     }
 

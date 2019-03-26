@@ -22,8 +22,15 @@ class EpubDecompressorTest {
 
     @Test
     fun `decompressor should return correct files count without any directories`() {
-        assertEquals(EXPECTED_FILES_COUNT, entities.size, "Files count differs then expected")
-        assertTrue(entities.none { it.isDirectory }, "Decompressor returns a list of files with directories")
+        assertEquals(
+                EXPECTED_FILES_COUNT,
+                entities.size,
+                "Files count differs then expected"
+        )
+        assertTrue(
+                entities.none { it.isDirectory },
+                "Decompressor returns a list of files with directories"
+        )
     }
 
     companion object {

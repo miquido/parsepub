@@ -20,7 +20,7 @@ internal class EpubMetadataParser {
     ): EpubMetadataModel {
 
         val epubSpecVersion = opfDocument.documentElement.getAttribute(VERSION_ATTR)
-        val metadataElement: Element? = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG)
+        val metadataElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG)
             .orValidationError { validation?.onMetadataMissing() }
 
         return EpubMetadataModel(

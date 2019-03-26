@@ -28,11 +28,16 @@ internal class OpfDocumentHandler {
         }
     }
 
-    private fun parseFileAsDocument(fileDirPath: String, entries: List<ZipEntry>, href: String): Document {
+    private fun parseFileAsDocument(fileDirPath: String,
+                                    entries: List<ZipEntry>,
+                                    href: String
+    ): Document {
+
         return entries
-            .filter { it.name.endsWith(href) }
-            .map { documentBuilder.parse(File(fileDirPath + "/${it.name}")) }.firstOrNull()
-            ?: documentBuilder.newDocument()
+                .filter { it.name.endsWith(href) }
+                .map { documentBuilder.parse(File(fileDirPath + "/${it.name}")) }
+                .firstOrNull()
+                ?: documentBuilder.newDocument()
     }
 
     companion object {

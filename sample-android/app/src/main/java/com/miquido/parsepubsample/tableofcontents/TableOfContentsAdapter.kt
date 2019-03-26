@@ -10,7 +10,8 @@ import com.miquido.parsepub.model.NavigationItemModel
 import com.miquido.parsepubsample.R
 import kotlinx.android.synthetic.main.item_toc.view.*
 
-class TableOfContentsAdapter(context: Context?) : RecyclerView.Adapter<TableOfContentsAdapter.ViewHolder>() {
+class TableOfContentsAdapter(context: Context?)
+    : RecyclerView.Adapter<TableOfContentsAdapter.ViewHolder>() {
 
     var tocModel: EpubTableOfContentsModel =
         EpubTableOfContentsModel(emptyList())

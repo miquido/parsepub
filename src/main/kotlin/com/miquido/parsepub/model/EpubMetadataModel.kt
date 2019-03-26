@@ -34,5 +34,6 @@ data class EpubMetadataModel(
     val epubSpecificationVersion: String? = null
 ) {
 
-    fun getEpubSpecificationMajorVersion() = epubSpecificationVersion?.let { Integer.parseInt(it[0].toString()) }
+    fun getEpubSpecificationMajorVersion() = epubSpecificationVersion
+            ?.let { Integer.parseInt(it[0].toString()) }
 }

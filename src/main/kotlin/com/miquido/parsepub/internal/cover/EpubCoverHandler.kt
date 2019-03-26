@@ -7,7 +7,9 @@ internal class EpubCoverHandler {
 
     internal fun getCoverImageFromManifest(manifestModel: EpubManifestModel): EpubResourceModel? {
 
-        var coverImage = manifestModel.resources?.firstOrNull { it.properties?.contains(COVER_IMAGE_ID_NAME) == true }
+        var coverImage = manifestModel
+                .resources
+                ?.firstOrNull { it.properties?.contains(COVER_IMAGE_ID_NAME) == true }
 
         if (coverImage == null) {
             coverImage = manifestModel.resources
