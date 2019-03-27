@@ -54,30 +54,33 @@ class EpubParser {
         val entries = decompressor.decompress(inputPath, decompressPath)
         val mainOpfDocument = opfDocumentHandler.createOpfDocument(decompressPath, entries)
 
+        val epubOpfFilePath = opfDocumentHandler.getOpfFullFilePath(decompressPath, entries)
         val epubManifestModel = manifestParser.parse(
-                mainOpfDocument,
-                validationListener,
-                attributeLogger
+            mainOpfDocument,
+            validationListener,
+            attributeLogger
         )
         val epubMetadataModel = metadataParser.parse(
-                mainOpfDocument,
-                validationListener,
-                attributeLogger
+            mainOpfDocument,
+            validationListener,
+            attributeLogger
         )
         val tocDocument = tocDocumentHandler.createTocDocument(
-                mainOpfDocument,
-                epubManifestModel,
-                decompressPath,
-                epubMetadataModel.getEpubSpecificationMajorVersion()
+            mainOpfDocument,
+            entries,
+            epubManifestModel,
+            decompressPath,
+            epubMetadataModel.getEpubSpecificationMajorVersion()
         )
         return EpubBook(
-                epubMetadataModel,
-                epubManifestModel,
-                spineParser.parse(mainOpfDocument, validationListener, attributeLogger),
-                tocParserFactory.getTableOfContentsParser(
-                        epubMetadataModel.getEpubSpecificationMajorVersion()
-                )
-                        .parse(tocDocument, validationListener, attributeLogger)
+            epubOpfFilePath,
+            epubMetadataModel,
+            epubManifestModel,
+            spineParser.parse(mainOpfDocument, validationListener, attributeLogger),
+            tocParserFactory.getTableOfContentsParser(
+                epubMetadataModel.getEpubSpecificationMajorVersion()
+            )
+                .parse(tocDocument, validationListener, attributeLogger)
         )
     }
 

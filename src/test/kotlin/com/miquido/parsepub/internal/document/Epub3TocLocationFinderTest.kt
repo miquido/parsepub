@@ -36,7 +36,7 @@ class Epub3TocLocationFinderTest {
 
     @Test
     fun `document handler should return correct path for epub3 specification`() {
-        val location = epub3TocLocationFinder.findNcxPath(epub3ManifestModel)
+        val location = epub3TocLocationFinder.findNcxLocation(epub3ManifestModel)
         assertThat(location).isEqualTo(EXPECTED_EPUB_3_TOC_LOCATION)
     }
 
