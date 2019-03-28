@@ -4,6 +4,7 @@ import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epublogger.MissingAttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListener
 import com.miquido.parsepub.epubvalidator.ValidationListeners
+import com.miquido.parsepub.internal.cover.EpubCoverHandler
 import com.miquido.parsepub.internal.decompressor.EpubDecompressor
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.document.OpfDocumentHandler
@@ -40,6 +41,9 @@ class EpubParser {
     private val tocParserFactory: TableOfContentParserFactory by lazy {
         ParserModuleProvider.epubTableOfContentsParserFactory
     }
+    private val epubCoverHandler: EpubCoverHandler by lazy {
+        ParserModuleProvider.epubCoverHandler
+    }
     private var validationListener: ValidationListener? = null
     private var attributeLogger: AttributeLogger? = null
 
@@ -72,8 +76,18 @@ class EpubParser {
             decompressPath,
             epubMetadataModel.getEpubSpecificationMajorVersion()
         )
+
+        val epubTocFilePath = tocDocumentHandler.getTocFullFilePath(
+            mainOpfDocument,
+            entries,
+            epubManifestModel,
+            epubMetadataModel.getEpubSpecificationMajorVersion()
+        )
+
         return EpubBook(
             epubOpfFilePath,
+            epubTocFilePath,
+            epubCoverHandler.getCoverImageFromManifest(epubManifestModel),
             epubMetadataModel,
             epubManifestModel,
             spineParser.parse(mainOpfDocument, validationListener, attributeLogger),

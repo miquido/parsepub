@@ -18,7 +18,7 @@ class EpubCoverHandlerTest {
 
     private val parser: EpubManifestParser by lazy { ParserModuleProvider.epubManifestParser }
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
-    private val coverHandler: EpubCoverHandler by lazy { ParserModuleProvider.coverHandler }
+    private val coverHandler: EpubCoverHandler by lazy { ParserModuleProvider.epubCoverHandler }
     private lateinit var document: Document
     private lateinit var manifestModel: EpubManifestModel
     private val validator = mock<ValidationListener>()
