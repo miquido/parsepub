@@ -4,7 +4,7 @@ import com.miquido.parsepub.model.EpubManifestModel
 
 internal class Epub3TocLocationFinder {
 
-    fun findNcxPath(epubManifestModel: EpubManifestModel): String? {
+    fun findNcxLocation(epubManifestModel: EpubManifestModel): String? {
         val resources = epubManifestModel.resources
         val ncxResourceId = resources
                 ?.firstOrNull { it.properties?.contains(NAV_PROPERTY) == true }

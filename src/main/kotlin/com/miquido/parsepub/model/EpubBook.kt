@@ -13,6 +13,7 @@ package com.miquido.parsepub.model
  * @property epubTableOfContentsModel Model of publication table of contents.
  */
 data class EpubBook(
+    val epubOpfFilePath: String? = null,
     val epubMetadataModel: EpubMetadataModel? = null,
     val epubManifestModel: EpubManifestModel? = null,
     val epubSpineModel: EpubSpineModel? = null,

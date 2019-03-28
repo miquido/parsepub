@@ -4,7 +4,6 @@ import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.extensions.getFirstElementByTag
 import org.w3c.dom.Document
 import java.io.File
-import java.nio.file.Paths
 import java.util.zip.ZipEntry
 import javax.xml.parsers.DocumentBuilder
 
@@ -13,9 +12,18 @@ internal class OpfDocumentHandler {
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
 
     internal fun createOpfDocument(fileDirPath: String, entries: List<ZipEntry>): Document {
-        val containerDocument = parseFileAsDocument(fileDirPath, entries, CONTAINER_HREF)
-        val opfFileHref = getOpfFileHref(containerDocument)
+        val opfFileHref = getOpfFileHref(fileDirPath, entries)
         return parseFileAsDocument(fileDirPath, entries, opfFileHref)
+    }
+
+    internal fun getOpfFullFilePath(fileDirPath: String, entries: List<ZipEntry>): String? {
+        val opfFileHref = getOpfFileHref(fileDirPath, entries)
+        return entries.firstOrNull { it.name.endsWith(opfFileHref) }?.name
+    }
+
+    private fun getOpfFileHref(fileDirPath: String, entries: List<ZipEntry>): String {
+        val containerDocument = parseFileAsDocument(fileDirPath, entries, CONTAINER_HREF)
+        return getOpfFileHref(containerDocument)
     }
 
     private fun getOpfFileHref(container: Document): String {
@@ -28,16 +36,17 @@ internal class OpfDocumentHandler {
         }
     }
 
-    private fun parseFileAsDocument(fileDirPath: String,
-                                    entries: List<ZipEntry>,
-                                    href: String
+    private fun parseFileAsDocument(
+        fileDirPath: String,
+        entries: List<ZipEntry>,
+        href: String
     ): Document {
 
         return entries
-                .filter { it.name.endsWith(href) }
-                .map { documentBuilder.parse(File(fileDirPath + "/${it.name}")) }
-                .firstOrNull()
-                ?: documentBuilder.newDocument()
+            .filter { it.name.endsWith(href) }
+            .map { documentBuilder.parse(File(fileDirPath + "/${it.name}")) }
+            .firstOrNull()
+            ?: documentBuilder.newDocument()
     }
 
     companion object {
