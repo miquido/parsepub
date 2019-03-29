@@ -20,7 +20,9 @@ class Epub3TocLocationFinderTest {
     private val manifestParser: EpubManifestParser by lazy {
         ParserModuleProvider.epubManifestParser
     }
-    private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
+    private val documentBuilder: DocumentBuilder by lazy {
+        ParserModuleProvider.documentBuilder
+    }
     private lateinit var epub3ManifestModel: EpubManifestModel
     private val validator = mock<ValidationListener>()
     private val attributeLogger = mock<AttributeLogger>()

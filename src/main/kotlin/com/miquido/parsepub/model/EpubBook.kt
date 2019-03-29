@@ -14,6 +14,8 @@ package com.miquido.parsepub.model
  */
 data class EpubBook(
     val epubOpfFilePath: String? = null,
+    val epubTocFilePath: String? = null,
+    val epubCoverImage: EpubResourceModel? = null,
     val epubMetadataModel: EpubMetadataModel? = null,
     val epubManifestModel: EpubManifestModel? = null,
     val epubSpineModel: EpubSpineModel? = null,

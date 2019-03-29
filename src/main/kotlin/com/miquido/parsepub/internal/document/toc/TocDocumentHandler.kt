@@ -20,15 +20,35 @@ class TocDocumentHandler {
         epubSpecMajorVersion: Int?
     ): Document? {
 
-        val tocLocation = if (epubSpecMajorVersion == EPUB_MAJOR_VERSION_3) {
-            Epub3TocLocationFinder().findNcxLocation(epubManifestModel)
-        } else {
-            Epub2TocLocationFinder().findNcxLocation(mainOpfDocument, epubManifestModel)
-        }
+        val tocLocation = getTocLocation(epubSpecMajorVersion, epubManifestModel, mainOpfDocument)
         val tocFullPath = getTocFullPath(epubEntries, tocLocation)
 
         return tocLocation?.let {
             documentBuilder.parse(File("$decompressPath/$tocFullPath"))
+        }
+    }
+
+    fun getTocFullFilePath(
+        mainOpfDocument: Document?,
+        epubEntries: List<ZipEntry>,
+        epubManifestModel: EpubManifestModel,
+        epubSpecMajorVersion: Int?
+    ): String? {
+
+        val tocLocation = getTocLocation(epubSpecMajorVersion, epubManifestModel, mainOpfDocument)
+        return getTocFullPath(epubEntries, tocLocation)
+    }
+
+    private fun getTocLocation(
+        epubSpecMajorVersion: Int?,
+        epubManifestModel: EpubManifestModel,
+        mainOpfDocument: Document?
+    ): String? {
+
+        return if (epubSpecMajorVersion == EPUB_MAJOR_VERSION_3) {
+            Epub3TocLocationFinder().findNcxLocation(epubManifestModel)
+        } else {
+            Epub2TocLocationFinder().findNcxLocation(mainOpfDocument, epubManifestModel)
         }
     }
 

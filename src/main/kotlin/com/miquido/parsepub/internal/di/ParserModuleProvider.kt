@@ -19,7 +19,7 @@ internal interface ParserModule {
     val epubManifestParser: EpubManifestParser
     val epubTableOfContentsParserFactory: TableOfContentParserFactory
     val opfDocumentHandler: OpfDocumentHandler
-    val coverHandler: EpubCoverHandler
+    val epubCoverHandler: EpubCoverHandler
     val tocDocumentHandler: TocDocumentHandler
 }
 
@@ -32,7 +32,7 @@ internal object ParserModuleProvider : ParserModule {
     }
     override val opfDocumentHandler: OpfDocumentHandler by lazy { OpfDocumentHandler() }
     override val epubDecompressor: EpubDecompressor by lazy { EpubDecompressor() }
-    override val coverHandler: EpubCoverHandler by lazy { EpubCoverHandler() }
+    override val epubCoverHandler: EpubCoverHandler by lazy { EpubCoverHandler() }
     override val documentBuilder: DocumentBuilder by lazy {
         DocumentBuilderFactory.newInstance().apply {
             isNamespaceAware = true
