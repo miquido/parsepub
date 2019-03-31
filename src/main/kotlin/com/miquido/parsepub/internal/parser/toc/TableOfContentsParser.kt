@@ -9,7 +9,7 @@ import org.w3c.dom.Document
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
-interface TableOfContentsParser {
+internal interface TableOfContentsParser {
     fun parse(
             tocDocument: Document?,
             validation: ValidationListener?,
@@ -23,7 +23,7 @@ interface TableOfContentsParser {
 
 internal class TableOfContentParserFactory {
 
-    fun getTableOfContentsParser(epuSpecMajorVersion: Int?): TableOfContentsParser {
+    internal fun getTableOfContentsParser(epuSpecMajorVersion: Int?): TableOfContentsParser {
         return if (epuSpecMajorVersion == EPUB_MAJOR_VERSION_3) {
             Epub3TableOfContentsParser()
         } else {

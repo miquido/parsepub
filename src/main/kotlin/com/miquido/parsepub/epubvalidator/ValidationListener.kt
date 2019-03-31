@@ -1,12 +1,13 @@
 package com.miquido.parsepub.epubvalidator
 
-typealias OnValidationListener = () -> Unit
+private typealias OnValidationListener = () -> Unit
 
 /**
  * Interface for validation .epub publication. Contains methods for handling
  * the missing of important elements in the .epub publication.
  */
 interface ValidationListener {
+
     /** Method for handling Metadata element missing. */
     fun onMetadataMissing()
 
@@ -20,27 +21,56 @@ interface ValidationListener {
     fun onTableOfContentsMissing()
 }
 
+/**
+ * An implementation class for the ValidationListener interface. Contains override
+ * interface methods and setter methods which we give body to call
+ * in the implemented methods.
+ */
 class ValidationListeners : ValidationListener {
 
     private var metadataMissing: (OnValidationListener)? = null
     private var manifestMissing: (OnValidationListener)? = null
     private var spineMissing: (OnValidationListener)? = null
-    private var tableOfContentsMissingMissing: (OnValidationListener)? = null
+    private var tableOfContentsMissing: (OnValidationListener)? = null
 
+    /**
+     * A setter method that gives the body to call in the overridden
+     * onMetadataMissing method.
+     *
+     * @param metadataMissing lambda expression to be called in an overridden method
+     */
     fun setOnMetadataMissing(metadataMissing: OnValidationListener) {
         this.metadataMissing = metadataMissing
     }
 
+    /**
+     * A setter method that gives the body to call in the overridden
+     * onManifestMissing method.
+     *
+     * @param manifestMissing lambda expression to be called in an overridden method
+     */
     fun setOnManifestMissing(manifestMissing: OnValidationListener) {
         this.manifestMissing = manifestMissing
     }
 
+    /**
+     * A setter method that gives the body to call in the overridden
+     * onSpineMissing method.
+     *
+     * @param spineMissing lambda expression to be called in an overridden method
+     */
     fun setOnSpineMissing(spineMissing: OnValidationListener) {
         this.spineMissing = spineMissing
     }
 
-    fun setOnTableOfContentMissing(navMapMissing: OnValidationListener) {
-        this.tableOfContentsMissingMissing = navMapMissing
+    /**
+     * A setter method that gives the body to call in the overridden
+     * onTableOfContentMissing method.
+     *
+     * @param tableOfContentsMissing lambda expression to be called in an overridden method
+     */
+    fun setOnTableOfContentMissing(tableOfContentsMissing: OnValidationListener) {
+        this.tableOfContentsMissing = tableOfContentsMissing
     }
 
     override fun onMetadataMissing() {
@@ -56,7 +86,7 @@ class ValidationListeners : ValidationListener {
     }
 
     override fun onTableOfContentsMissing() {
-        tableOfContentsMissingMissing?.invoke()
+        tableOfContentsMissing?.invoke()
     }
 
 }
