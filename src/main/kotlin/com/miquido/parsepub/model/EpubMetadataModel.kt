@@ -16,6 +16,7 @@ package com.miquido.parsepub.model
  * @property coverage Scope of publication content.
  * @property rights Rights statement or a reference to one.
  * @property publisher Publication publisher.
+ * @property epubSpecificationVersion The version number of the epub specification.
  */
 data class EpubMetadataModel(
     val id: String? = null,
@@ -34,6 +35,6 @@ data class EpubMetadataModel(
     val epubSpecificationVersion: String? = null
 ) {
 
-    fun getEpubSpecificationMajorVersion() = epubSpecificationVersion
+    internal fun getEpubSpecificationMajorVersion() = epubSpecificationVersion
             ?.let { Integer.parseInt(it[0].toString()) }
 }

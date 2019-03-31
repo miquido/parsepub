@@ -8,11 +8,11 @@ import java.io.File
 import java.util.zip.ZipEntry
 import javax.xml.parsers.DocumentBuilder
 
-class TocDocumentHandler {
+internal class TocDocumentHandler {
 
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
 
-    fun createTocDocument(
+    internal fun createTocDocument(
         mainOpfDocument: Document?,
         epubEntries: List<ZipEntry>,
         epubManifestModel: EpubManifestModel,
@@ -28,7 +28,7 @@ class TocDocumentHandler {
         }
     }
 
-    fun getTocFullFilePath(
+    internal fun getTocFullFilePath(
         mainOpfDocument: Document?,
         epubEntries: List<ZipEntry>,
         epubManifestModel: EpubManifestModel,

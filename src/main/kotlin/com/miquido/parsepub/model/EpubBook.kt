@@ -4,6 +4,10 @@ package com.miquido.parsepub.model
  * Main model of parsed .epub publication.
  * Contains all information extracted from decompressed .epub.
  *
+ * @property epubOpfFilePath Absolute path to the .opf file.
+ * @property epubTocFilePath Absolute path to the .toc file.
+ * @property epubCoverImage Model of publication cover image.
+ * Contains all information about the publication cover image.
  * @property epubMetadataModel Model of publication metadata.
  * Contains all basic information about the publication.
  * @property epubManifestModel Model of publication manifest.

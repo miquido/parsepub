@@ -98,12 +98,22 @@ class EpubParser {
         )
     }
 
+    /**
+     * Setter method that calls the lambda expressions passed in the parameter
+     *
+     * @param init lambda expressions to call
+     */
     fun setValidationListeners(init: ValidationListeners.() -> Unit) {
         val validationListener = ValidationListeners()
         validationListener.init()
         this.validationListener = validationListener
     }
 
+    /**
+     * Setter method that calls the lambda expressions passed in the parameter
+     *
+     * @param init lambda expressions to call
+     */
     fun setMissingAttributeLogger(init: MissingAttributeLogger.() -> Unit) {
         val attributeLogger = MissingAttributeLogger()
         attributeLogger.init()

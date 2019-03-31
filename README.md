@@ -30,16 +30,22 @@ The EpubBook class contains all information from an uncompressed epub publicatio
 Each of the parameters corresponds to a set of information parsed from the elements of the publication structure.
 ```bash
 data class EpubBook (
-   val epubMetadataModel: EpubMetadataModel? = null,
-   val epubManifestModel: EpubManifestModel? = null,
-   val epubSpineModel: EpubSpineModel? = null,
-   val epubTableOfContentsModel: EpubTableOfContentsModel? = null
+    val epubOpfFilePath: String? = null,
+    val epubTocFilePath: String? = null,
+    val epubCoverImage: EpubResourceModel? = null,
+    val epubMetadataModel: EpubMetadataModel? = null,
+    val epubManifestModel: EpubManifestModel? = null,
+    val epubSpineModel: EpubSpineModel? = null,
+    val epubTableOfContentsModel: EpubTableOfContentsModel? = null
 )
 ```
-*EpubMetadataModel* - Contains all publication resources.  
-*EpubManifestModel* -  Contains all basic information about the publication.  
-*EpubSpineModel* -  Contains list of references in reading order.  
-*EpubTableOfContentsModel* - Contains table of contents  
+*epubOpfFilePath* - Contains absolute path to the .opf file.  
+*epubTocFilePath* - Contains absolute path to the .toc file.  
+*epubCoverImage* - Contains all information about the publication cover image.  
+*epubMetadataModel* - Contains all publication resources.  
+*epubManifestModel* -  Contains all basic information about the publication.  
+*epubSpineModel* -  Contains list of references in reading order.  
+*epubTableOfContentsModel* - Contains table of contents publication.  
 
 More about the elements of the publication in the  
 **"Information about epub format for non-developers"** section
