@@ -73,7 +73,7 @@ epubParser.setValidationListeners {
    setOnMetadataMissing { Log.e(ERROR_TAG, "Metadata missing") }
    setOnManifestMissing { Log.e(ERROR_TAG, "Manifest missing") }
    setOnSpineMissing { Log.e(ERROR_TAG, "Spine missing") }
-   setOnTableOfContentMissing { Log.e(ERROR_TAG, "Table of contents missing") }
+   setOnTableOfContentsMissing { Log.e(ERROR_TAG, "Table of contents missing") }
 } 
 ```
 

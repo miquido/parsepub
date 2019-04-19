@@ -1,16 +1,16 @@
 package com.miquido.parsepub.internal.validator
 
 import com.miquido.parsepub.epubparser.EpubParser
-import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Before
 import org.junit.Test
 
-class ValidationListenerTest {
+class ValidationListenersTest {
 
     private lateinit var tmpDirPath: String
-    private var validationListener = mock<ValidationListener>()
+    private var validationListener = mock<ValidationListeners>()
     private val epubParser = EpubParser()
 
     @Before
@@ -25,7 +25,7 @@ class ValidationListenerTest {
             setOnManifestMissing { validationListener.onManifestMissing() }
             setOnMetadataMissing { validationListener.onMetadataMissing() }
             setOnSpineMissing { validationListener.onSpineMissing() }
-            setOnTableOfContentMissing { validationListener.onTableOfContentsMissing() }
+            setOnTableOfContentsMissing { validationListener.onTableOfContentsMissing() }
         }
     }
 

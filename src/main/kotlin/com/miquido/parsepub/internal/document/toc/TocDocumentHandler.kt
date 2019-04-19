@@ -12,7 +12,7 @@ internal class TocDocumentHandler {
 
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
 
-    internal fun createTocDocument(
+    fun createTocDocument(
         mainOpfDocument: Document?,
         epubEntries: List<ZipEntry>,
         epubManifestModel: EpubManifestModel,
@@ -28,7 +28,7 @@ internal class TocDocumentHandler {
         }
     }
 
-    internal fun getTocFullFilePath(
+    fun getTocFullFilePath(
         mainOpfDocument: Document?,
         epubEntries: List<ZipEntry>,
         epubManifestModel: EpubManifestModel,

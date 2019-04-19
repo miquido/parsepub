@@ -1,7 +1,7 @@
 package com.miquido.parsepub.internal.parser
 
 import com.miquido.parsepub.epublogger.AttributeLogger
-import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElementOrEmpty
@@ -9,13 +9,12 @@ import com.miquido.parsepub.internal.extensions.getTagTextContentsFromDcElements
 import com.miquido.parsepub.internal.extensions.orValidationError
 import com.miquido.parsepub.model.EpubMetadataModel
 import org.w3c.dom.Document
-import org.w3c.dom.Element
 
 internal class EpubMetadataParser {
 
-    internal fun parse(
+    fun parse(
         opfDocument: Document,
-        validation: ValidationListener?,
+        validation: ValidationListeners?,
         attributeLogger: AttributeLogger?
     ): EpubMetadataModel {
 

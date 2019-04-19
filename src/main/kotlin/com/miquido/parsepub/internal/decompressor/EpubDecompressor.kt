@@ -9,21 +9,21 @@ import java.util.zip.ZipFile
 
 internal class EpubDecompressor {
 
-    internal fun decompress(zipFilePath: String, outputPath: String): List<ZipEntry> {
+    fun decompress(zipFilePath: String, outputPath: String): List<ZipEntry> {
         val zipFile = ZipFile(File(zipFilePath))
         return unpackToPathAndReturnResult(zipFile, outputPath)
     }
 
     private fun unpackToPathAndReturnResult(zipFile: ZipFile,
-                                            destinationPath: String
+                                            outputPath: String
     ): List<ZipEntry> {
 
         val result = mutableListOf<ZipEntry>()
-        File(destinationPath).mkdir()
+        File(outputPath).mkdir()
 
         zipFile.entries().asSequence().forEach { entry ->
             result.add(entry)
-            val destinationFile = File(destinationPath, entry.name)
+            val destinationFile = File(outputPath, entry.name)
             destinationFile.parentFile.mkdirs()
 
             if (!entry.isDirectory) {

@@ -6,14 +6,8 @@ import com.miquido.parsepub.model.EpubManifestModel
 import org.w3c.dom.Document
 
 internal class Epub2TocLocationFinder {
-    private fun fallbackFindNcxPath(epubManifestModel: EpubManifestModel): String? {
-        return epubManifestModel
-            .resources
-            ?.firstOrNull { NCX_LOCATION_REGEXP.toRegex().matches(it.href.orEmpty()) }
-            ?.href
-    }
 
-    internal fun findNcxLocation(
+    fun findNcxLocation(
         mainOpfDocument: Document?,
         epubManifestModel: EpubManifestModel
     ): String? {
@@ -31,6 +25,13 @@ internal class Epub2TocLocationFinder {
         }
 
         return ncxLocation
+    }
+
+    private fun fallbackFindNcxPath(epubManifestModel: EpubManifestModel): String? {
+        return epubManifestModel
+            .resources
+            ?.firstOrNull { NCX_LOCATION_REGEXP.toRegex().matches(it.href.orEmpty()) }
+            ?.href
     }
 
     private companion object {
