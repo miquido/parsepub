@@ -1,6 +1,5 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.model.EpubMetadataModel
@@ -23,12 +22,11 @@ class EpubMetadataParserTest {
     private lateinit var document: Document
     private lateinit var metadataModel: EpubMetadataModel
     private val validator = mock<ValidationListeners>()
-    private val attributeLogger = mock<AttributeLogger>()
 
     @Before
     fun setup() {
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
-        metadataModel = metadataParser.parse(document, validator, attributeLogger)
+        metadataModel = metadataParser.parse(document, validator)
     }
 
     @Test

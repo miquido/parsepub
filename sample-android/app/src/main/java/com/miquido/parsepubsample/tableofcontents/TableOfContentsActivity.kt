@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setListeners()
-        setMissingAttributesLogger()
     }
 
     private fun parseEpubBook(onComplete: (result: EpubBook?) -> Unit) {
@@ -55,13 +54,8 @@ class MainActivity : AppCompatActivity() {
             setOnManifestMissing { Log.e(ERROR_TAG, "Manifest missing") }
             setOnSpineMissing { Log.e(ERROR_TAG, "Spine missing") }
             setOnTableOfContentsMissing { Log.e(ERROR_TAG, "Table of contents missing") }
-        }
-    }
-
-    private fun setMissingAttributesLogger() {
-        epubParser.setMissingAttributeLogger {
-            setOnAttributeLogger { parentElement, attributeName ->
-                Log.w("$parentElement warn", "missing $attributeName attribute")
+            setOnAttributeMissing { parentElement, attributeName ->
+                Log.e("$parentElement warn", "missing $attributeName attribute")
             }
         }
     }

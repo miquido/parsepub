@@ -1,6 +1,5 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
@@ -16,14 +15,13 @@ internal class EpubSpineParser {
 
     fun parse(
         opfDocument: Document,
-        validation: ValidationListeners?,
-        attributeLogger: AttributeLogger?
+        validation: ValidationListeners?
     ): EpubSpineModel {
 
         val spineElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, SPINE_TAG)
                 .orValidationError { validation?.onSpineMissing() }
         val spineModel = spineElement?.getNodeListByTagNameNS(OPF_NAMESPACE, ITEM_REF_TAG)
-                .orValidationError { attributeLogger?.logMissingAttribute(SPINE_TAG, ITEM_REF_TAG) }
+                .orValidationError { validation?.onAttributeMissing(SPINE_TAG, ITEM_REF_TAG) }
                 ?.map {
                     val element = it as Element
                     val idReference = element.getAttribute(ID_REF_ATTR)

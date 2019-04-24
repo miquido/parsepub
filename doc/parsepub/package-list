@@ -1,7 +1,6 @@
 $dokka.format:html
 $dokka.linkExtension:html
 
-com.miquido.parsepub.epublogger
 com.miquido.parsepub.epubparser
 com.miquido.parsepub.epubvalidator
 com.miquido.parsepub.model

@@ -1,6 +1,5 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
@@ -14,8 +13,7 @@ internal class EpubMetadataParser {
 
     fun parse(
         opfDocument: Document,
-        validation: ValidationListeners?,
-        attributeLogger: AttributeLogger?
+        validation: ValidationListeners?
     ): EpubMetadataModel {
 
         val epubSpecVersion = opfDocument.documentElement.getAttribute(VERSION_ATTR)
@@ -25,10 +23,10 @@ internal class EpubMetadataParser {
         return EpubMetadataModel(
             creators = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CREATOR_TAG),
             languages = metadataElement.getTagTextContentsFromDcElementsOrEmpty(LANGUAGE_TAG)
-                .orValidationError { attributeLogger?.logMissingAttribute(METADATA_TAG, LANGUAGE_TAG) },
+                .orValidationError { validation?.onAttributeMissing(METADATA_TAG, LANGUAGE_TAG) },
             contributors = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CONTRIBUTOR_TAG),
             title = metadataElement.getTagTextContentsFromDcElementOrEmpty(TITLE_TAG)
-                .orValidationError { attributeLogger?.logMissingAttribute(METADATA_TAG, TITLE_TAG) },
+                .orValidationError { validation?.onAttributeMissing(METADATA_TAG, TITLE_TAG) },
             subjects = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SUBJECT_TAG),
             sources = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SOURCE_TAG),
             description = metadataElement.getTagTextContentsFromDcElementOrEmpty(DESCRIPTION_TAG),
@@ -38,7 +36,7 @@ internal class EpubMetadataParser {
             publisher = metadataElement.getTagTextContentsFromDcElementOrEmpty(PUBLISHER_TAG),
             date = metadataElement.getTagTextContentsFromDcElementOrEmpty(DATE_TAG),
             id = metadataElement.getTagTextContentsFromDcElementOrEmpty(ID_TAG)
-                .orValidationError { attributeLogger?.logMissingAttribute(METADATA_TAG, ID_TAG) },
+                .orValidationError { validation?.onAttributeMissing(METADATA_TAG, ID_TAG) },
             epubSpecificationVersion = epubSpecVersion
         )
     }

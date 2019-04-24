@@ -1,6 +1,5 @@
 package com.miquido.parsepub.internal.parser.toc
 
-import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.constants.EpubConstants.EPUB_MAJOR_VERSION_3
 import com.miquido.parsepub.model.EpubTableOfContentsModel
@@ -9,8 +8,7 @@ import org.w3c.dom.Document
 internal interface TableOfContentsParser {
     fun parse(
         tocDocument: Document?,
-        validation: ValidationListeners?,
-        attributeLogger: AttributeLogger? = null
+        validation: ValidationListeners?
     ): EpubTableOfContentsModel
 }
 
