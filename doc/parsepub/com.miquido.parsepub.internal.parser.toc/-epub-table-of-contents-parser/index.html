@@ -1,0 +1,51 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>EpubTableOfContentsParser - parsepub</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">parsepub</a>&nbsp;/&nbsp;<a href="../index.html">com.miquido.parsepub.internal.parser.toc</a>&nbsp;/&nbsp;<a href="./index.html">EpubTableOfContentsParser</a><br/>
+<br/>
+<h1>EpubTableOfContentsParser</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">EpubTableOfContentsParser</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">TableOfContentsParser</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">EpubTableOfContentsParser</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="create-navigation-item-model.html">createNavigationItemModel</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">createNavigationItemModel</span><span class="symbol">(</span><span class="identifier" id="com.miquido.parsepub.internal.parser.toc.EpubTableOfContentsParser$createNavigationItemModel(org.w3c.dom.Node)/it">it</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-node/index.html"><span class="identifier">Node</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.miquido.parsepub.model/-navigation-item-model/index.html"><span class="identifier">NavigationItemModel</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="create-navigation-sub-item-model.html">createNavigationSubItemModel</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">createNavigationSubItemModel</span><span class="symbol">(</span><span class="identifier" id="com.miquido.parsepub.internal.parser.toc.EpubTableOfContentsParser$createNavigationSubItemModel(org.w3c.dom.NodeList)/childrenNodes">childrenNodes</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-node-list/index.html"><span class="identifier">NodeList</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../com.miquido.parsepub.model/-navigation-item-model/index.html"><span class="identifier">NavigationItemModel</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-nav-point.html">isNavPoint</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-node/index.html"><span class="identifier">Node</span></a><span class="symbol">.</span><span class="identifier">isNavPoint</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,6 +1,5 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
@@ -16,30 +15,29 @@ internal class EpubManifestParser {
 
     fun parse(
         opfDocument: Document,
-        validation: ValidationListeners?,
-        attributeLogger: AttributeLogger?
+        validation: ValidationListeners?
     ): EpubManifestModel {
 
         val manifestElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, MANIFEST_TAG)
                 .orValidationError { validation?.onManifestMissing() }
         val itemModel = manifestElement?.getElementsByTagNameNS(OPF_NAMESPACE, ITEM_TAG)
-                ?.orValidationError { attributeLogger?.logMissingAttribute(MANIFEST_TAG, ITEM_TAG) }
+                ?.orValidationError { validation?.onAttributeMissing(MANIFEST_TAG, ITEM_TAG) }
                 ?.map {
                     val element = it as Element
                     val id = element.getAttribute(ID_TAG)
                             .orNullIfEmpty()
                             .orValidationError {
-                                attributeLogger?.logMissingAttribute(MANIFEST_TAG, ID_TAG)
+                                validation?.onAttributeMissing(MANIFEST_TAG, ID_TAG)
                             }
                     val href = element.getAttribute(HREF_TAG)
                             .orNullIfEmpty()
                             .orValidationError {
-                                attributeLogger?.logMissingAttribute(MANIFEST_TAG, HREF_TAG)
+                                validation?.onAttributeMissing(MANIFEST_TAG, HREF_TAG)
                             }
                     val mediaType = element.getAttribute(MEDIA_TYPE_TAG)
                             .orNullIfEmpty()
                             .orValidationError {
-                                attributeLogger?.logMissingAttribute(MANIFEST_TAG, MEDIA_TYPE_TAG)
+                                validation?.onAttributeMissing(MANIFEST_TAG, MEDIA_TYPE_TAG)
                             }
                     var properties: HashSet<String>? = null
                     element.getAttribute(PROPERTIES_TAG)

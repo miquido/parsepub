@@ -1,7 +1,5 @@
 package com.miquido.parsepub.epubparser
 
-import com.miquido.parsepub.epublogger.AttributeLogger
-import com.miquido.parsepub.epublogger.MissingAttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.epubvalidator.ValidationListenersHelper
 import com.miquido.parsepub.internal.cover.EpubCoverHandler
@@ -45,7 +43,6 @@ class EpubParser {
         ParserModuleProvider.epubCoverHandler
     }
     private var validationListeners: ValidationListeners? = null
-    private var attributeLogger: AttributeLogger? = null
 
     /**
      * Function allowing to parse .epub publication into model
@@ -61,13 +58,11 @@ class EpubParser {
         val epubOpfFilePath = opfDocumentHandler.getOpfFullFilePath(decompressPath, entries)
         val epubManifestModel = manifestParser.parse(
             mainOpfDocument,
-            validationListeners,
-            attributeLogger
+            validationListeners
         )
         val epubMetadataModel = metadataParser.parse(
             mainOpfDocument,
-            validationListeners,
-            attributeLogger
+            validationListeners
         )
         val tocDocument = tocDocumentHandler.createTocDocument(
             mainOpfDocument,
@@ -90,11 +85,11 @@ class EpubParser {
             epubCoverHandler.getCoverImageFromManifest(epubManifestModel),
             epubMetadataModel,
             epubManifestModel,
-            spineParser.parse(mainOpfDocument, validationListeners, attributeLogger),
+            spineParser.parse(mainOpfDocument, validationListeners),
             tocParserFactory.getTableOfContentsParser(
                 epubMetadataModel.getEpubSpecificationMajorVersion()
             )
-                .parse(tocDocument, validationListeners, attributeLogger)
+                .parse(tocDocument, validationListeners)
         )
     }
 
@@ -109,14 +104,4 @@ class EpubParser {
         this.validationListeners = validationListener
     }
 
-    /**
-     * Setter method that calls the lambda expressions passed in the parameter
-     *
-     * @param init lambda expressions to call
-     */
-    fun setMissingAttributeLogger(init: MissingAttributeLogger.() -> Unit) {
-        val attributeLogger = MissingAttributeLogger()
-        attributeLogger.init()
-        this.attributeLogger = attributeLogger
-    }
 }

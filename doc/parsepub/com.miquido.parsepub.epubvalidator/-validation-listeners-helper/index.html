@@ -1,0 +1,132 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ValidationListenersHelper - parsepub</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">parsepub</a>&nbsp;/&nbsp;<a href="../index.html">com.miquido.parsepub.epubvalidator</a>&nbsp;/&nbsp;<a href="./index.html">ValidationListenersHelper</a><br/>
+<br/>
+<h1>ValidationListenersHelper</h1>
+<code><span class="keyword">class </span><span class="identifier">ValidationListenersHelper</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-validation-listeners/index.html"><span class="identifier">ValidationListeners</span></a></code>
+<p>An implementation class for the ValidationListeners interface. Contains override
+interface methods and setter methods which we give body to call
+in the implemented methods.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">ValidationListenersHelper</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>An implementation class for the ValidationListeners interface. Contains override
+interface methods and setter methods which we give body to call
+in the implemented methods.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="on-attribute-missing.html">onAttributeMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onAttributeMissing</span><span class="symbol">(</span><span class="identifier" id="com.miquido.parsepub.epubvalidator.ValidationListenersHelper$onAttributeMissing(kotlin.String, kotlin.String)/parentElement">parentElement</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.miquido.parsepub.epubvalidator.ValidationListenersHelper$onAttributeMissing(kotlin.String, kotlin.String)/attributeName">attributeName</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Method for informing when attribute are missing.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-manifest-missing.html">onManifestMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onManifestMissing</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Method for handling Manifest element missing.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-metadata-missing.html">onMetadataMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onMetadataMissing</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Method for handling Metadata element missing.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-spine-missing.html">onSpineMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onSpineMissing</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Method for handling Spine element missing.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-table-of-contents-missing.html">onTableOfContentsMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onTableOfContentsMissing</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Method for handling table of contents element missing.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="set-on-attribute-missing.html">setOnAttributeMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setOnAttributeMissing</span><span class="symbol">(</span><span class="identifier" id="com.miquido.parsepub.epubvalidator.ValidationListenersHelper$setOnAttributeMissing(kotlin.Function2((kotlin.String, , kotlin.Unit)))/attributeMissing">attributeMissing</span><span class="symbol">:</span>&nbsp;<span class="identifier">OnAttributeMissingListener</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>A setter method that gives the body to call in the overridden
+onAttributeMissing method.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="set-on-manifest-missing.html">setOnManifestMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setOnManifestMissing</span><span class="symbol">(</span><span class="identifier" id="com.miquido.parsepub.epubvalidator.ValidationListenersHelper$setOnManifestMissing(kotlin.Function0((kotlin.Unit)))/manifestMissing">manifestMissing</span><span class="symbol">:</span>&nbsp;<span class="identifier">OnElementMissingListener</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>A setter method that gives the body to call in the overridden
+onManifestMissing method.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="set-on-metadata-missing.html">setOnMetadataMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setOnMetadataMissing</span><span class="symbol">(</span><span class="identifier" id="com.miquido.parsepub.epubvalidator.ValidationListenersHelper$setOnMetadataMissing(kotlin.Function0((kotlin.Unit)))/metadataMissing">metadataMissing</span><span class="symbol">:</span>&nbsp;<span class="identifier">OnElementMissingListener</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>A setter method that gives the body to call in the overridden
+onMetadataMissing method.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="set-on-spine-missing.html">setOnSpineMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setOnSpineMissing</span><span class="symbol">(</span><span class="identifier" id="com.miquido.parsepub.epubvalidator.ValidationListenersHelper$setOnSpineMissing(kotlin.Function0((kotlin.Unit)))/spineMissing">spineMissing</span><span class="symbol">:</span>&nbsp;<span class="identifier">OnElementMissingListener</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>A setter method that gives the body to call in the overridden
+onSpineMissing method.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="set-on-table-of-contents-missing.html">setOnTableOfContentsMissing</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setOnTableOfContentsMissing</span><span class="symbol">(</span><span class="identifier" id="com.miquido.parsepub.epubvalidator.ValidationListenersHelper$setOnTableOfContentsMissing(kotlin.Function0((kotlin.Unit)))/tableOfContentsMissing">tableOfContentsMissing</span><span class="symbol">:</span>&nbsp;<span class="identifier">OnElementMissingListener</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>A setter method that gives the body to call in the overridden
+onTableOfContentsMissing method.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,6 +1,5 @@
 package com.miquido.parsepub.internal.parser.toc
 
-import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.constants.EpubConstants
 import com.miquido.parsepub.internal.extensions.*
@@ -13,33 +12,32 @@ import org.w3c.dom.NodeList
 
 internal class Epub3TableOfContentsParser : EpubTableOfContentsParser() {
 
-    private var attributeLogger: AttributeLogger? = null
+    private var validation: ValidationListeners? = null
 
     override fun parse(
         tocDocument: Document?,
-        validation: ValidationListeners?,
-        attributeLogger: AttributeLogger?
+        validation: ValidationListeners?
     ): EpubTableOfContentsModel {
 
-        this.attributeLogger = attributeLogger
+        this.validation = validation
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
         val tocNav = tocDocument?.getElementsByTagName(NAV_TAG)
             .orValidationError { validation?.onTableOfContentsMissing() }
             ?.firstWithAttributeNS(EpubConstants.ND_NAMESPACE, TYPE_ATTR, TOC_ATTR_VALUE)
             .orValidationError {
-                attributeLogger?.logMissingAttribute(TOC_ATTR_VALUE, TABLE_OF_CONTENTS_TAG)
+                validation?.onAttributeMissing(TOC_ATTR_VALUE, TABLE_OF_CONTENTS_TAG)
             } as Element
 
         tocNav.getFirstElementByTag(OL_TAG)
             .orValidationError {
-                attributeLogger?.logMissingAttribute(OL_TAG, TABLE_OF_CONTENTS_TAG)
+                validation?.onAttributeMissing(OL_TAG, TABLE_OF_CONTENTS_TAG)
             }
             ?.childNodes.forEach {
             if (it.isNavPoint()) {
                 tableOfContentsReferences.add(createNavigationItemModel(it))
             } else {
                 orValidationError {
-                    attributeLogger?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, NAV_POINT_TAG)
+                    validation?.onAttributeMissing(TABLE_OF_CONTENTS_TAG, NAV_POINT_TAG)
                 }
             }
         }
@@ -52,12 +50,12 @@ internal class Epub3TableOfContentsParser : EpubTableOfContentsParser() {
         val label = ref?.textContent
             ?.orNullIfEmpty()
             .orValidationError {
-                attributeLogger?.logMissingAttribute(LABEL_FIELD_NAME, TABLE_OF_CONTENTS_TAG)
+                validation?.onAttributeMissing(LABEL_FIELD_NAME, TABLE_OF_CONTENTS_TAG)
             }
         val source = ref?.getAttribute(HREF_ATTR)
             ?.orNullIfEmpty()
             .orValidationError {
-                attributeLogger?.logMissingAttribute(HREF_ATTR, TABLE_OF_CONTENTS_TAG)
+                validation?.onAttributeMissing(HREF_ATTR, TABLE_OF_CONTENTS_TAG)
             }
         val subItems = createNavigationSubItemModel(it.getFirstElementByTag(OL_TAG)?.childNodes)
         return NavigationItemModel(null, label, source, subItems)

@@ -1,10 +1,12 @@
 package com.miquido.parsepub.epubvalidator
 
-private typealias OnValidationListener = () -> Unit
+private typealias OnElementMissingListener = () -> Unit
+private typealias OnAttributeMissingListener = (parentElement: String, attributeName: String) -> Unit
 
 /**
  * Interface for validation .epub publication. Contains methods for handling
- * the missing of important elements in the .epub publication.
+ * the missing of important elements in the .epub publication and handling method informing
+ * when attribute are missing.
  */
 interface ValidationListeners {
 
@@ -19,6 +21,13 @@ interface ValidationListeners {
 
     /** Method for handling table of contents element missing. */
     fun onTableOfContentsMissing()
+
+    /** Method for informing when attribute are missing.
+     *
+     * @param parentElement name of publication element where attributes are missing
+     * @param attributeName name of missing attribute
+     */
+    fun onAttributeMissing(parentElement: String, attributeName: String)
 }
 
 /**
@@ -28,10 +37,11 @@ interface ValidationListeners {
  */
 class ValidationListenersHelper : ValidationListeners {
 
-    private var metadataMissing: (OnValidationListener)? = null
-    private var manifestMissing: (OnValidationListener)? = null
-    private var spineMissing: (OnValidationListener)? = null
-    private var tableOfContentsMissing: (OnValidationListener)? = null
+    private var metadataMissing: (OnElementMissingListener)? = null
+    private var manifestMissing: (OnElementMissingListener)? = null
+    private var spineMissing: (OnElementMissingListener)? = null
+    private var tableOfContentsMissing: (OnElementMissingListener)? = null
+    private var attributeMissing: (OnAttributeMissingListener)? = null
 
     /**
      * A setter method that gives the body to call in the overridden
@@ -39,7 +49,7 @@ class ValidationListenersHelper : ValidationListeners {
      *
      * @param metadataMissing lambda expression to be called in an overridden method
      */
-    fun setOnMetadataMissing(metadataMissing: OnValidationListener) {
+    fun setOnMetadataMissing(metadataMissing: OnElementMissingListener) {
         this.metadataMissing = metadataMissing
     }
 
@@ -49,7 +59,7 @@ class ValidationListenersHelper : ValidationListeners {
      *
      * @param manifestMissing lambda expression to be called in an overridden method
      */
-    fun setOnManifestMissing(manifestMissing: OnValidationListener) {
+    fun setOnManifestMissing(manifestMissing: OnElementMissingListener) {
         this.manifestMissing = manifestMissing
     }
 
@@ -59,7 +69,7 @@ class ValidationListenersHelper : ValidationListeners {
      *
      * @param spineMissing lambda expression to be called in an overridden method
      */
-    fun setOnSpineMissing(spineMissing: OnValidationListener) {
+    fun setOnSpineMissing(spineMissing: OnElementMissingListener) {
         this.spineMissing = spineMissing
     }
 
@@ -69,8 +79,18 @@ class ValidationListenersHelper : ValidationListeners {
      *
      * @param tableOfContentsMissing lambda expression to be called in an overridden method
      */
-    fun setOnTableOfContentsMissing(tableOfContentsMissing: OnValidationListener) {
+    fun setOnTableOfContentsMissing(tableOfContentsMissing: OnElementMissingListener) {
         this.tableOfContentsMissing = tableOfContentsMissing
+    }
+
+    /**
+     * A setter method that gives the body to call in the overridden
+     * onAttributeMissing method.
+     *
+     * @param attributeMissing lambda expression to be called in an overridden method
+     */
+    fun setOnAttributeMissing(attributeMissing: OnAttributeMissingListener) {
+        this.attributeMissing = attributeMissing
     }
 
     override fun onMetadataMissing() {
@@ -87,6 +107,10 @@ class ValidationListenersHelper : ValidationListeners {
 
     override fun onTableOfContentsMissing() {
         tableOfContentsMissing?.invoke()
+    }
+
+    override fun onAttributeMissing(parentElement: String, attributeName: String) {
+        attributeMissing?.invoke(parentElement, attributeName)
     }
 
 }

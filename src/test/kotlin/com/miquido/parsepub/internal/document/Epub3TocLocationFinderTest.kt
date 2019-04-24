@@ -1,6 +1,5 @@
 package com.miquido.parsepub.internal.document
 
-import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.document.toc.Epub3TocLocationFinder
@@ -25,14 +24,12 @@ class Epub3TocLocationFinderTest {
     }
     private lateinit var epub3ManifestModel: EpubManifestModel
     private val validator = mock<ValidationListeners>()
-    private val attributeLogger = mock<AttributeLogger>()
 
     @Before
     fun setup() {
         epub3ManifestModel = manifestParser.parse(
                 documentBuilder.parse(File(OPF_EPUB3_TEST_FILE_PATH)),
-                validator,
-                attributeLogger
+                validator
         )
     }
 

@@ -1,6 +1,5 @@
 package com.miquido.parsepub.internal.cover
 
-import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.parser.EpubManifestParser
@@ -22,12 +21,11 @@ class EpubCoverHandlerTest {
     private lateinit var document: Document
     private lateinit var manifestModel: EpubManifestModel
     private val validator = mock<ValidationListeners>()
-    private val attributeLogger = mock<AttributeLogger>()
 
     @Before
     fun setup() {
         document = documentBuilder.parse(File(OPF_TEST_FILE_PATH))
-        manifestModel = parser.parse(document, validator, attributeLogger)
+        manifestModel = parser.parse(document, validator)
     }
 
     @Test

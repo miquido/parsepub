@@ -1,6 +1,5 @@
 package com.miquido.parsepub.internal.document
 
-import com.miquido.parsepub.epublogger.AttributeLogger
 import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.decompressor.EpubDecompressor
 import com.miquido.parsepub.internal.di.ParserModuleProvider
@@ -25,7 +24,6 @@ class TocDocumentHandlerTest {
     private lateinit var manifestModel: EpubManifestModel
     private lateinit var metadataModel: EpubMetadataModel
     private val validator = mock<ValidationListeners>()
-    private val attributeLogger = mock<AttributeLogger>()
 
     private val manifestParser: EpubManifestParser by lazy {
         ParserModuleProvider.epubManifestParser
@@ -53,8 +51,8 @@ class TocDocumentHandlerTest {
 
         epubEntries = epubDecompressor.decompress(EBOOK_FILE_PATH, tmpDirPath)
         mainOpfFile = opfDocumentHandler.createOpfDocument(tmpDirPath, epubEntries)
-        manifestModel = manifestParser.parse(mainOpfFile, validator, attributeLogger)
-        metadataModel = metadataParser.parse(mainOpfFile, validator, attributeLogger)
+        manifestModel = manifestParser.parse(mainOpfFile, validator)
+        metadataModel = metadataParser.parse(mainOpfFile, validator)
 
         tocFilePath = tocDocumentHandler.getTocFullFilePath(
             mainOpfFile,

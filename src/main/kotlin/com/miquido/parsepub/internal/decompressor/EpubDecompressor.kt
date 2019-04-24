@@ -4,6 +4,7 @@ import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.RuntimeException
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
@@ -14,12 +15,19 @@ internal class EpubDecompressor {
         return unpackToPathAndReturnResult(zipFile, outputPath)
     }
 
-    private fun unpackToPathAndReturnResult(zipFile: ZipFile,
-                                            outputPath: String
+    private fun unpackToPathAndReturnResult(
+        zipFile: ZipFile,
+        outputPath: String
     ): List<ZipEntry> {
 
         val result = mutableListOf<ZipEntry>()
-        File(outputPath).mkdir()
+        File(outputPath).let {
+            if (!it.canWrite()) {
+                throw RuntimeException("Cannot write file. Check path and permissions")
+            } else {
+                it.mkdir()
+            }
+        }
 
         zipFile.entries().asSequence().forEach { entry ->
             result.add(entry)
