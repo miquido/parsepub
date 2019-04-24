@@ -11,12 +11,12 @@ internal class OpfDocumentHandler {
 
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
 
-    internal fun createOpfDocument(fileDirPath: String, entries: List<ZipEntry>): Document {
+    fun createOpfDocument(fileDirPath: String, entries: List<ZipEntry>): Document {
         val opfFileHref = getOpfFileHref(fileDirPath, entries)
         return parseFileAsDocument(fileDirPath, entries, opfFileHref)
     }
 
-    internal fun getOpfFullFilePath(fileDirPath: String, entries: List<ZipEntry>): String? {
+    fun getOpfFullFilePath(fileDirPath: String, entries: List<ZipEntry>): String? {
         val opfFileHref = getOpfFileHref(fileDirPath, entries)
         return entries.firstOrNull { it.name.endsWith(opfFileHref) }?.name
     }

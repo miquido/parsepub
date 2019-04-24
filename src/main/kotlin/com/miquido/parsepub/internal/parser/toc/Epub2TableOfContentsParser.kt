@@ -1,7 +1,7 @@
 package com.miquido.parsepub.internal.parser.toc
 
 import com.miquido.parsepub.epublogger.AttributeLogger
-import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.constants.EpubConstants.NCX_NAMESPACE
 import com.miquido.parsepub.internal.extensions.forEach
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
@@ -14,17 +14,17 @@ import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
-internal class Epub2TableOfContentsParser : TableOfContentsParser {
+internal class Epub2TableOfContentsParser : EpubTableOfContentsParser() {
 
-    private var validationAttr: AttributeLogger? = null
+    private var attributeLogger: AttributeLogger? = null
 
     override fun parse(
         tocDocument: Document?,
-        validation: ValidationListener?,
+        validation: ValidationListeners?,
         attributeLogger: AttributeLogger?
     ): EpubTableOfContentsModel {
 
-        this.validationAttr = attributeLogger
+        this.attributeLogger = attributeLogger
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
         tocDocument?.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_MAP_TAG)
             .orValidationError {
@@ -47,25 +47,25 @@ internal class Epub2TableOfContentsParser : TableOfContentsParser {
         val id = element.getAttribute(ID_ATTR)
             .orNullIfEmpty()
             .orValidationError {
-                validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, ID_ATTR)
+                attributeLogger?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, ID_ATTR)
             }
         val label = element.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_LABEL_TAG)
             .orValidationError {
-                validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, NAV_LABEL_TAG)
+                attributeLogger?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, NAV_LABEL_TAG)
             }
             ?.getFirstElementByTagNameNS(NCX_NAMESPACE, TEXT_TAG)?.textContent
             ?.orNullIfEmpty()
             .orValidationError {
-                validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, TEXT_TAG)
+                attributeLogger?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, TEXT_TAG)
             }
         val source = element.getFirstElementByTagNameNS(NCX_NAMESPACE, CONTENT_TAG)
             .orValidationError {
-                validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, CONTENT_TAG)
+                attributeLogger?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, CONTENT_TAG)
             }
             ?.getAttribute(SRC_ATTR)
             ?.orNullIfEmpty()
             .orValidationError {
-                validationAttr?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, SRC_ATTR)
+                attributeLogger?.logMissingAttribute(TABLE_OF_CONTENTS_TAG, SRC_ATTR)
             }
         val subItems = createNavigationSubItemModel(element.childNodes)
         return NavigationItemModel(id, label, source, subItems)

@@ -6,7 +6,7 @@ private typealias OnValidationListener = () -> Unit
  * Interface for validation .epub publication. Contains methods for handling
  * the missing of important elements in the .epub publication.
  */
-interface ValidationListener {
+interface ValidationListeners {
 
     /** Method for handling Metadata element missing. */
     fun onMetadataMissing()
@@ -22,11 +22,11 @@ interface ValidationListener {
 }
 
 /**
- * An implementation class for the ValidationListener interface. Contains override
+ * An implementation class for the ValidationListeners interface. Contains override
  * interface methods and setter methods which we give body to call
  * in the implemented methods.
  */
-class ValidationListeners : ValidationListener {
+class ValidationListenersHelper : ValidationListeners {
 
     private var metadataMissing: (OnValidationListener)? = null
     private var manifestMissing: (OnValidationListener)? = null
@@ -65,11 +65,11 @@ class ValidationListeners : ValidationListener {
 
     /**
      * A setter method that gives the body to call in the overridden
-     * onTableOfContentMissing method.
+     * onTableOfContentsMissing method.
      *
      * @param tableOfContentsMissing lambda expression to be called in an overridden method
      */
-    fun setOnTableOfContentMissing(tableOfContentsMissing: OnValidationListener) {
+    fun setOnTableOfContentsMissing(tableOfContentsMissing: OnValidationListener) {
         this.tableOfContentsMissing = tableOfContentsMissing
     }
 

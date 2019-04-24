@@ -1,7 +1,7 @@
 package com.miquido.parsepub.internal.cover
 
 import com.miquido.parsepub.epublogger.AttributeLogger
-import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.parser.EpubManifestParser
 import com.miquido.parsepub.model.EpubManifestModel
@@ -21,7 +21,7 @@ class EpubCoverHandlerTest {
     private val coverHandler: EpubCoverHandler by lazy { ParserModuleProvider.epubCoverHandler }
     private lateinit var document: Document
     private lateinit var manifestModel: EpubManifestModel
-    private val validator = mock<ValidationListener>()
+    private val validator = mock<ValidationListeners>()
     private val attributeLogger = mock<AttributeLogger>()
 
     @Before

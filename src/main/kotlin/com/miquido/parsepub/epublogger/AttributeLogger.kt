@@ -1,5 +1,7 @@
 package com.miquido.parsepub.epublogger
 
+private typealias OnAttributeMissingListener = (parentElement: String, attributeName: String) -> Unit
+
 /**
  * Interface for .epub publication logger. Contains method for inform
  * when the set of attributes in the publication structure element are not complete.
@@ -21,7 +23,7 @@ interface AttributeLogger {
  */
 class MissingAttributeLogger : AttributeLogger {
 
-    private var attributeLogger: ((parentElement: String, attributeName: String) -> Unit)? = null
+    private var attributeLogger: (OnAttributeMissingListener)? = null
 
     /**
      * A setter method that gives the body to call in the overridden
@@ -29,10 +31,7 @@ class MissingAttributeLogger : AttributeLogger {
      *
      * @param attributeLogger lambda expression to be called in an overridden method
      */
-    fun setOnAttributeLogger(
-        attributeLogger: (
-            (parentElement: String, attributeName: String) -> Unit)
-    ) {
+    fun setOnAttributeLogger(attributeLogger: OnAttributeMissingListener) {
         this.attributeLogger = attributeLogger
     }
 

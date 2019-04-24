@@ -1,7 +1,7 @@
 package com.miquido.parsepub.internal.document
 
 import com.miquido.parsepub.epublogger.AttributeLogger
-import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.decompressor.EpubDecompressor
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.internal.document.toc.TocDocumentHandler
@@ -24,7 +24,7 @@ class TocDocumentHandlerTest {
     private lateinit var mainOpfFile: Document
     private lateinit var manifestModel: EpubManifestModel
     private lateinit var metadataModel: EpubMetadataModel
-    private val validator = mock<ValidationListener>()
+    private val validator = mock<ValidationListeners>()
     private val attributeLogger = mock<AttributeLogger>()
 
     private val manifestParser: EpubManifestParser by lazy {

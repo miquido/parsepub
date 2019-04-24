@@ -1,7 +1,7 @@
 package com.miquido.parsepub.internal.parser
 
 import com.miquido.parsepub.epublogger.AttributeLogger
-import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.internal.extensions.map
@@ -14,10 +14,10 @@ import org.w3c.dom.Element
 
 internal class EpubManifestParser {
 
-    internal fun parse(
-            opfDocument: Document,
-            validation: ValidationListener?,
-            attributeLogger: AttributeLogger?
+    fun parse(
+        opfDocument: Document,
+        validation: ValidationListeners?,
+        attributeLogger: AttributeLogger?
     ): EpubManifestModel {
 
         val manifestElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, MANIFEST_TAG)

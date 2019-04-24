@@ -1,7 +1,7 @@
 package com.miquido.parsepub.internal.parser
 
 import com.miquido.parsepub.epublogger.AttributeLogger
-import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.constants.EpubConstants.OPF_NAMESPACE
 import com.miquido.parsepub.internal.extensions.getFirstElementByTagNameNS
 import com.miquido.parsepub.internal.extensions.getNodeListByTagNameNS
@@ -13,10 +13,11 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 internal class EpubSpineParser {
-    internal fun parse(
-            opfDocument: Document,
-            validation: ValidationListener?,
-            attributeLogger: AttributeLogger?
+
+    fun parse(
+        opfDocument: Document,
+        validation: ValidationListeners?,
+        attributeLogger: AttributeLogger?
     ): EpubSpineModel {
 
         val spineElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, SPINE_TAG)

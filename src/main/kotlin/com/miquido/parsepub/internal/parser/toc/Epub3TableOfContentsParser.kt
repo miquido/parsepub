@@ -1,7 +1,7 @@
 package com.miquido.parsepub.internal.parser.toc
 
 import com.miquido.parsepub.epublogger.AttributeLogger
-import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.constants.EpubConstants
 import com.miquido.parsepub.internal.extensions.*
 import com.miquido.parsepub.model.EpubTableOfContentsModel
@@ -11,17 +11,17 @@ import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
-internal class Epub3TableOfContentsParser : TableOfContentsParser {
+internal class Epub3TableOfContentsParser : EpubTableOfContentsParser() {
 
-    private var validationAttr: AttributeLogger? = null
+    private var attributeLogger: AttributeLogger? = null
 
     override fun parse(
         tocDocument: Document?,
-        validation: ValidationListener?,
+        validation: ValidationListeners?,
         attributeLogger: AttributeLogger?
     ): EpubTableOfContentsModel {
 
-        this.validationAttr = attributeLogger
+        this.attributeLogger = attributeLogger
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
         val tocNav = tocDocument?.getElementsByTagName(NAV_TAG)
             .orValidationError { validation?.onTableOfContentsMissing() }
@@ -52,12 +52,12 @@ internal class Epub3TableOfContentsParser : TableOfContentsParser {
         val label = ref?.textContent
             ?.orNullIfEmpty()
             .orValidationError {
-                validationAttr?.logMissingAttribute(LABEL_FIELD_NAME, TABLE_OF_CONTENTS_TAG)
+                attributeLogger?.logMissingAttribute(LABEL_FIELD_NAME, TABLE_OF_CONTENTS_TAG)
             }
         val source = ref?.getAttribute(HREF_ATTR)
             ?.orNullIfEmpty()
             .orValidationError {
-                validationAttr?.logMissingAttribute(HREF_ATTR, TABLE_OF_CONTENTS_TAG)
+                attributeLogger?.logMissingAttribute(HREF_ATTR, TABLE_OF_CONTENTS_TAG)
             }
         val subItems = createNavigationSubItemModel(it.getFirstElementByTag(OL_TAG)?.childNodes)
         return NavigationItemModel(null, label, source, subItems)

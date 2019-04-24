@@ -1,7 +1,7 @@
 package com.miquido.parsepub.internal.parser
 
 import com.miquido.parsepub.epublogger.AttributeLogger
-import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.di.ParserModuleProvider
 import com.miquido.parsepub.model.EpubSpineModel
 import com.nhaarman.mockitokotlin2.mock
@@ -18,7 +18,7 @@ class SpineParserTest {
     private val documentBuilder: DocumentBuilder by lazy { ParserModuleProvider.documentBuilder }
     private lateinit var document: Document
     private lateinit var spineModel: EpubSpineModel
-    private val validator = mock<ValidationListener>()
+    private val validator = mock<ValidationListeners>()
     private val attributeLogger = mock<AttributeLogger>()
 
     @Before

@@ -27,9 +27,7 @@ internal fun Document.getFirstElementByTag(tag: String): Element? {
 }
 
 internal fun NodeList.isNotEmpty(): Element? {
-    return this.let {
-        if (it.length > 0) it.item(0) as Element else null
-    }
+    return if (this.length > 0) this.item(0) as Element else null
 }
 
 internal fun NodeList?.textContents(): List<String>? {

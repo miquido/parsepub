@@ -1,9 +1,9 @@
 package com.miquido.parsepub.internal.parser
 
-import com.miquido.parsepub.epubvalidator.ValidationListener
+import com.miquido.parsepub.epubvalidator.ValidationListeners
 import com.miquido.parsepub.internal.constants.EpubConstants.EPUB_MAJOR_VERSION_3
 import com.miquido.parsepub.internal.di.ParserModuleProvider
-import com.miquido.parsepub.internal.parser.toc.TableOfContentParserFactory
+import com.miquido.parsepub.internal.parser.toc.TableOfContentsParserFactory
 import com.miquido.parsepub.model.EpubTableOfContentsModel
 import com.miquido.parsepub.model.NavigationItemModel
 import com.nhaarman.mockitokotlin2.mock
@@ -16,7 +16,7 @@ import javax.xml.parsers.DocumentBuilder
 
 class Epub3TableOfContentsParserTest {
 
-    private val parserFactory: TableOfContentParserFactory by lazy {
+    private val parserFactory: TableOfContentsParserFactory by lazy {
         ParserModuleProvider.epubTableOfContentsParserFactory
     }
     private val documentBuilder: DocumentBuilder by lazy {
@@ -25,7 +25,7 @@ class Epub3TableOfContentsParserTest {
 
     private lateinit var tocDocument: Document
     private lateinit var tocModel: EpubTableOfContentsModel
-    private val validator = mock<ValidationListener>()
+    private val validator = mock<ValidationListeners>()
 
     @Before
     fun setup() {
