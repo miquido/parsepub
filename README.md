@@ -4,7 +4,7 @@
 
 ## **Overview**
 
-**parsepub** is a universal tool written in Kotlin designed to convert an EPUB publication into a data model used later by a reader. In addition it also provides validation and a system of logs informing about the inconsistency of the format.  
+**parsepub** is a universal tool written in Kotlin designed to convert an EPUB publication into a data model used later by a reader. In addition it also provides validation and a system that informing about the inconsistency of the format.  
 
 ---
 
@@ -13,7 +13,7 @@
 * converting the publication to a model containing all resources and necessary information
 * providing EPUB format support in versions 2.0 and 3.0 for all major tags
 * handling inconsistency errors or lack of necessary elements in the publication structure
-* support for displaying logs when element structure attributes are missing
+* support for displaying information when element structure attributes are missing
 
 ---
 
@@ -77,22 +77,20 @@ epubParser.setValidationListeners {
 } 
 ```
 
-### Displaying missing attributes logs
+### Displaying information about missing attributes
 Our parsing method can return unexpected results also when the set of attributes in the file structure element is not complete  
 e.g. missing **language** attribute in **Metadata** element.
 
-**Solution - MissingAttributeLogger**  
-The mechanism that we created is the answer to the problem illustrated above and it is similar to ValidationListener.  
-When the required attribute is not correct or missing, logger reports it along with its name and parent attribute name.  
+**Solution - onAttributeMissing**  
+The mechanism that we created is the answer to the problem illustrated above and it is the part of ValidationListener.  
+When the required attribute is not correct or missing, our listener reports information with name of him and his parent.  
 As parameters, we receive two values:  
 *parentElement* - the name of the main element in which the error occurs  
 *attributeName* - name of the missing attribute
 
 ```bash
-epubParser.setMissingAttributeLogger {
-   setOnAttributeLogger { parentElement, attributeName ->
-       Log.w("$parentElement warn", "missing $attributeName attribute")
-   }
+setOnAttributeMissing { parentElement, attributeName ->
+    Log.e("$parentElement warn", "missing $attributeName attribute")
 }
 ```
 
