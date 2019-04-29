@@ -16,28 +16,28 @@ internal class Epub3TableOfContentsParser : EpubTableOfContentsParser() {
 
     override fun parse(
         tocDocument: Document?,
-        validation: ValidationListeners?
+        validationListeners: ValidationListeners?
     ): EpubTableOfContentsModel {
 
-        this.validationListeners = validation
+        this.validationListeners = validationListeners
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
         val tocNav = tocDocument?.getElementsByTagName(NAV_TAG)
-            .orValidationError { validation?.onTableOfContentsMissing() }
+            .orValidationError { validationListeners?.onTableOfContentsMissing() }
             ?.firstWithAttributeNS(EpubConstants.ND_NAMESPACE, TYPE_ATTR, TOC_ATTR_VALUE)
             .orValidationError {
-                validation?.onAttributeMissing(TOC_ATTR_VALUE, TABLE_OF_CONTENTS_TAG)
+                validationListeners?.onAttributeMissing(TOC_ATTR_VALUE, TABLE_OF_CONTENTS_TAG)
             } as Element
 
         tocNav.getFirstElementByTag(OL_TAG)
             .orValidationError {
-                validation?.onAttributeMissing(OL_TAG, TABLE_OF_CONTENTS_TAG)
+                validationListeners?.onAttributeMissing(OL_TAG, TABLE_OF_CONTENTS_TAG)
             }
             ?.childNodes.forEach {
             if (it.isNavPoint()) {
                 tableOfContentsReferences.add(createNavigationItemModel(it))
             } else {
                 orValidationError {
-                    validation?.onAttributeMissing(TABLE_OF_CONTENTS_TAG, NAV_POINT_TAG)
+                    validationListeners?.onAttributeMissing(TABLE_OF_CONTENTS_TAG, NAV_POINT_TAG)
                 }
             }
         }

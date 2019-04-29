@@ -15,29 +15,29 @@ internal class EpubManifestParser {
 
     fun parse(
         opfDocument: Document,
-        validation: ValidationListeners?
+        validationListeners: ValidationListeners?
     ): EpubManifestModel {
 
         val manifestElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, MANIFEST_TAG)
-                .orValidationError { validation?.onManifestMissing() }
+                .orValidationError { validationListeners?.onManifestMissing() }
         val itemModel = manifestElement?.getElementsByTagNameNS(OPF_NAMESPACE, ITEM_TAG)
-                ?.orValidationError { validation?.onAttributeMissing(MANIFEST_TAG, ITEM_TAG) }
+                ?.orValidationError { validationListeners?.onAttributeMissing(MANIFEST_TAG, ITEM_TAG) }
                 ?.map {
                     val element = it as Element
                     val id = element.getAttribute(ID_TAG)
                             .orNullIfEmpty()
                             .orValidationError {
-                                validation?.onAttributeMissing(MANIFEST_TAG, ID_TAG)
+                                validationListeners?.onAttributeMissing(MANIFEST_TAG, ID_TAG)
                             }
                     val href = element.getAttribute(HREF_TAG)
                             .orNullIfEmpty()
                             .orValidationError {
-                                validation?.onAttributeMissing(MANIFEST_TAG, HREF_TAG)
+                                validationListeners?.onAttributeMissing(MANIFEST_TAG, HREF_TAG)
                             }
                     val mediaType = element.getAttribute(MEDIA_TYPE_TAG)
                             .orNullIfEmpty()
                             .orValidationError {
-                                validation?.onAttributeMissing(MANIFEST_TAG, MEDIA_TYPE_TAG)
+                                validationListeners?.onAttributeMissing(MANIFEST_TAG, MEDIA_TYPE_TAG)
                             }
                     var properties: HashSet<String>? = null
                     element.getAttribute(PROPERTIES_TAG)

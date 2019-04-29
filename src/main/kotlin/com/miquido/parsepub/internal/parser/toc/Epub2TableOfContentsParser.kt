@@ -19,21 +19,21 @@ internal class Epub2TableOfContentsParser : EpubTableOfContentsParser() {
 
     override fun parse(
         tocDocument: Document?,
-        validation: ValidationListeners?
+        validationListeners: ValidationListeners?
     ): EpubTableOfContentsModel {
 
-        this.validationListeners = validation
+        this.validationListeners = validationListeners
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
         tocDocument?.getFirstElementByTagNameNS(NCX_NAMESPACE, NAV_MAP_TAG)
             .orValidationError {
-                validation?.onTableOfContentsMissing()
+                validationListeners?.onTableOfContentsMissing()
             }
             ?.childNodes.forEach {
             if (it.isNavPoint()) {
                 tableOfContentsReferences.add(createNavigationItemModel(it))
             } else {
                 orValidationError {
-                    validation?.onAttributeMissing(TABLE_OF_CONTENTS_TAG, NAV_POINT_TAG)
+                    validationListeners?.onAttributeMissing(TABLE_OF_CONTENTS_TAG, NAV_POINT_TAG)
                 }
             }
         }
