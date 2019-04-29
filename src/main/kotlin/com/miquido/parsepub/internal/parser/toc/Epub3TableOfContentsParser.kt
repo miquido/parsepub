@@ -12,14 +12,14 @@ import org.w3c.dom.NodeList
 
 internal class Epub3TableOfContentsParser : EpubTableOfContentsParser() {
 
-    private var validation: ValidationListeners? = null
+    private var validationListeners: ValidationListeners? = null
 
     override fun parse(
         tocDocument: Document?,
         validation: ValidationListeners?
     ): EpubTableOfContentsModel {
 
-        this.validation = validation
+        this.validationListeners = validation
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
         val tocNav = tocDocument?.getElementsByTagName(NAV_TAG)
             .orValidationError { validation?.onTableOfContentsMissing() }
@@ -50,12 +50,12 @@ internal class Epub3TableOfContentsParser : EpubTableOfContentsParser() {
         val label = ref?.textContent
             ?.orNullIfEmpty()
             .orValidationError {
-                validation?.onAttributeMissing(LABEL_FIELD_NAME, TABLE_OF_CONTENTS_TAG)
+                validationListeners?.onAttributeMissing(LABEL_FIELD_NAME, TABLE_OF_CONTENTS_TAG)
             }
         val source = ref?.getAttribute(HREF_ATTR)
             ?.orNullIfEmpty()
             .orValidationError {
-                validation?.onAttributeMissing(HREF_ATTR, TABLE_OF_CONTENTS_TAG)
+                validationListeners?.onAttributeMissing(HREF_ATTR, TABLE_OF_CONTENTS_TAG)
             }
         val subItems = createNavigationSubItemModel(it.getFirstElementByTag(OL_TAG)?.childNodes)
         return NavigationItemModel(null, label, source, subItems)
