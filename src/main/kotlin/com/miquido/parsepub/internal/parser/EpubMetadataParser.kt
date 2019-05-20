@@ -13,20 +13,20 @@ internal class EpubMetadataParser {
 
     fun parse(
         opfDocument: Document,
-        validation: ValidationListeners?
+        validationListeners: ValidationListeners?
     ): EpubMetadataModel {
 
         val epubSpecVersion = opfDocument.documentElement.getAttribute(VERSION_ATTR)
         val metadataElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, METADATA_TAG)
-            .orValidationError { validation?.onMetadataMissing() }
+            .orValidationError { validationListeners?.onMetadataMissing() }
 
         return EpubMetadataModel(
             creators = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CREATOR_TAG),
             languages = metadataElement.getTagTextContentsFromDcElementsOrEmpty(LANGUAGE_TAG)
-                .orValidationError { validation?.onAttributeMissing(METADATA_TAG, LANGUAGE_TAG) },
+                .orValidationError { validationListeners?.onAttributeMissing(METADATA_TAG, LANGUAGE_TAG) },
             contributors = metadataElement.getTagTextContentsFromDcElementsOrEmpty(CONTRIBUTOR_TAG),
             title = metadataElement.getTagTextContentsFromDcElementOrEmpty(TITLE_TAG)
-                .orValidationError { validation?.onAttributeMissing(METADATA_TAG, TITLE_TAG) },
+                .orValidationError { validationListeners?.onAttributeMissing(METADATA_TAG, TITLE_TAG) },
             subjects = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SUBJECT_TAG),
             sources = metadataElement.getTagTextContentsFromDcElementsOrEmpty(SOURCE_TAG),
             description = metadataElement.getTagTextContentsFromDcElementOrEmpty(DESCRIPTION_TAG),
@@ -36,7 +36,7 @@ internal class EpubMetadataParser {
             publisher = metadataElement.getTagTextContentsFromDcElementOrEmpty(PUBLISHER_TAG),
             date = metadataElement.getTagTextContentsFromDcElementOrEmpty(DATE_TAG),
             id = metadataElement.getTagTextContentsFromDcElementOrEmpty(ID_TAG)
-                .orValidationError { validation?.onAttributeMissing(METADATA_TAG, ID_TAG) },
+                .orValidationError { validationListeners?.onAttributeMissing(METADATA_TAG, ID_TAG) },
             epubSpecificationVersion = epubSpecVersion
         )
     }

@@ -12,32 +12,32 @@ import org.w3c.dom.NodeList
 
 internal class Epub3TableOfContentsParser : EpubTableOfContentsParser() {
 
-    private var validation: ValidationListeners? = null
+    private var validationListeners: ValidationListeners? = null
 
     override fun parse(
         tocDocument: Document?,
-        validation: ValidationListeners?
+        validationListeners: ValidationListeners?
     ): EpubTableOfContentsModel {
 
-        this.validation = validation
+        this.validationListeners = validationListeners
         val tableOfContentsReferences = mutableListOf<NavigationItemModel>()
         val tocNav = tocDocument?.getElementsByTagName(NAV_TAG)
-            .orValidationError { validation?.onTableOfContentsMissing() }
+            .orValidationError { validationListeners?.onTableOfContentsMissing() }
             ?.firstWithAttributeNS(EpubConstants.ND_NAMESPACE, TYPE_ATTR, TOC_ATTR_VALUE)
             .orValidationError {
-                validation?.onAttributeMissing(TOC_ATTR_VALUE, TABLE_OF_CONTENTS_TAG)
+                validationListeners?.onAttributeMissing(TOC_ATTR_VALUE, TABLE_OF_CONTENTS_TAG)
             } as Element
 
         tocNav.getFirstElementByTag(OL_TAG)
             .orValidationError {
-                validation?.onAttributeMissing(OL_TAG, TABLE_OF_CONTENTS_TAG)
+                validationListeners?.onAttributeMissing(OL_TAG, TABLE_OF_CONTENTS_TAG)
             }
             ?.childNodes.forEach {
             if (it.isNavPoint()) {
                 tableOfContentsReferences.add(createNavigationItemModel(it))
             } else {
                 orValidationError {
-                    validation?.onAttributeMissing(TABLE_OF_CONTENTS_TAG, NAV_POINT_TAG)
+                    validationListeners?.onAttributeMissing(TABLE_OF_CONTENTS_TAG, NAV_POINT_TAG)
                 }
             }
         }
@@ -50,12 +50,12 @@ internal class Epub3TableOfContentsParser : EpubTableOfContentsParser() {
         val label = ref?.textContent
             ?.orNullIfEmpty()
             .orValidationError {
-                validation?.onAttributeMissing(LABEL_FIELD_NAME, TABLE_OF_CONTENTS_TAG)
+                validationListeners?.onAttributeMissing(LABEL_FIELD_NAME, TABLE_OF_CONTENTS_TAG)
             }
         val source = ref?.getAttribute(HREF_ATTR)
             ?.orNullIfEmpty()
             .orValidationError {
-                validation?.onAttributeMissing(HREF_ATTR, TABLE_OF_CONTENTS_TAG)
+                validationListeners?.onAttributeMissing(HREF_ATTR, TABLE_OF_CONTENTS_TAG)
             }
         val subItems = createNavigationSubItemModel(it.getFirstElementByTag(OL_TAG)?.childNodes)
         return NavigationItemModel(null, label, source, subItems)

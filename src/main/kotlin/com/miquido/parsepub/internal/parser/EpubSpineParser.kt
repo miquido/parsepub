@@ -15,13 +15,13 @@ internal class EpubSpineParser {
 
     fun parse(
         opfDocument: Document,
-        validation: ValidationListeners?
+        validationListeners: ValidationListeners?
     ): EpubSpineModel {
 
         val spineElement = opfDocument.getFirstElementByTagNameNS(OPF_NAMESPACE, SPINE_TAG)
-                .orValidationError { validation?.onSpineMissing() }
+                .orValidationError { validationListeners?.onSpineMissing() }
         val spineModel = spineElement?.getNodeListByTagNameNS(OPF_NAMESPACE, ITEM_REF_TAG)
-                .orValidationError { validation?.onAttributeMissing(SPINE_TAG, ITEM_REF_TAG) }
+                .orValidationError { validationListeners?.onAttributeMissing(SPINE_TAG, ITEM_REF_TAG) }
                 ?.map {
                     val element = it as Element
                     val idReference = element.getAttribute(ID_REF_ATTR)

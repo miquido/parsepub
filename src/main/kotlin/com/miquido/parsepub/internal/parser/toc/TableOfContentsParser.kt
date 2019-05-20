@@ -8,7 +8,7 @@ import org.w3c.dom.Document
 internal interface TableOfContentsParser {
     fun parse(
         tocDocument: Document?,
-        validation: ValidationListeners?
+        validationListeners: ValidationListeners?
     ): EpubTableOfContentsModel
 }
 

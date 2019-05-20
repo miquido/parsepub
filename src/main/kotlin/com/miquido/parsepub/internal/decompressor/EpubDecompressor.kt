@@ -21,13 +21,7 @@ internal class EpubDecompressor {
     ): List<ZipEntry> {
 
         val result = mutableListOf<ZipEntry>()
-        File(outputPath).let {
-            if (!it.canWrite()) {
-                throw RuntimeException("Cannot write file. Check path and permissions")
-            } else {
-                it.mkdir()
-            }
-        }
+        File(outputPath).mkdir()
 
         zipFile.entries().asSequence().forEach { entry ->
             result.add(entry)
