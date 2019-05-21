@@ -19,8 +19,8 @@ val versionLicenseUrl = "http://www.apache.org/licenses/LICENSE-2.0.txt"
 val versionLabel = arrayOf("epub", "parser", "kotlin")
 val versionAllLicenses = arrayOf("Apache-2.0")
 
-val bintrayUser = (project.properties["BINTRAY_USER"] as String)
-val bintrayApiKey = (project.properties["BINTRAY_API_KEY"] as String)
+val bintrayUser = (project.properties["BINTRAY_USER"] as String?).orEmpty()
+val bintrayApiKey = (project.properties["BINTRAY_API_KEY"] as String?).orEmpty()
 
 buildscript {
     repositories {
@@ -62,8 +62,6 @@ publishing {
 
     }
 }
-
-fun findProperty(s: String) = project.findProperty(s) as String?
 
 bintray {
     user = bintrayUser

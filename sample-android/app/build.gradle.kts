@@ -31,7 +31,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.recyclerview:recyclerview:1.0.0")
     // execute ./gradlew install in library dir
-    implementation("com.miquido:parsepub:1.0-SNAPSHOT")
+    implementation("com.miquido:parsepub:1.0.0")
     testImplementation("junit:junit:4.12")
     androidTestImplementation("androidx.test.ext:junit:1.1.0")
 }
