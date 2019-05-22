@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/miquido/parsepub.svg?branch=master)](https://travis-ci.org/miquido/parsepub)
+
 # parsepub
 
 ---
