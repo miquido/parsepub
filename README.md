@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/miquido/parsepub.svg?branch=master)](https://travis-ci.org/miquido/parsepub)
+[![Build Status](https://travis-ci.org/miquido/parsepub.svg?branch=master)](https://travis-ci.org/miquido/parsepub)  [![Download](https://api.bintray.com/packages/miquido/maven-repo/parsepub/images/download.svg) ](https://bintray.com/miquido/maven-repo/parsepub/_latestVersion)
 
 # parsepub
 
